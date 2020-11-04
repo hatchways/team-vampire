@@ -11,6 +11,7 @@ flask-sqlalchemy = "*"
 flask-migrate = "*"
 flask-marshmallow = "*"
 flask-script = "*"
+python-dotenv = "*"
 
 [requires]
 python_version = "3.7"
