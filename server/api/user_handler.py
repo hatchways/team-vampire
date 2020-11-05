@@ -10,7 +10,12 @@ from pytz import all_timezones
 user_handler = Blueprint('user_handler', __name__)
 
 
-
+@user_handler.route('/user/log_me_in', methods=["POST"])
+def log_me_in():
+    body = json.loads(request.get_data())
+    session['profile'] = body
+    session.permanent = True
+    return jsonify(dict(session)), 200
 
 @user_handler.route('/user/<path:username>', methods=["GET"])
 def user(username=None):
