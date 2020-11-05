@@ -11,12 +11,16 @@ from flask_script import Manager
 from flask_migrate import Migrate, MigrateCommand
 
 # Models
-from models import db, Availability, Appointment, Meeting, User
+from models.shared import db
+from models.availability import Availability
+from models.appointment import Appointment
+from models.meeting import Meeting
+from models.user import User
 
 
 app = Flask(__name__)
 app.config.from_object(DevelopmentConfig())
-
+app.secret_key = "secret key here"
 db.init_app(app)
 migrate = Migrate(app, db, render_as_batch=True)
 manager = Manager(app)
