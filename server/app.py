@@ -22,7 +22,7 @@ app = Flask(__name__)
 app.config.from_object(DevelopmentConfig())
 app.secret_key = "secret key here"
 db.init_app(app)
-migrate = Migrate(app, db, render_as_batch=True)
+migrate = Migrate(app, db, render_as_batch=True, compare_type=True)
 manager = Manager(app)
 manager.add_command('db', MigrateCommand)
 
