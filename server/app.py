@@ -3,6 +3,7 @@ from config import DevelopmentConfig
 
 from api.ping_handler import ping_handler
 from api.home_handler import home_handler
+from api.user_handler import user_handler
 
 # Database
 from flask_sqlalchemy import SQLAlchemy
@@ -29,6 +30,7 @@ manager.add_command('db', MigrateCommand)
 
 app.register_blueprint(home_handler)
 app.register_blueprint(ping_handler)
+app.register_blueprint(user_handler)
 
 
 if __name__ == '__main__':

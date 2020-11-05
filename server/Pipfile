@@ -12,6 +12,7 @@ flask-migrate = "*"
 flask-marshmallow = "*"
 flask-script = "*"
 python-dotenv = "*"
+pytz = "*"
 
 [requires]
 python_version = "3.7"

@@ -8,6 +8,7 @@ class Config(object):
     TEAM_NAME = os.getenv('TEAM_NAME')
     SQLALCHEMY_DATABASE_URI = "sqlite:///example.sqlite"
     SQLALCHEMY_TRACK_MODIFICATIONS = False
+    SESSION_COOKIE_NAME = "google-login-session"
 
 class ProductionConfig(Config):
     pass
