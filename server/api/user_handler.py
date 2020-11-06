@@ -11,13 +11,6 @@ from models.user import User
 user_handler = Blueprint('user_handler', __name__)
 
 
-@user_handler.route('/user/log_me_in', methods=["POST"])
-def log_me_in():
-    body = json.loads(request.get_data())
-    session['profile'] = body
-    session.permanent = True
-    return jsonify(dict(session)), 200
-
 @user_handler.route('/user/<path:username>', methods=["GET"])
 def user(username=None):
     if request.method == "GET":
@@ -54,13 +47,7 @@ def user_protected():
     # user can be logged in, as in they can have a session
     # without actually having a user database entry because
     # google oauth is done first, then we create the user row!
-    if request.method == "GET":
-        if user is None:
-            return jsonify({
-                "status": "error",
-                "message": "User does not exist."
-            }), 404
-        
+    if request.method == "GET":        
         # Since this is a logged in user and they are requesting their
         # own information, we can include things like stripe_customer_id
         return jsonify({
@@ -72,63 +59,7 @@ def user_protected():
             "updated_at": user.updated_at,
             "created_at": user.created_at
         }), 200
-        pass
-    elif request.method == "POST":
-        # Creating a user
-        # Get the username, and timezone
-        # the remaining data comes from session
-
-        # Special case, if a user already exists, then there is no
-        # reason for a POST / CREATE request, we need to stop the request
-        # here:
-        if user:
-            return jsonify({
-                "status": "error",
-                "message": "User already has an account"
-            }), 400
-
-        timezone = request.json.get("timezone", None)
-        if timezone not in all_timezones:
-            return jsonify({
-                "status": "error",
-                "message": "Please enter a valid timezone"
-            }), 400            
-        username = request.json.get("username", None)
-        if User.query.filter_by(username=username).first():
-            return jsonify({
-                "status": "error",
-                "message": "Username is already taken, try something else!"
-            }), 400
-        profile = sess["profile"]
-        # Seems good, lets create the user:
-        new_user = User(
-            first_name = profile["first_name"],
-            last_name = profile["last_name"],
-            email = profile["email"],
-            access_token = profile["access_token"],
-            username = username, 
-            timezone=timezone,
-            stripe_customer_id = "REPLACE THIS LATER",
-            created_at = datetime.utcnow(),
-            updated_at = datetime.utcnow()
-        )
-        db.session.add(new_user)
-        db.session.commit()
-        
-        return jsonify({
-            "status": "success",
-            "message": "User account created successfully!"
-        }), 200
-    elif request.method == "PATCH":
-        # Updating a user, need to do some data validation here:
-        # The two things they should be able to modify:
-        #   - first name
-        #   - last name
-        #   - username
-        #   - timezone
-        #   - email? (this would still be linked to a google acount
-        #           which would make it messy, so no need?)
-        
+    elif request.method == "PATCH":       
         updated_fields = []
         
         first_name = request.json.get("first_name", None)

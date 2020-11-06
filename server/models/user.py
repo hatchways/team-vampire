@@ -2,11 +2,12 @@ from .shared import db, datetime
 
 class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    username = db.Column(db.String(50), unique=True, nullable=False)
+    username = db.Column(db.String(50), unique=True, nullable=True)
     first_name = db.Column(db.String(50))
     last_name = db.Column(db.String(50))
     email = db.Column(db.String(80), unique=True)
-    timezone = db.Column(db.String(50), nullable=False)
+    timezone = db.Column(db.String(50), nullable=True)
+    profile_picture = db.Column(db.String(300), nullable=True)
     access_token = db.Column(db.Text, nullable=False)
     stripe_customer_id = db.Column(db.String(25), nullable=True)
     created_at = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
