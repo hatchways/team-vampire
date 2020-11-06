@@ -12,3 +12,5 @@ def ping():
             return jsonify({'response': "{} is now part of the team".format(body['teamName'])}), 200
         else:
             return jsonify({'response': "{} is not part of the team, change your .env".format(body['teamName'])}), 400
+    
+   
