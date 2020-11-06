@@ -1,64 +1,70 @@
-<h1 align="center">
-  <br>
-  <a href="#"><img src="https://www.dropbox.com/s/f7qmdoka1ltso8g/logo.png?raw=1" alt="CalendApp" width="120"></a>
-  <br>
-</h1>
+# Getting Started with Create React App
 
-<h4 align="center">A minimal Calendly clone built with Flask and React.</h4>
- 
-<p align="center">
-  <a href="#">
-    <img src="#" alt="Badges">
-  </a>
+This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
-</p>
+## Available Scripts
 
-<p align="center">
-  <a href="#key-features">Key Features</a> |
-  <a href="#how-to-use">How To Use</a> |
-  <a href="#download">Download</a> |
-  <a href="#credits">Credits</a> |
-  <a href="#license">License</a>
-</p>
+In the project directory, you can run:
 
-![demo](.gif)
+### `npm start`
 
-## Key Features
-<!-- List of features here -->
-- Login/sign up flow with e-mail address
-- Profile page
-- Unique link generation
-- Send email confirmations
-- Link to Google Calendar/ Apple calendar
-- Stripe integration for upgrade
+Runs the app in the development mode.\
+Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 
-## Download
+The page will reload if you make edits.\
+You will also see any lint errors in the console.
 
-<!-- Download instructions -->
+### `npm test`
 
+Launches the test runner in the interactive watch mode.\
+See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
 
-## How To Use
+### `npm run build`
 
-<!-- Installation and Getting Started guide here -->
-1. Open a terminal and go to the server folder. Make sure you have **pipenv** installed (`pip install pipenv`)
-2. Install the dependencies with `pipenv install`. This also createa a virtual environment, if there isn't one already
-3. Activate the virtual environment and start the app with `pipenv run flask run`
+Builds the app for production to the `build` folder.\
+It correctly bundles React in production mode and optimizes the build for the best performance.
 
+The build is minified and the filenames include the hashes.\
+Your app is ready to be deployed!
 
-## Credits
+See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
 
-This software uses the following open source packages:
+### `npm run eject`
 
-<!-- Credits list here -->
+**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
 
+If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
 
-## Support
+Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
 
-<!-- Support options -->
+You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
 
+## Learn More
 
-## License
+You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
 
+To learn React, check out the [React documentation](https://reactjs.org/).
 
+### Code Splitting
 
+This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
 
+### Analyzing the Bundle Size
+
+This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+
+### Making a Progressive Web App
+
+This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+
+### Advanced Configuration
+
+This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+
+### Deployment
+
+This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+
+### `npm run build` fails to minify
+
+This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
