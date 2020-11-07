@@ -18,9 +18,6 @@ def meeting_route():
     sess = dict(session)
     user = User.query.filter_by(email=sess["profile"]["email"]).first()
 
-    # If the user object doesn't exist (it should), it just means the
-    # POST -> /user wasn't done and therefore we don't have any data on
-    # this user in the database, we just have a session
 
     if user is None:
         return jsonify({

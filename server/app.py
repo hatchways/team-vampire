@@ -7,6 +7,7 @@ from api.home_handler import home_handler
 from api.user_handler import user_handler
 from api.meeting_handler import meeting_handler
 from api.appointment_handler import appointment_handler
+from api.availability_handler import availability_handler
 
 # Database
 from flask_sqlalchemy import SQLAlchemy
@@ -36,6 +37,7 @@ app.register_blueprint(ping_handler)
 app.register_blueprint(user_handler)
 app.register_blueprint(meeting_handler)
 app.register_blueprint(appointment_handler)
+app.register_blueprint(availability_handler)
 
 
 if __name__ == '__main__':
