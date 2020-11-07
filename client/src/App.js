@@ -7,6 +7,7 @@ import SignUpEmail from './pages/SignUpEmail.js';
 import SignUpGoogle from './pages/SignUpGoogle.js';
 // import SetUpOne from './pages/dashboard.js';
 import LogIn from './pages/Login.js';
+import Profile from './pages/Profile.js';
 
 
 function App() {
@@ -26,6 +27,9 @@ function App() {
     <MuiThemeProvider theme={theme}>
       <BrowserRouter>
         <Switch>
+          <Route path="/profile">
+            <Profile />
+          </Route>
           <Route path="/login">
             <LogIn />
           </Route>

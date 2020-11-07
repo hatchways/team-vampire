@@ -56,13 +56,8 @@ const useStyles = makeStyles((theme) => ({
 
 export default function SignUpGoogle(props) {
     const classes = useStyles();
-    const full = false;
-    // const [emailText, setEmailText] = useState("");
-
-    const handleSignUpWithGoogle = (e) => {
-        // setEmailText(e.target.value)
-        // console.log(emailText)
-    }
+    // const handleSignUpWithGoogle = (e) => {
+    // }
 
     return (
         <div className={classes.container}>
@@ -85,11 +80,10 @@ export default function SignUpGoogle(props) {
                             <Box mt={2}>
                                 <Button mt={10}
                                     type="submit"
-                                    fullWidth={full}
                                     variant="contained"
                                     color="primary"
                                     className={classes.submit}
-                                    onClick={handleSignUpWithGoogle}
+                                    // onClick={handleSignUpWithGoogle}
                                     startIcon={<VpnKeyIcon />}
                                     size="large"
                                 >

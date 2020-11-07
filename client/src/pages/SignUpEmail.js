@@ -5,11 +5,11 @@ import TextField from '@material-ui/core/TextField';
 import Box from '@material-ui/core/Box';
 // import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
-import { Route, Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 import Card from '@material-ui/core/Card';
-import SignUpGoogle from './SignUpGoogle';
+// import SignUpGoogle from './SignUpGoogle';
 import { withStyles } from "@material-ui/core/styles";
-import LogIn from './Login';
+// import LogIn from './Login';
 
 
 
@@ -106,13 +106,7 @@ class SignUpEmail extends Component {
                                     >
                                         Get Started
           </Button>
-                                    <Route path="/googleSignUp"
-                                        render={props => {
-                                            return (
-                                                <SignUpGoogle />
-                                            )
-                                        }}>
-                                    </Route>
+
                                 </Box>
                             </div>
                         </Container>
@@ -124,13 +118,6 @@ class SignUpEmail extends Component {
                                         Log in
                             </span>
                                 </Link>
-                                <Route path="/login"
-                                    render={props => {
-                                        return (
-                                            <LogIn />
-                                        )
-                                    }}>
-                                </Route>
                             </span>
                         </Box>
                     </Card>

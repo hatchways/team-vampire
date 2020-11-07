@@ -6,11 +6,9 @@ import Box from '@material-ui/core/Box';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 
-// import { Route, Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 import Card from '@material-ui/core/Card';
 // import Dashboard from './dashboard';
-// import SignUpEmail from './SignUpEmail';
-
 const useStyles = makeStyles((theme) => ({
     root: {
         width: 400,
@@ -58,11 +56,9 @@ const useStyles = makeStyles((theme) => ({
 export default function LogIn(props) {
     const classes = useStyles();
     const full = false;
-    // const [logInEmail, setLogInEmail] = useState("");
 
-    const handleLogin = () => {
-
-    }
+    // const handleLogin = () => {
+    // }
 
 
     return (
@@ -100,7 +96,8 @@ export default function LogIn(props) {
                                     variant="contained"
                                     color="primary"
                                     className={classes.submit}
-                                    onClick={handleLogin}
+                                    // onClick={handleLogin}
+                                    component={Link} to="/profile"
 
                                 >
                                     Continue
@@ -111,18 +108,11 @@ export default function LogIn(props) {
                     <Box mt={4} p={3} pt={3} className={classes.footerStyle}>
                         <span className={classes.boldFont} style={{ fontSize: "12px" }}>Don't have an account? &nbsp;
 
-                         {/* <Link to="/" className={classes.decor}> */}
-                            <span style={{ color: "#FF7E00", cursor: "pointer" }}>
-                                Sign Up
+                         <Link to="/" className={classes.decor}>
+                                <span style={{ color: "#FF7E00", cursor: "pointer" }}>
+                                    Sign Up
                             </span>
-                            {/* </Link>
-                            <Route path="/"
-                                render={props => {
-                                    return (
-                                        <SignUpEmail />
-                                    )
-                                }}>
-                            </Route> */}
+                            </Link>
                         </span>
                     </Box>
                 </Card>
