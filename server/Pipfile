@@ -7,6 +7,13 @@ verify_ssl = true
 
 [packages]
 flask = "*"
+flask-sqlalchemy = "*"
+flask-migrate = "*"
+flask-marshmallow = "*"
+flask-script = "*"
+python-dotenv = "*"
+pytz = "*"
+authlib = "*"
 
 [requires]
 python_version = "3.7"
