@@ -33,20 +33,18 @@ def appointment_get():
     # should we use query parameters to limit the output and or view based on date?
     output = []
     # Get just the meeting ids, no need for other fields
-    meetings = Meeting.query.with_entities(Meeting.id).filter_by(user_id=user.id)
-    for meeting_id in meetings:
-        # get the appointments based on the meeting ids
-        appointments = Appointment.query.filter_by(meeting_id=meeting_id[0])
-        for appointment in appointments:
-            output.append({
-                "id": appointment.id,
-                "name": appointment.name,
-                "email": appointment.email,
-                "time": appointment.time,
-                "timezone": appointment.timezone,
-                "created_at": appointment.created_at,
-                "updated_at": appointment.updated_at
-            })
+    appointments = Appointment.query.join(Meeting).filter(Meeting.user_id == user.id).all()
+    
+    for appointment in appointments:
+        output.append({
+            "id": appointment.id,
+            "name": appointment.name,
+            "email": appointment.email,
+            "time": appointment.time,
+            "timezone": appointment.timezone,
+            "created_at": appointment.created_at,
+            "updated_at": appointment.updated_at
+        })
     return jsonify({"appointments": output}), 200
 
 
