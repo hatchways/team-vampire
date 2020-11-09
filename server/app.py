@@ -81,22 +81,24 @@ def login():
 def authorize():
     google = oauth.create_client('google')
     token = google.authorize_access_token()
+    access_token = token.get('access_token')
     resp = google.get('userinfo')
     user_info = resp.json()
     user = oauth.google.userinfo()  # uses openid endpoint to fetch user info
     # Here you use the profile/user data that you got and query your database find/register the user
     # and set ur own data in the session not the profile from google
     session['profile'] = user_info
+
     # Create user in db with info provided if email does not exist
     if User.query.filter_by(email=user.email).first() is None :
-        new_user = User(username=user.name, email=user.email, access_token=123)
+        new_user = User(username=user.name, email=user.email, access_token=access_token)
         db.session.add(new_user)
         db.session.commit()
         print('user added to database!')
     else :
         print('user exists in database. cannot add to database')
 
-    # Queries the database for testing purposes
+    # Queries the database for testing purposes, will delete later
     users = User.query.all()
     for u in users:
         print(u.id, u.username)
