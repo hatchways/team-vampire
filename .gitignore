@@ -31,4 +31,4 @@ instance/
 .vscode
 
 #TODO add .env to your gitignore
-.env
+*.env
