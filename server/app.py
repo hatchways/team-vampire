@@ -92,6 +92,7 @@ def authorize():
         new_user = User(username=user.name, email=user.email, access_token=123)
         db.session.add(new_user)
         db.session.commit()
+        print('user added to database!')
     else :
         print('user exists in database. cannot add to database')
 
