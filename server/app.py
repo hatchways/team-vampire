@@ -87,11 +87,15 @@ def authorize():
     # Here you use the profile/user data that you got and query your database find/register the user
     # and set ur own data in the session not the profile from google
     session['profile'] = user_info
-    # Create user in db with info provided
-    new_user = User(username=user.name, email=user.email, access_token=123)
-    db.session.add(new_user)
-    db.session.commit()
+    # Create user in db with info provided if email does not exist
+    if User.query.filter_by(email=user.email).first() is None :
+        new_user = User(username=user.name, email=user.email, access_token=123)
+        db.session.add(new_user)
+        db.session.commit()
+    else :
+        print('user exists in database. cannot add to database')
 
+    # Queries the database for testing purposes
     users = User.query.all()
     for u in users:
         print(u.id, u.username)
