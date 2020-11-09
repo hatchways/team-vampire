@@ -64,11 +64,6 @@ app.register_blueprint(meeting_handler)
 app.register_blueprint(appointment_handler)
 app.register_blueprint(availability_handler)
 
-
-if __name__ == '__main__':
-    manager.run()
-
-
 # Server Test Route
 @app.route('/', methods=["GET"])
 def hello_world():
@@ -88,29 +83,19 @@ def authorize():
     token = google.authorize_access_token()
     resp = google.get('userinfo')
     user_info = resp.json()
-    # print(user_info)
     user = oauth.google.userinfo()  # uses openid endpoint to fetch user info
     # Here you use the profile/user data that you got and query your database find/register the user
     # and set ur own data in the session not the profile from google
     session['profile'] = user_info
     # Create user in db with info provided
-    # print('user id:')
-    # print(user.sub)
-    # if User.find_by_id(user.sub):
-    #     return {'message': 'User {} already exists'. format(user.name)}
-    # new_user = User(
-    #     id=user.sub, # unique identifier for google user
-    #     username=user.name, 
-    #     email=user.email
-    #     )
-    # print(new_user)
-    # try:
-    #     new_user.save_to_db()
-    #     return {
-    #         'message': 'User {} was created'. format(user.name)
-    #     }
-    # except:
-    #     return {'message': 'Something went wrong'}, 500
+    new_user = User(username=user.name, email=user.email, access_token=123)
+    db.session.add(new_user)
+    db.session.commit()
+
+    users = User.query.all()
+    for u in users:
+        print(u.id, u.username)
+
 
     session['token'] = token
     session.permanent = True  # make the session permanant so it keeps existing after broweser gets closed
@@ -121,3 +106,6 @@ def logout():
     for key in list(session.keys()):
         session.pop(key)
     return redirect('/')
+
+if __name__ == '__main__':
+    manager.run()
