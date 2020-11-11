@@ -12,7 +12,8 @@
   <a href="#appointment">Appointment</a> |
   <a href="#availability">Availability</a> |
   <a href="#meeting">Meeting</a> |
-  <a href="#user">User</a>
+  <a href="#user">User</a> |
+  <a href="#oauth2">OAuth2</a>
 </p>
 
 
@@ -447,4 +448,12 @@ Response Body:
     "message": "Successfully deleted user account."
 }
 ```
-
+## OAuth2
+### Setup
+* `cd server`
+* `touch .env` or create `.env` file in current directory
+* copy and paste the values for the following environment variables from the pinned messages in the Slack `#team-vampires` channel:
+  * `APP_SECRET_KEY`
+  * `GOOGLE_CLIENT_ID`
+  * `GOOGLE_CLIENT_SECRET` 
+* `pipenv install`
