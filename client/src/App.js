@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { MuiThemeProvider } from "@material-ui/core";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
 import { theme } from "./themes/theme";
@@ -12,6 +12,14 @@ import Profile from './pages/Profile.js';
 
 function App() {
   const [email, setEmail] = useState('');
+
+  const [initialData, setInitialData] = useState([{}]);
+
+  useEffect(() => {
+    fetch('/api').then(
+      response => response.json()
+    ).then(data => console.log(data));
+  });
 
   // const handleLogin = (route) => {
 

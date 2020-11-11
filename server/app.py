@@ -64,7 +64,16 @@ app.register_blueprint(meeting_handler)
 app.register_blueprint(appointment_handler)
 app.register_blueprint(availability_handler)
 
-# Server Test Route
+# Test Route for React Front-End
+@app.route('/api', methods=['GET'])
+def api():
+    return {
+        'userId': 1,
+        'title': 'Flask React Calendly Clone',
+        'completed': False
+    }
+
+# Server Redirect after successful Auth
 @app.route('/', methods=["GET"])
 def hello_world():
     # email = dict(session).get('profile', {"email": "None"})['email']
