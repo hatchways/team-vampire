@@ -5,10 +5,11 @@ import TextField from '@material-ui/core/TextField';
 import Box from '@material-ui/core/Box';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
-
 import { Link } from "react-router-dom";
 import Card from '@material-ui/core/Card';
-// import Dashboard from './dashboard';
+
+
+
 const useStyles = makeStyles((theme) => ({
     root: {
         width: 400,
@@ -19,7 +20,7 @@ const useStyles = makeStyles((theme) => ({
         alignItems: 'center',
 
     },
-    box_Shadow: {
+    boxShadow: {
         boxShadow: "0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)"
     },
     paper: {
@@ -42,10 +43,10 @@ const useStyles = makeStyles((theme) => ({
         textAlign: "center",
         borderTop: "0.5px silver solid"
     },
-    center_Text: {
+    centerText: {
         textAlign: "center",
     },
-    bold_Font: {
+    boldFont: {
         fontWeight: "bold",
     },
     decor: {
@@ -55,18 +56,13 @@ const useStyles = makeStyles((theme) => ({
 
 export default function LogIn(props) {
     const classes = useStyles();
-    const full = false;
-
-    // const handleLogin = () => {
-    // }
-
 
     return (
         <div className={classes.container}>
             <div className={classes.root}>
-                <Box className={classes.center_Text} mb={5}>  <span style={{ color: "#FF7E00", fontWeight: "bold", fontSize: "18px" }}>calend</span><span style={{ color: "black", fontWeight: "bold", fontSize: "18px" }}>app</span>
+                <Box className={classes.centerText} mb={5}>  <span style={{ color: "#FF7E00", fontWeight: "bold", fontSize: "18px" }}>calend</span><span style={{ color: "black", fontWeight: "bold", fontSize: "18px" }}>app</span>
                 </Box>
-                <Card className={classes.box_Shadow} variant="outlined">
+                <Card className={classes.boxShadow} variant="outlined">
                     <Container component="main" maxWidth="xs">
                         <CssBaseline />
                         <div className={classes.paper}>
@@ -87,21 +83,20 @@ export default function LogIn(props) {
                                 name="email"
                                 autoComplete="email"
                                 autoFocus
-                            // onChange={(e) => setLogInEmail(e.target.value)}
+                                onChange={props.handleEmailLogin}
                             />
                             <Box mt={2}>
                                 <Button mt={10}
                                     type="submit"
-                                    fullWidth={full}
+                                    fullWidth
                                     variant="contained"
                                     color="primary"
                                     className={classes.submit}
-                                    // onClick={handleLogin}
-                                    component={Link} to="/profile"
+                                    component={Link} to="/login_google"
 
                                 >
                                     Continue
-          </Button>
+                                </Button>
                             </Box>
                         </div>
                     </Container>

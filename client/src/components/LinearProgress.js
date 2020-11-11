@@ -14,12 +14,12 @@ const useStyles = makeStyles({
     }
 });
 
-export default function ProgressBar() {
+export default function ProgressBar(props) {
     const classes = useStyles();
-    const progress = 20;
+    // const progress = props.progess;
     return (
         <div className={classes.root}>
-            <LinearProgress classes={{ colorPrimary: classes.colorPrimary, barColorPrimary: classes.barColorPrimary }} variant="determinate" value={progress} />
+            <LinearProgress classes={{ colorPrimary: classes.colorPrimary, barColorPrimary: classes.barColorPrimary }} variant="determinate" value={props.progress} />
         </div>
     );
 }

@@ -7,37 +7,47 @@ import SignUpEmail from './pages/SignUpEmail.js';
 import SignUpGoogle from './pages/SignUpGoogle.js';
 // import SetUpOne from './pages/dashboard.js';
 import LogIn from './pages/Login.js';
-import Profile from './pages/Profile.js';
+import LogInGoogle from './pages/LoginGoogle.js';
+import CreateURL from './pages/CreateURL.js';
+import GoogleConnected from './pages/GoogleConnected';
 
 
 function App() {
-  const [email, setEmail] = useState('');
 
-  // const handleLogin = (route) => {
+  //This will be removed before merge
+  //=========================
+  const [signUpEmail, setSignUpEmail] = useState('');
+  const [loginEmail, setLoginEmail] = useState('');
 
-  // }
-
-  const handleEmailEntry = (e) => {
-    console.log(e.target.value);
-    setEmail(e.target.value)
+  const handleSignUpEmailEntry = (e) => {
+    setSignUpEmail(e.target.value)
   }
-
+  const handleLoginEmailEntry = (e) => {
+    setLoginEmail(e.target.value)
+  }
+  //============================
 
   return (
     <MuiThemeProvider theme={theme}>
       <BrowserRouter>
         <Switch>
-          <Route path="/profile">
-            <Profile />
+          <Route path="/create-url">
+            <CreateURL />
+          </Route>
+          <Route path="/google-connected">
+            <GoogleConnected loginEmail={loginEmail} />
           </Route>
           <Route path="/login">
-            <LogIn />
+            <LogIn handleEmailLogin={handleLoginEmailEntry} />
           </Route>
-          <Route path="/googleSignUp">
-            <SignUpGoogle email={email} />
+          <Route path="/login_google">
+            <LogInGoogle loginEmail={loginEmail} />
+          </Route>
+          <Route path="/signUp_google">
+            <SignUpGoogle signUpEmail={signUpEmail} />
           </Route>
           <Route path='/' >
-            <SignUpEmail handleEmailEntry={handleEmailEntry} />
+            <SignUpEmail handleEmailEntry={handleSignUpEmailEntry} />
           </Route>
         </Switch>
       </BrowserRouter>

@@ -21,7 +21,6 @@ yarn-error.log*
 __pycache__/
 instance/
 .webassets-cache
-.venv/
 
 
 # PyCharm

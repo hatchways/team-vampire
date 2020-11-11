@@ -1,12 +1,15 @@
 import React from 'react';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
-import TextField from '@material-ui/core/TextField';
 import Box from '@material-ui/core/Box';
+import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
+import VpnKeyIcon from '@material-ui/icons/VpnKey';
 import { Link } from "react-router-dom";
 import Card from '@material-ui/core/Card';
-import { makeStyles } from "@material-ui/core/styles";
+
+
+
 
 
 
@@ -19,9 +22,6 @@ const useStyles = makeStyles((theme) => ({
         borderRadius: "2%",
         alignItems: 'center',
 
-    },
-    button: {
-        margin: theme.spacing(1),
     },
     boxShadow: {
         boxShadow: "0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)"
@@ -54,11 +54,16 @@ const useStyles = makeStyles((theme) => ({
     },
     decor: {
         textDecoration: "none"
+    },
+    stylePtag: {
+        marginTop: 0,
+        marginBottom: 0,
+        fontSize: 20,
+        fontWeight: "bold"
     }
 }));
 
-
-export default function SignUpEmail(props) {
+export default function LogInGoogle(props) {
     const classes = useStyles();
     return (
         <div className={classes.container}>
@@ -70,51 +75,36 @@ export default function SignUpEmail(props) {
                         <CssBaseline />
                         <div className={classes.paper}>
 
-                            <Box>
-                                <span style={{ fontSize: 18, fontWeight: "bold" }}>Sign up with <span>Calend</span><span style={{ color: "#FF7E00" }}>App</span></span>
+                            <Box className={classes.centerText}>
+                                <p className={classes.stylePtag}>Welcome back,</p>
+                                <p className={classes.stylePtag}>{props.loginEmail}</p>
                             </Box>
-                            <Box mt={4}>
-                                <span style={{ fontSize: 12, fontWeight: "bold" }}>Enter email address to get started</span>
-                            </Box>
-                            <TextField
-                                variant="outlined"
-                                margin="normal"
-                                required
-                                fullWidth
-                                id="email"
-                                label="Email Address"
-                                name="email"
-                                autoComplete="email"
-                                autoFocus
-                                onChange={props.handleEmailEntry}
-                            />
-                            <Box mt={2}>
+                            <Box mt={3} mb={7}>
                                 <Button mt={10}
                                     type="submit"
                                     fullWidth
                                     variant="contained"
                                     color="primary"
                                     className={classes.submit}
-                                    component={Link} to="/signUp_google"
+                                    component={Link} to="/create-url"
+                                    startIcon={<VpnKeyIcon />}
                                 >
-                                    Get Started
-          </Button>
-
+                                    login with Google
+                                </Button>
                             </Box>
                         </div>
                     </Container>
                     <Box mt={4} p={3} pt={3} className={classes.footerStyle}>
-                        <span className={classes.boldFont} style={{ fontSize: "12px" }}>Already have an account? &nbsp;
+                        <span className={classes.boldFont} style={{ fontSize: "12px" }}>Don't have an account? &nbsp;
 
-                            <Link to="/login" className={classes.decor}>
+                         <Link to="/" className={classes.decor}>
                                 <span style={{ color: "#FF7E00", cursor: "pointer" }}>
-                                    Log in
+                                    Sign Up
                             </span>
                             </Link>
                         </span>
                     </Box>
                 </Card>
-
             </div>
         </div>
     );
