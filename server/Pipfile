@@ -14,6 +14,7 @@ flask-script = "*"
 python-dotenv = "*"
 pytz = "*"
 authlib = "*"
+flask-cors = "*"
 
 [requires]
 python_version = "3.7"

@@ -1,4 +1,5 @@
 from flask import Flask, request, jsonify, url_for, redirect, session
+from flask_cors import CORS
 from config import DevelopmentConfig
 import os
 from datetime import timedelta
@@ -33,6 +34,7 @@ from models.user import User
 
 
 app = Flask(__name__)
+CORS(app)
 app.config.from_object(DevelopmentConfig())
 app.secret_key = os.getenv("APP_SECRET_KEY") # will change to stronger randomly generated password
 app.config['SESSION_COOKIE_NAME'] = 'google-login-session'
@@ -64,64 +66,69 @@ app.register_blueprint(meeting_handler)
 app.register_blueprint(appointment_handler)
 app.register_blueprint(availability_handler)
 
-# Test Route for React Front-End
-@app.route('/api', methods=['GET'])
-def api():
-    return {
-        'userId': 1,
-        'title': 'Flask React Calendly Clone',
-        'completed': False
-    }
-
-# Server Redirect after successful Auth
-@app.route('/', methods=["GET"])
-def hello_world():
-    # email = dict(session).get('profile', {"email": "None"})['email']
-    # print(email)
-    return jsonify(dict(session)), 200
-
-@app.route('/login')
-def login():
-    google = oauth.create_client('google')
-    redirect_uri = url_for('authorize', _external=True)
-    return google.authorize_redirect(redirect_uri)
-
-@app.route('/authorize')
-def authorize():
-    google = oauth.create_client('google')
-    token = google.authorize_access_token()
-    access_token = token.get('access_token')
-    resp = google.get('userinfo')
-    user_info = resp.json()
-    user = oauth.google.userinfo()  # uses openid endpoint to fetch user info
-    # Here you use the profile/user data that you got and query your database find/register the user
-    # and set ur own data in the session not the profile from google
-    session['profile'] = user_info
-
-    # Create user in db with info provided if email does not exist
-    if User.query.filter_by(email=user.email).first() is None :
-        new_user = User(username=user.name, email=user.email, access_token=access_token)
+@app.route('/googlelogin', methods = ['GET', 'POST'])
+def googlelogin():
+    if request.method == 'POST':
+        user = request.get_json()
+        print(user)
+        # Create user from data
+        new_user = User(username=user.name, first_name=user.firstName, last_name=user.lastName, email=user.email, profile_picture=user.profile_picture, access_token=user.access_token)
         db.session.add(new_user)
         db.session.commit()
         print('user added to database!')
-    else :
-        print('user exists in database. cannot add to database')
-
-    # Queries the database for testing purposes, will delete later
-    users = User.query.all()
-    for u in users:
-        print(u.id, u.username)
 
 
-    session['token'] = token
-    session.permanent = True  # make the session permanant so it keeps existing after broweser gets closed
-    return redirect('/')
+# May not need the code below 
 
-@app.route('/logout')
-def logout():
-    for key in list(session.keys()):
-        session.pop(key)
-    return redirect('/')
+# Server Redirect after successful Auth
+# @app.route('/', methods=["GET"])
+# def hello_world():
+#     # email = dict(session).get('profile', {"email": "None"})['email']
+#     # print(email)
+#     return jsonify(dict(session)), 200
+
+# @app.route('/login')
+# def login():
+#     google = oauth.create_client('google')
+#     redirect_uri = url_for('authorize', _external=True)
+#     return google.authorize_redirect(redirect_uri)
+
+# @app.route('/authorize')
+# def authorize():
+#     google = oauth.create_client('google')
+#     token = google.authorize_access_token()
+#     access_token = token.get('access_token')
+#     resp = google.get('userinfo')
+#     user_info = resp.json()
+#     user = oauth.google.userinfo()  # uses openid endpoint to fetch user info
+#     # Here you use the profile/user data that you got and query your database find/register the user
+#     # and set ur own data in the session not the profile from google
+#     session['profile'] = user_info
+
+#     # Create user in db with info provided if email does not exist
+#     if User.query.filter_by(email=user.email).first() is None :
+#         new_user = User(username=user.name, email=user.email, access_token=access_token)
+#         db.session.add(new_user)
+#         db.session.commit()
+#         print('user added to database!')
+#     else :
+#         print('user exists in database. cannot add to database')
+
+#     # Queries the database for testing purposes, will delete later
+#     users = User.query.all()
+#     for u in users:
+#         print(u.id, u.username)
+
+
+#     session['token'] = token
+#     session.permanent = True  # make the session permanant so it keeps existing after broweser gets closed
+#     return redirect('/')
+
+# @app.route('/logout')
+# def logout():
+#     for key in list(session.keys()):
+#         session.pop(key)
+#     return redirect('/')
 
 if __name__ == '__main__':
     manager.run()
