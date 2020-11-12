@@ -13,13 +13,13 @@ import Profile from './pages/Profile.js';
 function App() {
   const [email, setEmail] = useState('');
 
-  const [initialData, setInitialData] = useState([{}]);
+  // const [initialData, setInitialData] = useState([{}]);
 
-  useEffect(() => {
-    fetch('/api').then(
-      response => response.json()
-    ).then(data => console.log(data));
-  });
+  // useEffect(() => {
+  //   fetch('/api').then(
+  //     response => response.json()
+  //   ).then(data => console.log(data));
+  // });
 
   // const handleLogin = (route) => {
 
