@@ -66,26 +66,34 @@ app.register_blueprint(meeting_handler)
 app.register_blueprint(appointment_handler)
 app.register_blueprint(availability_handler)
 
+# Route that requests data from front-end and creates new user if email does not exist
 @app.route('/googlelogin', methods = ['GET', 'POST'])
 def googlelogin():
     if request.method == 'POST':
         user = request.get_json()
         print(user)
-        # Create user from data
-        new_user = User(username=user.name, first_name=user.firstName, last_name=user.lastName, email=user.email, profile_picture=user.profile_picture, access_token=user.access_token)
-        db.session.add(new_user)
-        db.session.commit()
-        print('user added to database!')
+        # Create user from data if email doesn't exits
+        if User.query.filter_by(email=user['email']).first() is None:
+            new_user = User(username=user['username'], first_name=user['firstName'], last_name=user['lastName'], email=user['email'], profile_picture=user['profilePicture'], access_token=user['accessToken'])
+            db.session.add(new_user)
+            db.session.commit()
+            print('user added to database!')
+        else :
+            print('user exists in database. cannot add to database')
+    else:
+        return 'Something went wrong'
+    return redirect('/') 
 
 
 # May not need the code below 
 
 # Server Redirect after successful Auth
-# @app.route('/', methods=["GET"])
-# def hello_world():
-#     # email = dict(session).get('profile', {"email": "None"})['email']
-#     # print(email)
-#     return jsonify(dict(session)), 200
+@app.route('/', methods=["GET"])
+def hello_world():
+    # email = dict(session).get('profile', {"email": "None"})['email']
+    # print(email)
+    # return jsonify(dict(session)), 200
+    return 'Hello World'
 
 # @app.route('/login')
 # def login():
