@@ -3,7 +3,7 @@ import { GoogleLogin } from 'react-google-login';
 
 const clientId = '734201335677-kakgc3np91nr45ss5j9f5l89v6b29h0n.apps.googleusercontent.com';
 
-function Login() {
+function LoginBtn() {
     const onSuccess = res => {
         console.log('[Login Success] currentUser:', res.profileObj);
     };
@@ -27,4 +27,4 @@ function Login() {
     );
 }
 
-export default Login;
+export default LoginBtn;

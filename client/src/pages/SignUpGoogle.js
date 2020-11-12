@@ -9,6 +9,9 @@ import VpnKeyIcon from '@material-ui/icons/VpnKey';
 // import { Route, Link } from "react-router-dom";
 import Card from '@material-ui/core/Card';
 
+import LoginBtn from '../components/buttons/LoginBtn';
+
+
 const useStyles = makeStyles((theme) => ({
     root: {
         width: 400,
@@ -78,7 +81,7 @@ export default function SignUpGoogle(props) {
                                 <p> can start using <span className={classes.bold_Font}>Calend<span style={{ color: "#FF7E00" }}>App</span></span> right away!</p>
                             </Box>
                             <Box mt={2}>
-                                <Button mt={10}
+                                {/* <Button mt={10}
                                     type="submit"
                                     variant="contained"
                                     color="primary"
@@ -88,7 +91,8 @@ export default function SignUpGoogle(props) {
                                     size="large"
                                 >
                                     Sign up with Google
-          </Button>
+          </Button> */}
+          <LoginBtn />
                             </Box>
                         </div>
                     </Container>
