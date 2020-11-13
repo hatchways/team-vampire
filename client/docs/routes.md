@@ -2,7 +2,7 @@
   <br>
   <a href="#"><img src="https://www.dropbox.com/s/f7qmdoka1ltso8g/logo.png?raw=1" alt="CalendApp" width="120"></a>
   <br>
-  API Endpoints
+  Pages and Views
 </h1>
 
 <h4 align="center">A minimal Calendly clone built with Flask and React.</h4>
