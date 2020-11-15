@@ -7,6 +7,16 @@ const logger = require("morgan");
 const indexRouter = require("./routes/index");
 const pingRouter = require("./routes/ping");
 
+const mongoose = require("mongoose");
+const mongoDB = "mongodb://127.0.0.1/my_database";
+mongoose.connect(mongoDB, { useNewUrlParser: true, useUnifiedTopology: true });
+
+mongoose.connection.once("open", function(){
+  console.log('Database connected successfully');
+}).on("error", function(err){
+  console.log("Error", err);
+});
+
 const { json, urlencoded } = express;
 
 var app = express();
