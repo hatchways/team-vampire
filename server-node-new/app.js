@@ -8,7 +8,7 @@ const indexRouter = require("./routes/index");
 const pingRouter = require("./routes/ping");
 
 const mongoose = require("mongoose");
-const mongoDB = "mongodb://127.0.0.1/my_database";
+const mongoDB = "mongodb://localhost/calendapp";
 mongoose.connect(mongoDB, { useNewUrlParser: true, useUnifiedTopology: true });
 
 mongoose.connection.once("open", function(){
