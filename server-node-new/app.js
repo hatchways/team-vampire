@@ -7,19 +7,89 @@ const logger = require("morgan");
 const indexRouter = require("./routes/index");
 const pingRouter = require("./routes/ping");
 
-const mongoose = require("mongoose");
-const mongoDB = "mongodb://localhost/calendapp";
-mongoose.connect(mongoDB, { useNewUrlParser: true, useUnifiedTopology: true });
+const { json, urlencoded } = express;
 
-mongoose.connection.once("open", function(){
+var app = express();
+
+const mongoose = require("mongoose");
+const mongoDB = "mongodb://localhost/test";
+mongoose.connect(mongoDB, { useNewUrlParser: true, useUnifiedTopology: true });
+const db = mongoose.connection;
+db.once("open", function(){
   console.log('Database connected successfully');
 }).on("error", function(err){
   console.log("Error", err);
 });
 
-const { json, urlencoded } = express;
+// Models
 
-var app = express();
+const userSchema = new mongoose.Schema({
+  userName:         { type: String, unique: true },
+  firstName:        String,
+  lastName:         String,
+  email:            { type: String, required: true },
+  timezone:         String,
+  profilePicture:   String,
+  accessToken:      { type: String, required: true },
+  stripeCustomerId: String,
+  createdAt:        { type: Date, default: Date.now }, 
+  updatedAt:        { type: Date, default: Date.now },
+  availability:     String,
+  meetings:         String
+});
+
+const User = mongoose.model('User', userSchema);
+
+const johndoe = new User({ 
+  userName: 'johndoe',
+  firstName: 'John',
+  lastName: 'Doe',
+  email: 'john@doe.com',
+  timezone: 'UTC+3',
+  profilePicture: 'profile_picture.jpg',
+  accessToken: 'some_access_token_321',
+  stripeCustomerId: 'johns_stripe_id_101',
+  availability: 'open for business',
+  meetings: '12'
+});
+
+johndoe.save(function (err, fluffy) {
+  if (err) return console.error(err);
+  console.log('added to database!');
+});
+
+/* Mongoose Test - WILL DELETE
+
+const kittySchema = new mongoose.Schema({
+  name: String
+});
+
+kittySchema.methods.speak = function() {
+  const greeting = this.name
+    ? "Meow name is " + this.name
+    : "I don't have a name";
+  console.log(greeting);
+} 
+
+const Kitten = mongoose.model('Kitten', kittySchema);
+
+const fluffy = new Kitten({ name: 'fluffy' });
+
+fluffy.save(function (err, fluffy) {
+  if (err) return console.error(err);
+  fluffy.speak();
+});
+
+const silence = new Kitten({ name: 'Silence' });
+console.log(silence.name);
+
+silence.save();
+
+Kitten.find(function (err, kittens) {
+  if (err) return console.error(err);
+  console.log(kittens);
+});
+*/
 
 app.use(logger("dev"));
 app.use(json());
