@@ -26,10 +26,10 @@ db.once("open", function(){
 // Models
 
 const userSchema = new mongoose.Schema({
-  userName:         { type: String, index: true, unique: true, sparse: true }, // got rid of unique: true for testing purposes
+  userName:         { type: String, index: true, unique: true, sparse: true }, // not sure if this is the standard implementation to allow null to not be unique
   firstName:        String,
   lastName:         String,
-  email:            { type: String, required: true },
+  email:            { type: String, required: true }, // remove unique: true for testing
   timezone:         String,
   profilePicture:   String,
   accessToken:      { type: String, required: true },
@@ -62,7 +62,20 @@ const meetingSchema = new mongoose.Schema({
 
 const Meeting = mongoose.model("Meeting", meetingSchema);
 
-// Add User, Availability, and Meeting to Database Test - WILL DELETE
+const appointmentSchema = new mongoose.Schema({
+  meeting:      { type: mongoose.Schema.Types.ObjectId, ref: "Meeting" },
+  name:         { type: String, required: true, default: "My Appointment" },
+  email:        { type: String, required: true, default: "nickfury@shield.com" },
+  time:         { type: Date, required: true, default: Date.now },
+  timezone:     { type: String, required: true, default: "UTC 0" },
+  createdAt:    { type: Date, default: Date.now }, 
+  updatedAt:    { type: Date, default: Date.now },  
+});
+
+const Appointment = mongoose.model("Appointment", appointmentSchema);
+
+// Add User, Availability, and appointment to Database Test - WILL DELETE
+/*
 const createUser = function(email, accessToken) {
   const newUser = new User({
     email,
@@ -99,34 +112,61 @@ function getStuff(user) {
   };
 };
 
-// createUser('black@widow.com', 'nats_access')
-//   .then(user => {
-//     console.log("> Created new User\n", user);
+createUser('black@widow.com', 'nats_access')
+  .then(user => {
+    console.log("> Created new User\n", user);
 
-//     const userId = user._id.toString();
-//     return getStuff(userId);
-//   })
-//   .then(availability => {
-//     console.log("> Created new availability\n", availability)
-//   })
-//   .then(meeting => {
-//     console.log("> Created new meeting\n", meeting)
-//   })
-//   .catch(err => console.log(err));
+    const userId = user._id.toString();
+    return getStuff(userId);
+  })
+  .then(availability => {
+    console.log("> Created new availability\n", availability)
+  })
+  .then(meeting => {
+    console.log("> Created new meeting\n", meeting)
+  })
+  .catch(err => console.log(err));
 
-// const showAllAvailability = async function() {
-//   const availabilities = await Availability.find().populate("user");
-//   console.log("> All Availabilities\n", availabilities);
-// };
+const showAllAvailability = async function() {
+  const availabilities = await Availability.find().populate("user");
+  console.log("> All Availabilities\n", availabilities);
+};
 
-// showAllAvailability();
+showAllAvailability();
 
-// const showAllMeetings = async function() {
-//   const meetings = await Meeting.find().populate("user");
-//   console.log("> All Meetings\n", meetings);
-// };
+const createAppointment = function(meeting) {
+  const appointment = new Appointment({
+    meeting
+  });
 
-// showAllMeetings();
+  return appointment.save();
+};
+
+createMeeting('5fb1dff54ae04e1f7bd49c10') // user_id string literal
+  .then(meeting => {
+    console.log("> Created new meeting\n", meeting);
+    const meetingId = meeting._id.toString();
+    return createAppointment(meetingId);
+  })
+  .then(appointment => {
+    console.log("> Created new appointment\n", appointment);
+  })
+  .catch(err => console.log(err));
+
+const showAllMeetings = async function() {
+  const meetings = await Meeting.find().populate("user");
+  console.log("> All Meetings\n", meetings);
+};
+
+showAllMeetings();
+
+const showAllAppointments = async function() {
+  const appointments = await Appointment.find().populate("meeting");
+  console.log("> All appointments\n", appointments);
+};
+
+showAllAppointments();
+*/ // TESTING MONGODB FUNCTIONALITY - WILL DELETE LATER
 
 
 app.use(logger("dev"));
