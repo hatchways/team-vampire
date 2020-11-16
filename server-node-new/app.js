@@ -114,19 +114,19 @@ function getStuff(user) {
 //   })
 //   .catch(err => console.log(err));
 
-const showAllAvailability = async function() {
-  const availabilities = await Availability.find().populate("user");
-  console.log("> All Availabilities\n", availabilities);
-};
+// const showAllAvailability = async function() {
+//   const availabilities = await Availability.find().populate("user");
+//   console.log("> All Availabilities\n", availabilities);
+// };
 
-showAllAvailability();
+// showAllAvailability();
 
-const showAllMeetings = async function() {
-  const meetings = await Meeting.find().populate("user");
-  console.log("> All Meetings\n", meetings);
-};
+// const showAllMeetings = async function() {
+//   const meetings = await Meeting.find().populate("user");
+//   console.log("> All Meetings\n", meetings);
+// };
 
-showAllMeetings();
+// showAllMeetings();
 
 
 app.use(logger("dev"));
