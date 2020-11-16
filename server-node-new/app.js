@@ -26,7 +26,7 @@ db.once("open", function(){
 // Models
 
 const userSchema = new mongoose.Schema({
-  userName:         { type: String, unique: true },
+  userName:         { type: String, index: true, unique: true, sparse: true }, // got rid of unique: true for testing purposes
   firstName:        String,
   lastName:         String,
   email:            { type: String, required: true },
@@ -36,7 +36,6 @@ const userSchema = new mongoose.Schema({
   stripeCustomerId: String,
   createdAt:        { type: Date, default: Date.now }, 
   updatedAt:        { type: Date, default: Date.now },
-  meetings:         String
 });
 
 const User = mongoose.model("User", userSchema);
@@ -52,37 +51,83 @@ const availabilitySchema = new mongoose.Schema({
 
 const Availability = mongoose.model("Availability", availabilitySchema);
 
+const meetingSchema = new mongoose.Schema({
+  user:         { type: mongoose.Schema.Types.ObjectId, ref: "User" },
+  name:         { type: String, default: "60 Minute Meeting" },
+  description:  { type: String, default: "One-on-One" },
+  duration:     { type: Number, required: true, default: 60 },
+  createdAt:    { type: Date, default: Date.now }, 
+  updatedAt:    { type: Date, default: Date.now },  
+});
 
-// Add User & Availability to Database Test - WILL DELETE
-// const createUser = function(email, accessToken) {
-//   const newUser = new User({
-//     email,
-//     accessToken
-//   });
+const Meeting = mongoose.model("Meeting", meetingSchema);
 
-//   return newUser.save();
-// };
+// Add User, Availability, and Meeting to Database Test - WILL DELETE
+const createUser = function(email, accessToken) {
+  const newUser = new User({
+    email,
+    accessToken
+  });
 
-// const createAvailability = function(user, day) {
-//   const availability = new Availability({
-//     user,
-//     day
-//   });
+  return newUser.save();
+};
 
-//   return availability.save();
-// };
+const createAvailability = function(user) {
+  const availability = new Availability({
+    user,
+    day: 1
+  });
 
-// createUser('tony@stark.com', 'tonys_access')
+  return availability.save();
+};
+
+const createMeeting = function(user) {
+  const meeting = new Meeting({
+    user
+  });
+
+  return meeting.save();
+};
+
+function getStuff(user) {
+  const availability = createAvailability(user);
+  const meeting = createMeeting(user);
+
+  return {
+    availability,
+    meeting
+  };
+};
+
+// createUser('black@widow.com', 'nats_access')
 //   .then(user => {
 //     console.log("> Created new User\n", user);
 
 //     const userId = user._id.toString();
-//     return createAvailability(userId, 1);
+//     return getStuff(userId);
 //   })
 //   .then(availability => {
-//     console.log("> Created new availability\n", availability);
+//     console.log("> Created new availability\n", availability)
+//   })
+//   .then(meeting => {
+//     console.log("> Created new meeting\n", meeting)
 //   })
 //   .catch(err => console.log(err));
+
+const showAllAvailability = async function() {
+  const availabilities = await Availability.find().populate("user");
+  console.log("> All Availabilities\n", availabilities);
+};
+
+showAllAvailability();
+
+const showAllMeetings = async function() {
+  const meetings = await Meeting.find().populate("user");
+  console.log("> All Meetings\n", meetings);
+};
+
+showAllMeetings();
+
 
 app.use(logger("dev"));
 app.use(json());
