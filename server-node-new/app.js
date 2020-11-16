@@ -11,12 +11,14 @@ const { json, urlencoded } = express;
 
 var app = express();
 
+// Database Setup
+
 const mongoose = require("mongoose");
 const mongoDB = "mongodb://localhost/test";
 mongoose.connect(mongoDB, { useNewUrlParser: true, useUnifiedTopology: true });
 const db = mongoose.connection;
 db.once("open", function(){
-  console.log('Database connected successfully');
+  console.log("Database connected successfully");
 }).on("error", function(err){
   console.log("Error", err);
 });
@@ -34,62 +36,53 @@ const userSchema = new mongoose.Schema({
   stripeCustomerId: String,
   createdAt:        { type: Date, default: Date.now }, 
   updatedAt:        { type: Date, default: Date.now },
-  availability:     String,
   meetings:         String
 });
 
-const User = mongoose.model('User', userSchema);
+const User = mongoose.model("User", userSchema);
 
-const johndoe = new User({ 
-  userName: 'johndoe',
-  firstName: 'John',
-  lastName: 'Doe',
-  email: 'john@doe.com',
-  timezone: 'UTC+3',
-  profilePicture: 'profile_picture.jpg',
-  accessToken: 'some_access_token_321',
-  stripeCustomerId: 'johns_stripe_id_101',
-  availability: 'open for business',
-  meetings: '12'
+const availabilitySchema = new mongoose.Schema({
+  user:       { type: mongoose.Schema.Types.ObjectId, ref: "User" },
+  day:        { type: Number, required: true },
+  startTime:  { type: Number, required: true, default: 540 },
+  endTime:    { type: Number, required: true, default: 1020 },
+  createdAt:  { type: Date, default: Date.now }, 
+  updatedAt:  { type: Date, default: Date.now },  
 });
 
-johndoe.save(function (err, fluffy) {
-  if (err) return console.error(err);
-  console.log('added to database!');
-});
+const Availability = mongoose.model("Availability", availabilitySchema);
 
-/* Mongoose Test - WILL DELETE
 
-const kittySchema = new mongoose.Schema({
-  name: String
-});
+// Add User & Availability to Database Test - WILL DELETE
+// const createUser = function(email, accessToken) {
+//   const newUser = new User({
+//     email,
+//     accessToken
+//   });
 
-kittySchema.methods.speak = function() {
-  const greeting = this.name
-    ? "Meow name is " + this.name
-    : "I don't have a name";
-  console.log(greeting);
-} 
+//   return newUser.save();
+// };
 
-const Kitten = mongoose.model('Kitten', kittySchema);
+// const createAvailability = function(user, day) {
+//   const availability = new Availability({
+//     user,
+//     day
+//   });
 
-const fluffy = new Kitten({ name: 'fluffy' });
+//   return availability.save();
+// };
 
-fluffy.save(function (err, fluffy) {
-  if (err) return console.error(err);
-  fluffy.speak();
-});
+// createUser('tony@stark.com', 'tonys_access')
+//   .then(user => {
+//     console.log("> Created new User\n", user);
 
-const silence = new Kitten({ name: 'Silence' });
-console.log(silence.name);
-
-silence.save();
-
-Kitten.find(function (err, kittens) {
-  if (err) return console.error(err);
-  console.log(kittens);
-});
-*/
+//     const userId = user._id.toString();
+//     return createAvailability(userId, 1);
+//   })
+//   .then(availability => {
+//     console.log("> Created new availability\n", availability);
+//   })
+//   .catch(err => console.log(err));
 
 app.use(logger("dev"));
 app.use(json());
