@@ -29,7 +29,7 @@ const userSchema = new mongoose.Schema({
   userName:         { type: String, index: true, unique: true, sparse: true }, // not sure if this is the standard implementation to allow null to not be unique
   firstName:        String,
   lastName:         String,
-  email:            { type: String, required: true }, // remove unique: true for testing
+  email:            { type: String, required: true, unique: true }, // remove unique: true for testing
   timezone:         String,
   profilePicture:   String,
   accessToken:      { type: String, required: true },
@@ -75,6 +75,7 @@ const appointmentSchema = new mongoose.Schema({
 const Appointment = mongoose.model("Appointment", appointmentSchema);
 
 // Add User, Availability, and appointment to Database Test - WILL DELETE
+
 /*
 const createUser = function(email, accessToken) {
   const newUser = new User({
@@ -102,6 +103,15 @@ const createMeeting = function(user) {
   return meeting.save();
 };
 
+const createAppointment = function(meeting) {
+  const appointment = new Appointment({
+    meeting
+  });
+
+  return appointment.save();
+};
+
+
 function getStuff(user) {
   const availability = createAvailability(user);
   const meeting = createMeeting(user);
@@ -120,10 +130,15 @@ createUser('black@widow.com', 'nats_access')
     return getStuff(userId);
   })
   .then(availability => {
-    console.log("> Created new availability\n", availability)
+    console.log("> Created new availability\n", availability);
   })
   .then(meeting => {
-    console.log("> Created new meeting\n", meeting)
+    console.log("> Created new meeting\n", meeting);
+    const meetingId = meeting._id.toString();
+    return createAppointment(meetingId);
+  })
+  .then(appointment => {
+    console.log("> Created new appointment\n", appointment);
   })
   .catch(err => console.log(err));
 
@@ -134,24 +149,7 @@ const showAllAvailability = async function() {
 
 showAllAvailability();
 
-const createAppointment = function(meeting) {
-  const appointment = new Appointment({
-    meeting
-  });
-
-  return appointment.save();
-};
-
-createMeeting('5fb1dff54ae04e1f7bd49c10') // user_id string literal
-  .then(meeting => {
-    console.log("> Created new meeting\n", meeting);
-    const meetingId = meeting._id.toString();
-    return createAppointment(meetingId);
-  })
-  .then(appointment => {
-    console.log("> Created new appointment\n", appointment);
-  })
-  .catch(err => console.log(err));
+createAppointment('5fb31d78cc8fea0719ead1fa');
 
 const showAllMeetings = async function() {
   const meetings = await Meeting.find().populate("user");
@@ -166,7 +164,8 @@ const showAllAppointments = async function() {
 };
 
 showAllAppointments();
-*/ // TESTING MONGODB FUNCTIONALITY - WILL DELETE LATER
+*/
+ // TESTING MONGODB FUNCTIONALITY - WILL DELETE LATER
 
 
 app.use(logger("dev"));
