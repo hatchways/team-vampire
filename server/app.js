@@ -25,20 +25,6 @@ db.once("open", function(){
   console.log("Error", err);
 });
 
-// Models
-
-const appointmentSchema = new mongoose.Schema({
-  meeting:      { type: mongoose.Schema.Types.ObjectId, ref: "Meeting" },
-  name:         { type: String, required: true, default: "My Appointment" },
-  email:        { type: String, required: true, default: "nickfury@shield.com" },
-  time:         { type: Date, required: true, default: Date.now },
-  timezone:     { type: String, required: true, default: "UTC 0" },
-  createdAt:    { type: Date, default: Date.now }, 
-  updatedAt:    { type: Date, default: Date.now },  
-});
-
-const Appointment = mongoose.model("Appointment", appointmentSchema);
-
 // Add User, Availability, and appointment to Database Test - WILL DELETE
 
 /*
