@@ -16,7 +16,7 @@
   <a href="#user">User</a>
 </p>
 
-## Changes to be made
+## Changelog
 - models below currently in python/flask syntax; will update to Mongoose/JS syntax 
 
 
