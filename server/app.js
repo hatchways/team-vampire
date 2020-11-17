@@ -25,9 +25,69 @@ db.once("open", function(){
   console.log("Error", err);
 });
 
-// Add User, Availability, and appointment to Database Test - WILL DELETE
+app.use(logger("dev"));
+app.use(json());
+app.use(urlencoded({ extended: false }));
+app.use(cookieParser());
+app.use(express.static(join(__dirname, "public")));
+
+app.use("/", indexRouter);
+app.use("/ping", pingRouter);
+
+// catch 404 and forward to error handler
+app.use(function(req, res, next) {
+  next(createError(404));
+});
+
+// error handler
+app.use(function(err, req, res, next) {
+  // set locals, only providing error in development
+  res.locals.message = err.message;
+  res.locals.error = req.app.get("env") === "development" ? err : {};
+
+  // render the error page
+  res.status(err.status || 500);
+  res.json({ error: err });
+});
+
+module.exports = app;
+
+// Testing Database Out - Will Delete or Move to another folder
 
 /*
+const { User, Availability, Meeting, Appointment } = require("./models/");
+
+const showAllUsers = async function() {
+  const users = await User.find();
+  console.log("> All Users\n", users);
+};
+
+showAllUsers();
+
+const showAllAvailability = async function() {
+  const availabilities = await Availability.find();
+  console.log("> All Availabities\n", availabilities);
+};
+
+showAllAvailability();
+
+const showAllUsers = async function() {
+  const users = await User.find();
+  console.log("> All Users\n", users);
+};
+
+showAllUsers();
+
+const showAllUsers = async function() {
+  const users = await User.find();
+  console.log("> All Users\n", users);
+};
+
+showAllUsers();
+
+Add User, Availability, and appointment to Database Test
+
+
 const createUser = function(email, accessToken) {
   const newUser = new User({
     email,
@@ -117,31 +177,3 @@ const showAllAppointments = async function() {
 showAllAppointments();
 */
  // TESTING MONGODB FUNCTIONALITY - WILL DELETE LATER
-
-
-app.use(logger("dev"));
-app.use(json());
-app.use(urlencoded({ extended: false }));
-app.use(cookieParser());
-app.use(express.static(join(__dirname, "public")));
-
-app.use("/", indexRouter);
-app.use("/ping", pingRouter);
-
-// catch 404 and forward to error handler
-app.use(function(req, res, next) {
-  next(createError(404));
-});
-
-// error handler
-app.use(function(err, req, res, next) {
-  // set locals, only providing error in development
-  res.locals.message = err.message;
-  res.locals.error = req.app.get("env") === "development" ? err : {};
-
-  // render the error page
-  res.status(err.status || 500);
-  res.json({ error: err });
-});
-
-module.exports = app;
