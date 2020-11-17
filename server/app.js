@@ -27,28 +27,6 @@ db.once("open", function(){
 
 // Models
 
-const availabilitySchema = new mongoose.Schema({
-  user:       { type: mongoose.Schema.Types.ObjectId, ref: "User" },
-  day:        { type: Number, required: true },
-  startTime:  { type: Number, required: true, default: 540 },
-  endTime:    { type: Number, required: true, default: 1020 },
-  createdAt:  { type: Date, default: Date.now }, 
-  updatedAt:  { type: Date, default: Date.now },  
-});
-
-const Availability = mongoose.model("Availability", availabilitySchema);
-
-const meetingSchema = new mongoose.Schema({
-  user:         { type: mongoose.Schema.Types.ObjectId, ref: "User" },
-  name:         { type: String, default: "60 Minute Meeting" },
-  description:  { type: String, default: "One-on-One" },
-  duration:     { type: Number, required: true, default: 60 },
-  createdAt:    { type: Date, default: Date.now }, 
-  updatedAt:    { type: Date, default: Date.now },  
-});
-
-const Meeting = mongoose.model("Meeting", meetingSchema);
-
 const appointmentSchema = new mongoose.Schema({
   meeting:      { type: mongoose.Schema.Types.ObjectId, ref: "Meeting" },
   name:         { type: String, required: true, default: "My Appointment" },
