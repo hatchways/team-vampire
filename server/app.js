@@ -1,3 +1,5 @@
+require('dotenv').config();
+
 const createError = require("http-errors");
 const express = require("express");
 const { join } = require("path");
@@ -14,7 +16,7 @@ var app = express();
 // Database Setup
 
 const mongoose = require("mongoose");
-const mongoDB = "mongodb://localhost/test";
+const mongoDB = `mongodb://${process.env.DB_SERVER}/${process.env.DB_NAME}`;
 mongoose.connect(mongoDB, { useNewUrlParser: true, useUnifiedTopology: true });
 const db = mongoose.connection;
 db.once("open", function(){
