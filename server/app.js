@@ -1,4 +1,4 @@
-require('dotenv').config();
+const config = require('./utils/config');
 
 const createError = require("http-errors");
 const express = require("express");
@@ -16,7 +16,7 @@ var app = express();
 // Database Setup
 
 const mongoose = require("mongoose");
-const mongoDB = `mongodb://${process.env.DB_SERVER}/${process.env.DB_NAME}`;
+const mongoDB = `mongodb://${config.DB_SERVER}/${config.DB_NAME}`;
 mongoose.connect(mongoDB, { useNewUrlParser: true, useUnifiedTopology: true });
 const db = mongoose.connection;
 db.once("open", function(){
