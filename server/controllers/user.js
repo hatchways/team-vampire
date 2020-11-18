@@ -3,6 +3,7 @@ const { User } = require("../models/");
 
 // Create User - WILL REPLACE WITH DATA RETRIEVED FROM GOOGLE AUTHORIZATION
 usersRouter.post("/", (request, response, next) => {
+    const body = request.body;
     const user = new User({
         userName:    body.userName,
         email:       body.email,
@@ -50,7 +51,8 @@ usersRouter.get("/:username", (request, response, next) => {
         })
 });
 
-// Update User - PROBABLY NEEDS TO BE CHANGED TO PATCH
+// Update User - PROBABLY NEEDS TO BE CHANGED TO PATCH ROUTE
+// How to make this an authenticated route?
 usersRouter.put("/:username", (request, response, next) => {
     const body = request.body;
 

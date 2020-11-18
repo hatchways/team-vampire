@@ -28,8 +28,9 @@ db.once("open", function(){
 app.use(express.json())
 
 // Controllers
-const usersRouter = require("./controllers/user");
+const { usersRouter, availabilitiesRouter } = require("./controllers/");
 app.use("/api/users", usersRouter);
+app.use("/api/availabilities", availabilitiesRouter);
 
 app.use(logger("dev"));
 app.use(json());
