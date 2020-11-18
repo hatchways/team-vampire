@@ -4,8 +4,8 @@ const { User } = require("../models/");
 // Create User - WILL REPLACE WITH DATA RETRIEVED FROM GOOGLE AUTHORIZATION
 usersRouter.post("/", (request, response, next) => {
     const user = new User({
-        userName: body.userName,
-        email: body.email,
+        userName:    body.userName,
+        email:       body.email,
         accessToken: body.accessToken
     });
 
@@ -48,6 +48,31 @@ usersRouter.get("/:username", (request, response, next) => {
             console.error(error);
             next(error);
         })
+});
+
+// Update User - PROBABLY NEEDS TO BE CHANGED TO PATCH
+usersRouter.put("/:username", (request, response, next) => {
+    const body = request.body;
+
+    const user = {
+        userName:       body.userName,
+        firstName:      body.firstName,
+        lastName:       body.lastName,
+        email:          body.email, 
+        timezone:       body.timezon,
+        profilePicture: body.profilePicture,
+    }
+
+
+    User.findOneAndUpdate({ userName:userName }, user)
+        .then(updatedUser => {
+            response.json(updatedUser)
+        })
+        .catch(error => {
+            console.error(error);
+            response.json(error);
+            next(error);
+        });
 });
 
 module.exports = usersRouter;
