@@ -25,6 +25,10 @@ db.once("open", function(){
   console.log("Error", err);
 });
 
+// Controllers
+const usersRouter = require("./controllers/user");
+app.use("/api/users", usersRouter);
+
 app.use(logger("dev"));
 app.use(json());
 app.use(urlencoded({ extended: false }));

@@ -1,4 +1,4 @@
-require('dotenv').config();
+require("dotenv").config();
 
 const DB_SERVER = process.env.DB_SERVER;
 const DB_NAME = process.env.DB_NAME;
