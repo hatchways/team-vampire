@@ -25,6 +25,8 @@ db.once("open", function(){
   console.log("Error", err);
 });
 
+app.use(express.json())
+
 // Controllers
 const usersRouter = require("./controllers/user");
 app.use("/api/users", usersRouter);

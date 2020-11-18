@@ -1,15 +1,12 @@
 const usersRouter = require("express").Router();
-const { response } = require("express");
 const { User } = require("../models/");
 
-// Create User - WILL REPLACE WITH GOOGLE LOGIN INFO
+// Create User - WILL REPLACE WITH DATA RETRIEVED FROM GOOGLE AUTHORIZATION
 usersRouter.post("/", (request, response, next) => {
-    const body = request.body;
-
     const user = new User({
-        userName: "tony_stark",
-        email: "tony@stark.com",
-        accessToken: "tonys_access_token"
+        userName: body.userName,
+        email: body.email,
+        accessToken: body.accessToken
     });
 
     user.save()
@@ -19,16 +16,38 @@ usersRouter.post("/", (request, response, next) => {
         })
         .catch(error => {
             console.error(error);
+            response.json(error);
             next(error)
         });
 });
 
 // Fetch/Read All Users
-usersRouter.get('/', (request, response) => {
+usersRouter.get("/", (request, response) => {
     User.find({}).then(users => {
-        console.log(users);
         response.json(users);
     });
+});
+
+// Fetch/Read Single User
+usersRouter.get("/:username", (request, response, next) => {
+    const userName = request.params.username;
+    User.findOne({ userName: userName })
+        .then(user => {
+            if (user) {
+                console.log("user", user);
+                response.json(user)
+            } else {
+                response.status(404)
+                    .json({
+                        "status":"error",
+                        "message": "user does not exist"
+                    }).end()
+            }
+        })
+        .catch(error => {
+            console.error(error);
+            next(error);
+        })
 });
 
 module.exports = usersRouter;
