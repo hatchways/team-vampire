@@ -27,7 +27,7 @@ meetingsRouter.post("/", (request, response, next) => {
 
 // Fetch/Read All meetings
 meetingsRouter.get("/", (request, response) => {
-    User.find({}).then(meetings => {
+    Meeting.find({}).then(meetings => {
         response.json(meetings);
     });
 });
