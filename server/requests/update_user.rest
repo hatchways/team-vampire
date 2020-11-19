@@ -1,0 +1,6 @@
+PATCH http://localhost:3001/api/users/
+Content-Type: application/json
+
+{
+    "email":"thanos@endgame.com",
+}

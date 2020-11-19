@@ -44,24 +44,44 @@ app.use(express.static(join(__dirname, "public")));
 app.use("/", indexRouter);
 app.use("/ping", pingRouter);
 
-// catch 404 and forward to error handler
-app.use(function(req, res, next) {
-  next(createError(404));
-});
+const unknownEndpoint = (request, response) => {
+  response.status(404).send({ error: 'unknown endpoint' })
+}
 
-// error handler
-app.use(function(err, req, res, next) {
-  console.error(err.stack);
-  // set locals, only providing error in development
-  res.locals.message = err.message;
-  res.locals.error = req.app.get("env") === "development" ? err : {};
+app.use(unknownEndpoint)
 
-  // render the error page
-  res.status(err.status || 500);
-  res.json({ error: err });
-});
+const errorHandler = (error, request, response, next) => {
+  console.error(error.message)
+
+  if (error.name === 'CastError') {
+    return response.status(400).send({ error: 'malformatted id' })
+  } else if (error.name === 'ValidationError') {    
+    return response.status(400).json({ error: error.message })  
+  }
+  next(error)
+}
+
+app.use(errorHandler);
 
 module.exports = app;
+
+// catch 404 and forward to error handler
+// app.use(function(req, res, next) {
+//   next(createError(404));
+// });
+
+// // error handler
+// app.use(function(err, req, res, next) {
+//   console.error(err.message);
+//   // set locals, only providing error in development
+//   res.locals.message = err.message;
+//   res.locals.error = req.app.get("env") === "development" ? err : {};
+
+//   // render the error page
+//   res.status(err.status || 500);
+//   res.json({ error: err });
+// });
+
 
 // Testing Database Out - Will Delete or Move to another folder
 

@@ -15,18 +15,15 @@ usersRouter.post("/", (request, response, next) => {
             console.log(savedUser);
             response.json(savedUser);
         })
-        .catch(error => {
-            console.error(error);
-            response.json(error);
-            next(error)
-        });
+        .catch(error => next(error));
 });
 
 // Fetch/Read All Users
 usersRouter.get("/", (request, response) => {
     User.find({}).then(users => {
         response.json(users);
-    });
+    })
+    .catch(error => next(error));
 });
 
 // Fetch/Read Single User
