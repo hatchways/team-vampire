@@ -64,7 +64,7 @@ appointmentsRouter.patch("/:id", (request, response, next) => {
                 response.status(404)
                     .json({
                         "status":"error",
-                        "message": "availability does not exist"
+                        "message": "appointment does not exist"
                     }).end();
             }
 
