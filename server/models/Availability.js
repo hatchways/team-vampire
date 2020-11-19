@@ -1,5 +1,5 @@
 const { Schema, model } = require("mongoose");
-const User = require("./User");
+const { User } = require("./");
 
 const availabilitySchema = new Schema({
     user:       { type: Schema.Types.ObjectId, ref: "User" },
