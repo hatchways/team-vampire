@@ -1,4 +1,4 @@
-PATCH http://localhost:3001/api/users/
+PATCH http://localhost:3001/api/users/thanos
 Content-Type: application/json
 
 {

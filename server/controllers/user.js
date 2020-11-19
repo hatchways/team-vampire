@@ -23,7 +23,7 @@ usersRouter.get("/", (request, response) => {
     User.find({}).then(users => {
         response.json(users);
     })
-    .catch(error => next(error));
+        .catch(error => next(error));
 });
 
 // Fetch/Read Single User
@@ -33,13 +33,13 @@ usersRouter.get("/:username", (request, response, next) => {
         .then(user => {
             if (user) {
                 console.log("user", user);
-                response.json(user)
+                response.json(user);
             } else {
                 response.status(404)
                     .json({
                         "status":"error",
                         "message": "user does not exist"
-                    }).end()
+                    }).end();
             }
         })
         .catch(error => next(error));
@@ -48,16 +48,10 @@ usersRouter.get("/:username", (request, response, next) => {
 // Update User - PROBABLY NEEDS TO BE CHANGED TO PATCH ROUTE
 // How to make this an authenticated route?
 usersRouter.patch("/:username", (request, response, next) => {
+    console.log(request.params);
+    const userName = request.params.username;
     const body = request.body;
-    const user = {
-        userName:       body.userName,
-        firstName:      body.firstName,
-        lastName:       body.lastName,
-        email:          body.email, 
-        timezone:       body.timezon,
-        profilePicture: body.profilePicture,
-    }
-    User.findOneAndUpdate({ userName:body.userName }, user)
+    User.findOneAndUpdate({ userName:userName }, body)
         .then(updatedUser => response.json(updatedUser))
         .catch(error => next(error));
 });

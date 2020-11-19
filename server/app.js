@@ -1,4 +1,5 @@
 const config = require("./utils/config");
+const middleware = require("./utils/middleware");
 
 // const createError = require("http-errors");
 const express = require("express");
@@ -26,6 +27,8 @@ db.once("open", function(){
 });
 
 app.use(express.json());
+app.use(middleware.requestLogger);
+
 
 // Controllers
 const { usersRouter, availabilitiesRouter, meetingTypesRouter, appointmentsRouter } = require("./controllers/");
@@ -44,24 +47,8 @@ app.use(express.static(join(__dirname, "public")));
 app.use("/", indexRouter);
 app.use("/ping", pingRouter);
 
-const unknownEndpoint = (request, response) => {
-    response.status(404).send({ error: "unknown endpoint" });
-};
-
-app.use(unknownEndpoint);
-
-const errorHandler = (error, request, response, next) => {
-    console.error(error.message);
-
-    if (error.name === "CastError") {
-        return response.status(400).send({ error: "malformatted id" });
-    } else if (error.name === "ValidationError") {    
-        return response.status(400).json({ error: error.message });  
-    }
-    next(error);
-};
-
-app.use(errorHandler);
+app.use(middleware.unknownEndpoint);
+app.use(middleware.errorHandler);
 
 module.exports = app;
 

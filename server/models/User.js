@@ -11,8 +11,8 @@ const userSchema = new Schema({
     stripeCustomerId: String,
     createdAt:        { type: Date, default: Date.now }, 
     updatedAt:        { type: Date, default: Date.now },
-  });
+});
   
-  const User = model("User", userSchema);
+const User = model("User", userSchema);
 
-  module.exports = { userSchema, User };
+module.exports = { userSchema, User };

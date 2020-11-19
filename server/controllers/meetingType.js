@@ -24,10 +24,10 @@ meetingTypesRouter.post("/", (request, response, next) => {
 });
 
 // Fetch/Read All meetings
-meetingTypesRouter.get("/", (request, response) => {
+meetingTypesRouter.get("/", (request, response, next) => {
     MeetingType.find({})
-    .then(meetingTypes => response.json(meetingTypes))
-    .catch(error => next(error));
+        .then(meetingTypes => response.json(meetingTypes))
+        .catch(error => next(error));
 });
 
 module.exports = meetingTypesRouter;
