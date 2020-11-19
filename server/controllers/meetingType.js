@@ -20,18 +20,14 @@ meetingTypesRouter.post("/", (request, response, next) => {
             console.log(savedMeetingType);
             response.json(savedMeetingType);
         })
-        .catch(error => {
-            console.error(error);
-            response.json(error);
-            next(error)
-        });
+        .catch(error => next(error));
 });
 
 // Fetch/Read All meetings
 meetingTypesRouter.get("/", (request, response) => {
-    MeetingType.find({}).then(meetingTypes => {
-        response.json(meetingTypes);
-    });
+    MeetingType.find({})
+    .then(meetingTypes => response.json(meetingTypes))
+    .catch(error => next(error));
 });
 
 module.exports = meetingTypesRouter;

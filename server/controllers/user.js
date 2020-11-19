@@ -45,10 +45,7 @@ usersRouter.get("/:username", (request, response, next) => {
                     }).end()
             }
         })
-        .catch(error => {
-            console.error(error);
-            next(error);
-        })
+        .catch(error => next(error));
 });
 
 // Update User - PROBABLY NEEDS TO BE CHANGED TO PATCH ROUTE
@@ -67,14 +64,8 @@ usersRouter.patch("/:username", (request, response, next) => {
 
 
     User.findOneAndUpdate({ userName:userName }, user)
-        .then(updatedUser => {
-            response.json(updatedUser)
-        })
-        .catch(error => {
-            console.error(error);
-            response.json(error);
-            next(error);
-        });
+        .then(updatedUser => response.json(updatedUser))
+        .catch(error => next(error));
 });
 
 module.exports = usersRouter;

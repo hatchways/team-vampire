@@ -18,18 +18,14 @@ availabilitiesRouter.post("/", (request, response, next) => {
             console.log(savedAvailability);
             response.json(savedAvailability);
         })
-        .catch(error => {
-            console.error(error);
-            response.json(error);
-            next(error)
-        });
+        .catch(error => next(error));
 });
 
 // Fetch/Read All Availabilities
 availabilitiesRouter.get("/", (request, response) => {
-    User.find({}).then(availabilities => {
-        response.json(availabilities);
-    });
+    User.find({})
+        .then(availabilities => response.json(availabilities))
+        .catch(error => next(error));
 });
 
 module.exports = availabilitiesRouter;

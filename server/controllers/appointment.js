@@ -22,18 +22,14 @@ appointmentsRouter.post("/", (request, response, next) => {
             console.log(savedAppointments);
             response.json(savedAppointments);
         })
-        .catch(error => {
-            console.error(error);
-            response.json(error);
-            next(error)
-        });
+        .catch(error => next(error));
 });
 
 // Fetch/Read All Appointmentss
 appointmentsRouter.get("/", (request, response) => {
-    Appointment.find({}).then(appointments => {
-        response.json(appointments);
-    });
+    Appointment.find({})
+        .then(appointments => response.json(appointments))
+        .catch(error => next(error));
 });
 
 module.exports = appointmentsRouter;
