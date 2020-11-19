@@ -1,6 +1,6 @@
-const config = require('./utils/config');
+const config = require("./utils/config");
 
-const createError = require("http-errors");
+// const createError = require("http-errors");
 const express = require("express");
 const { join } = require("path");
 const cookieParser = require("cookie-parser");
@@ -20,12 +20,12 @@ const mongoDB = `mongodb://${config.DB_SERVER}/${config.DB_NAME}`;
 mongoose.connect(mongoDB, { useNewUrlParser: true, useUnifiedTopology: true });
 const db = mongoose.connection;
 db.once("open", function(){
-  console.log("Database connected successfully");
+    console.log("Database connected successfully");
 }).on("error", function(err){
-  console.log("Error", err);
+    console.log("Error", err);
 });
 
-app.use(express.json())
+app.use(express.json());
 
 // Controllers
 const { usersRouter, availabilitiesRouter, meetingTypesRouter, appointmentsRouter } = require("./controllers/");
@@ -45,21 +45,21 @@ app.use("/", indexRouter);
 app.use("/ping", pingRouter);
 
 const unknownEndpoint = (request, response) => {
-  response.status(404).send({ error: 'unknown endpoint' })
-}
+    response.status(404).send({ error: "unknown endpoint" });
+};
 
-app.use(unknownEndpoint)
+app.use(unknownEndpoint);
 
 const errorHandler = (error, request, response, next) => {
-  console.error(error.message)
+    console.error(error.message);
 
-  if (error.name === 'CastError') {
-    return response.status(400).send({ error: 'malformatted id' })
-  } else if (error.name === 'ValidationError') {    
-    return response.status(400).json({ error: error.message })  
-  }
-  next(error)
-}
+    if (error.name === "CastError") {
+        return response.status(400).send({ error: "malformatted id" });
+    } else if (error.name === "ValidationError") {    
+        return response.status(400).json({ error: error.message });  
+    }
+    next(error);
+};
 
 app.use(errorHandler);
 
@@ -207,4 +207,4 @@ const showAllAppointments = async function() {
 
 showAllAppointments();
 */
- // TESTING MONGODB FUNCTIONALITY - WILL DELETE LATER
+// TESTING MONGODB FUNCTIONALITY - WILL DELETE LATER

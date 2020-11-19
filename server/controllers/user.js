@@ -49,7 +49,6 @@ usersRouter.get("/:username", (request, response, next) => {
 // How to make this an authenticated route?
 usersRouter.patch("/:username", (request, response, next) => {
     const body = request.body;
-
     const user = {
         userName:       body.userName,
         firstName:      body.firstName,
@@ -58,9 +57,7 @@ usersRouter.patch("/:username", (request, response, next) => {
         timezone:       body.timezon,
         profilePicture: body.profilePicture,
     }
-
-
-    User.findOneAndUpdate({ userName:userName }, user)
+    User.findOneAndUpdate({ userName:body.userName }, user)
         .then(updatedUser => response.json(updatedUser))
         .catch(error => next(error));
 });

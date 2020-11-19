@@ -6,7 +6,7 @@ const { Appointment } = require("../models/");
 appointmentsRouter.post("/", (request, response, next) => {
     const body = request.body;
     const time = new Date(body.time);
-    console.log(typeof time)
+    console.log(typeof time);
     console.log(time);
     const appointment = new Appointment({
         name:       body.name,
@@ -26,7 +26,7 @@ appointmentsRouter.post("/", (request, response, next) => {
 });
 
 // Fetch/Read All Appointmentss
-appointmentsRouter.get("/", (request, response) => {
+appointmentsRouter.get("/", (request, response, next) => {
     Appointment.find({})
         .then(appointments => response.json(appointments))
         .catch(error => next(error));

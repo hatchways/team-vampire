@@ -22,8 +22,8 @@ availabilitiesRouter.post("/", (request, response, next) => {
 });
 
 // Fetch/Read All Availabilities
-availabilitiesRouter.get("/", (request, response) => {
-    User.find({})
+availabilitiesRouter.get("/", (request, response, next) => {
+    Availability.find({})
         .then(availabilities => response.json(availabilities))
         .catch(error => next(error));
 });
