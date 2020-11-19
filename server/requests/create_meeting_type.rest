@@ -1,0 +1,8 @@
+POST http://localhost:3001/api/meeting_types
+Content-Type: application/json
+
+{
+    "name":"Thanos Project",
+    "description":"how to deal with half of the population",
+    "duration": 30
+}

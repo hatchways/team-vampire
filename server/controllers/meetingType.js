@@ -1,13 +1,13 @@
-const meetingsRouter = require("express").Router();
-const { Meeting, User } = require("../models");
+const meetingTypesRouter = require("express").Router();
+const { MeetingType, User } = require("../models");
 
 // Create Meeting
 // How to make this an authenticated route?
-meetingsRouter.post("/:username/", (request, response, next) => {
+meetingTypesRouter.post("/", (request, response, next) => {
     const body = request.body;
     // const userName = request.params.username;
-    const meeting = new Meeting({
-        user:           body.user, // User.findById({ userName: userName }) figure out the correct method
+    const meetingType = new MeetingType({
+        // user:           body.user, // User.findById({ userName: userName }) figure out the correct method
         name:           body.name,
         description:    body.description,
         duration:       body.endTime
@@ -15,10 +15,10 @@ meetingsRouter.post("/:username/", (request, response, next) => {
 
     // Need to add logic for connecting meeting to users availability
 
-    meeting.save()
-        .then(savedMeeting => {
-            console.log(savedMeeting);
-            response.json(savedMeeting);
+    meetingType.save()
+        .then(savedMeetingType => {
+            console.log(savedMeetingType);
+            response.json(savedMeetingType);
         })
         .catch(error => {
             console.error(error);
@@ -28,10 +28,10 @@ meetingsRouter.post("/:username/", (request, response, next) => {
 });
 
 // Fetch/Read All meetings
-meetingsRouter.get("/", (request, response) => {
-    Meeting.find({}).then(meetings => {
-        response.json(meetings);
+meetingTypesRouter.get("/", (request, response) => {
+    MeetingType.find({}).then(meetingTypes => {
+        response.json(meetingTypes);
     });
 });
 
-module.exports = meetingsRouter;
+module.exports = meetingTypesRouter;

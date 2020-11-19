@@ -32,7 +32,7 @@ const { usersRouter, availabilitiesRouter, meetingTypesRouter, appointmentsRoute
 app.use("/api/users", usersRouter);
 app.use("/api/availabilities", availabilitiesRouter);
 // app.use("/api/users/meetings"); // appointments will go in here
-app.use("/api/meetingTypes", meetingTypesRouter);
+app.use("/api/meeting_types", meetingTypesRouter);
 app.use("/api/appointments", appointmentsRouter);
 
 app.use(logger("dev"));
