@@ -8,8 +8,8 @@ const meetingTypeSchema = new Schema({
     duration:     { type: Number, required: true, default: 60 },
     createdAt:    { type: Date, default: Date.now }, 
     updatedAt:    { type: Date, default: Date.now },  
-  });
+});
   
-  const MeetingType = model("MeetingType", meetingTypeSchema);
+const MeetingType = model("MeetingType", meetingTypeSchema);
 
-  module.exports = { meetingTypeSchema, MeetingType };
+module.exports = { meetingTypeSchema, MeetingType };

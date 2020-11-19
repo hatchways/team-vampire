@@ -30,4 +30,41 @@ meetingTypesRouter.get("/", (request, response, next) => {
         .catch(error => next(error));
 });
 
+// Update Meeting Type
+meetingTypesRouter.patch("/:id", (request, response, next) => {
+    console.log(request.params);
+    const body = request.body;
+
+    MeetingType.findById(request.params.id)
+        .then(meetingType => {
+            console.log(meetingType);
+            if (meetingType) { // Update meetingType if the following keys exist in body
+                if (body.name) {
+                    meetingType.name = body.name;
+                }
+                if (body.description) {
+                    meetingType.description = body.description;
+                }
+                if (body.duration) {
+                    meetingType.duration = body.duration;
+                }
+
+                meetingType.updatedAt = Date(Date.now());
+
+                meetingType.save();
+                response.json(meetingType);
+
+
+            } else {
+                response.status(404)
+                    .json({
+                        "status":"error",
+                        "message": "meeting type does not exist"
+                    }).end();
+            }
+
+        })
+        .catch(error => next(error));
+});
+
 module.exports = meetingTypesRouter;

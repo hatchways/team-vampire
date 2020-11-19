@@ -28,4 +28,41 @@ availabilitiesRouter.get("/", (request, response, next) => {
         .catch(error => next(error));
 });
 
+// Update Availabity
+availabilitiesRouter.patch("/:id", (request, response, next) => {
+    console.log(request.params);
+    const body = request.body;
+
+    Availability.findById(request.params.id)
+        .then(availability => {
+            console.log(availability);
+            if (availability) { // Update availability if the following keys exist in body
+                if (body.day) {
+                    availability.day = body.day;
+                }
+                if (body.startTime) {
+                    availability.startTime = body.startTime;
+                }
+                if (body.endTime) {
+                    availability.endTime = body.endTime;
+                }
+
+                availability.updatedAt = Date(Date.now());
+
+                availability.save();
+                response.json(availability);
+
+
+            } else {
+                response.status(404)
+                    .json({
+                        "status":"error",
+                        "message": "availability does not exist"
+                    }).end();
+            }
+
+        })
+        .catch(error => next(error));
+});
+
 module.exports = availabilitiesRouter;

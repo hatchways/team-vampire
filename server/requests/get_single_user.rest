@@ -1,1 +1,1 @@
-GET http://localhost:3001/api/users/tony_stark
+GET http://localhost:3001/api/users/thanos

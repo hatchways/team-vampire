@@ -32,4 +32,44 @@ appointmentsRouter.get("/", (request, response, next) => {
         .catch(error => next(error));
 });
 
+// Update Appointments
+appointmentsRouter.patch("/:id", (request, response, next) => {
+    console.log(request.params);
+    const body = request.body;
+
+    Appointment.findById(request.params.id)
+        .then(appointment => {
+            console.log(appointment);
+            if (appointment) { // Update appointment if the following keys exist in body
+                if (body.name) {
+                    appointment.name = body.name;
+                }
+                if (body.email) {
+                    appointment.email = body.email;
+                }
+                if (body.time) {
+                    appointment.time = body.time;
+                }
+                if (body.timezone) {
+                    appointment.timezone = body.timezone;
+                }
+
+                appointment.updatedAt = Date(Date.now());
+
+                appointment.save();
+                response.json(appointment);
+
+
+            } else {
+                response.status(404)
+                    .json({
+                        "status":"error",
+                        "message": "availability does not exist"
+                    }).end();
+            }
+
+        })
+        .catch(error => next(error));
+});
+
 module.exports = appointmentsRouter;

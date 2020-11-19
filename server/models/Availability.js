@@ -8,8 +8,8 @@ const availabilitySchema = new Schema({
     endTime:    { type: Number, required: true, default: 1020 },
     createdAt:  { type: Date, default: Date.now }, 
     updatedAt:  { type: Date, default: Date.now },  
-  });
+});
   
-  const Availability = model("Availability", availabilitySchema);
+const Availability = model("Availability", availabilitySchema);
 
-  module.exports = Availability;
+module.exports = Availability;

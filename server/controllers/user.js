@@ -19,7 +19,7 @@ usersRouter.post("/", (request, response, next) => {
 });
 
 // Fetch/Read All Users
-usersRouter.get("/", (request, response) => {
+usersRouter.get("/", (request, response, next) => {
     User.find({}).then(users => {
         response.json(users);
     })
@@ -49,10 +49,46 @@ usersRouter.get("/:username", (request, response, next) => {
 // How to make this an authenticated route?
 usersRouter.patch("/:username", (request, response, next) => {
     console.log(request.params);
-    const userName = request.params.username;
     const body = request.body;
-    User.findOneAndUpdate({ userName:userName }, body)
-        .then(updatedUser => response.json(updatedUser))
+
+    User.findOne({ userName:request.params.username })
+        .then(user => {
+            console.log(user);
+            if (user) { // Update User if the following keys exist in body
+                if (body.userName) {
+                    user.userName = body.userName;
+                }
+                if (body.firstName) {
+                    user.firstName = body.firstName;
+                }
+                if (body.lastName) {
+                    user.lastName = body.lastName;
+                }
+                if (body.email) {
+                    user.email = body.email;
+                }
+                if (body.timezone) {
+                    user.timezone = body.timezone;
+                }
+                if (body.profilePicture) {
+                    user.profilePicture = body.profilePicture;
+                }
+
+                user.updatedAt = Date(Date.now());
+
+                user.save();
+                response.json(user);
+
+
+            } else {
+                response.status(404)
+                    .json({
+                        "status":"error",
+                        "message": "user does not exist"
+                    }).end();
+            }
+
+        })
         .catch(error => next(error));
 });
 
