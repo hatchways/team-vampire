@@ -1,11 +1,13 @@
 const meetingsRouter = require("express").Router();
-const { Meeting } = require("../models/");
+const { Meeting, User } = require("../models");
 
 // Create Meeting
 // How to make this an authenticated route?
-meetingsRouter.post("/", (request, response, next) => {
+meetingsRouter.post("/:username/", (request, response, next) => {
     const body = request.body;
+    // const userName = request.params.username;
     const meeting = new Meeting({
+        user:           body.user, // User.findById({ userName: userName }) figure out the correct method
         name:           body.name,
         description:    body.description,
         duration:       body.endTime

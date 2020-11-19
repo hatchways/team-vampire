@@ -1,7 +1,7 @@
 const { Schema, model } = require("mongoose");
 const User = require("./User");
 
-const meetingSchema = new Schema({
+const meetingTypeSchema = new Schema({
     user:         { type: Schema.Types.ObjectId, ref: "User" },
     name:         { type: String, default: "60 Minute Meeting" },
     description:  { type: String, default: "One-on-One" },
@@ -10,6 +10,6 @@ const meetingSchema = new Schema({
     updatedAt:    { type: Date, default: Date.now },  
   });
   
-  const Meeting = model("Meeting", meetingSchema);
+  const MeetingType = model("MeetingType", meetingTypeSchema);
 
-  module.exports = { meetingSchema, Meeting };
+  module.exports = { meetingTypeSchema, MeetingType };

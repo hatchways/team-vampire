@@ -1,8 +1,8 @@
 const { Schema, model } = require("mongoose");
-const Meeting = require("./Meeting");
+const MeetingType = require("./MeetingType");
 
 const appointmentSchema = new Schema({
-    meeting:      { type: Schema.Types.ObjectId, ref: "Meeting" },
+    meetingType:  { type: Schema.Types.ObjectId, ref: "MeetingType" },
     name:         { type: String, required: true, default: "My Appointment" },
     email:        { type: String, required: true, default: "nickfury@shield.com" },
     time:         { type: Date, required: true, default: Date.now },

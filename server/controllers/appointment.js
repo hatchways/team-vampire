@@ -31,8 +31,8 @@ appointmentsRouter.post("/", (request, response, next) => {
 
 // Fetch/Read All Appointmentss
 appointmentsRouter.get("/", (request, response) => {
-    Appointment.find({}).then(Appointments => {
-        response.json(Appointments);
+    Appointment.find({}).then(appointments => {
+        response.json(appointments);
     });
 });
 

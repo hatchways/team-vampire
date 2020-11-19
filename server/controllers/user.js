@@ -53,7 +53,7 @@ usersRouter.get("/:username", (request, response, next) => {
 
 // Update User - PROBABLY NEEDS TO BE CHANGED TO PATCH ROUTE
 // How to make this an authenticated route?
-usersRouter.put("/:username", (request, response, next) => {
+usersRouter.patch("/:username", (request, response, next) => {
     const body = request.body;
 
     const user = {

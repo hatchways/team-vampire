@@ -28,10 +28,11 @@ db.once("open", function(){
 app.use(express.json())
 
 // Controllers
-const { usersRouter, availabilitiesRouter, meetingsRouter, appointmentsRouter } = require("./controllers/");
+const { usersRouter, availabilitiesRouter, meetingTypesRouter, appointmentsRouter } = require("./controllers/");
 app.use("/api/users", usersRouter);
 app.use("/api/availabilities", availabilitiesRouter);
-app.use("/api/meetings", meetingsRouter);
+// app.use("/api/users/meetings"); // appointments will go in here
+app.use("/api/meetingTypes", meetingTypesRouter);
 app.use("/api/appointments", appointmentsRouter);
 
 app.use(logger("dev"));
