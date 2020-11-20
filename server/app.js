@@ -1,18 +1,12 @@
 const config = require("./utils/config");
-const middleware = require("./utils/middleware");
-
-// const createError = require("http-errors");
 const express = require("express");
+// const createError = require("http-errors"); // not using this for now since using errors middleware
+const app = express();
 const { join } = require("path");
 const cookieParser = require("cookie-parser");
-const logger = require("morgan");
-
-const indexRouter = require("./routes/index");
-const pingRouter = require("./routes/ping");
-
-const { json, urlencoded } = express;
-
-var app = express();
+// const logger = require("morgan"); // not using this for now since using logger from ./utils/logger
+const logger = require("./utils/logger");
+const middleware = require("./utils/middleware");
 
 // Database Setup
 
@@ -21,13 +15,18 @@ const mongoDB = `mongodb://${config.DB_SERVER}/${config.DB_NAME}`;
 mongoose.connect(mongoDB, { useNewUrlParser: true, useUnifiedTopology: true });
 const db = mongoose.connection;
 db.once("open", function(){
-    console.log("Database connected successfully");
+    logger.info("Database connected successfully");
 }).on("error", function(err){
-    console.log("Error", err);
+    logger.error("Error", err);
 });
+
+const { json, urlencoded } = express;
 
 app.use(express.json());
 app.use(middleware.requestLogger);
+
+const indexRouter = require("./routes/index");
+const pingRouter = require("./routes/ping");
 
 
 // Controllers
@@ -38,7 +37,7 @@ app.use("/api/availabilities", availabilitiesRouter);
 app.use("/api/meeting_types", meetingTypesRouter);
 app.use("/api/appointments", appointmentsRouter);
 
-app.use(logger("dev"));
+// app.use(logger("dev")); // not using this for now since using logger from ./utils/logger.js
 app.use(json());
 app.use(urlencoded({ extended: false }));
 app.use(cookieParser());
