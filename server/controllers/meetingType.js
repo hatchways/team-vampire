@@ -64,6 +64,7 @@ meetingTypesRouter.patch("/:id", async (request, response) => {
     }
 });
 
+// Delete Meeting Type
 meetingTypesRouter.delete("/:id", async (request, response) => {
     await MeetingType.findByIdAndRemove(request.params.id);
     response.status(204).end();

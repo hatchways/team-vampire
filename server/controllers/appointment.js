@@ -63,6 +63,7 @@ appointmentsRouter.patch("/:id", async (request, response) => {
     }
 });
 
+// Delete Appointments
 appointmentsRouter.delete("/:id", async (request, response) => {
     await Appointment.findByIdAndRemove(request.params.id);
     response.status(204).end();

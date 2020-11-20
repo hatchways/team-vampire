@@ -22,47 +22,54 @@ availabilitiesRouter.post("/", async (request, response, next) => {
 });
 
 // Fetch/Read All Availabilities
-availabilitiesRouter.get("/", (request, response, next) => {
-    Availability.find({})
-        .then(availabilities => response.json(availabilities))
-        .catch(error => next(error));
+availabilitiesRouter.get("/", async (request, response) => {
+    const availabilities = await Availability.find({})
+        .populate("user", {
+            userName: 1,
+            firstName: 1,
+            lastName: 1,
+            email: 1,
+            timezone: 1
+        });
+    response.json(availabilities);
 });
 
 // Update Availabity
-availabilitiesRouter.patch("/:id", (request, response, next) => {
-    console.log(request.params);
+availabilitiesRouter.patch("/:id", async (request, response) => {
     const body = request.body;
 
-    Availability.findById(request.params.id)
-        .then(availability => {
-            console.log(availability);
-            if (availability) { // Update availability if the following keys exist in body
-                if (body.day) {
-                    availability.day = body.day;
-                }
-                if (body.startTime) {
-                    availability.startTime = body.startTime;
-                }
-                if (body.endTime) {
-                    availability.endTime = body.endTime;
-                }
+    const availability = await Availability.findById(request.params.id);
 
-                availability.updatedAt = Date(Date.now());
+    if (availability) { // Update availability if the following keys exist in body
+        if (body.day) {
+            availability.day = body.day;
+        }
+        if (body.startTime) {
+            availability.startTime = body.startTime;
+        }
+        if (body.endTime) {
+            availability.endTime = body.endTime;
+        }
 
-                availability.save();
-                response.json(availability);
+        availability.updatedAt = Date(Date.now());
+
+        await availability.save();
+        response.json(availability);
 
 
-            } else {
-                response.status(404)
-                    .json({
-                        "status":"error",
-                        "message": "availability does not exist"
-                    }).end();
-            }
+    } else {
+        response.status(404)
+            .json({
+                "status":"error",
+                "message": "availability does not exist"
+            }).end();
+    }
+});
 
-        })
-        .catch(error => next(error));
+// Delete Availability
+availabilitiesRouter.delete("/:id", async (request, response) => {
+    await Availability.findByIdAndRemove(request.params.id);
+    response.status(204).end();
 });
 
 module.exports = availabilitiesRouter;

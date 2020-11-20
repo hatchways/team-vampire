@@ -77,6 +77,7 @@ usersRouter.patch("/:username", async (request, response) => {
     }
 });
 
+// Delete User
 usersRouter.delete("/:id", async (request, response) => {
     await User.findByIdAndRemove(request.params.id);
     response.status(204).end();
