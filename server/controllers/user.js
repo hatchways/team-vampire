@@ -17,13 +17,51 @@ usersRouter.post("/", async (request, response) => {
 
 // Fetch/Read All Users
 usersRouter.get("/", async (request, response) => {
-    const users = await User.find({});
+    const users = await User.find({})
+        .populate("availabilities", {
+            day: 1,
+            startTime: 1,
+            endTime: 1
+        })
+        .populate({
+            path: "meetingTypes",
+            model: "MeetingType",
+            populate: {
+                path: "appointments",
+                model: "Appointment",
+                select: {
+                    "name": 1,
+                    "email": 1,
+                    "time": 1,
+                    "timezone": 1
+                }
+            }
+        });
     response.json(users.map(user => user.toJSON()));
 });
 
 // Fetch/Read Single User
 usersRouter.get("/:username", async (request, response) => {
-    const user = await User.findOne({ userName:request.params.username });
+    const user = await User.findOne({ userName:request.params.username })
+        .populate("availabilities", {
+            day: 1,
+            startTime: 1,
+            endTime: 1
+        })
+        .populate({
+            path: "meetingTypes",
+            model: "MeetingType",
+            populate: {
+                path: "appointments",
+                model: "Appointment",
+                select: {
+                    "name": 1,
+                    "email": 1,
+                    "time": 1,
+                    "timezone": 1
+                }
+            }
+        });
     if (user) {
         response.json(user.toJSON());
     } else {
