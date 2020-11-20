@@ -2,7 +2,7 @@ POST http://localhost:3001/api/users
 Content-Type: application/json
 
 {
-    "userName":"tony_stark",
-    "email":"bruce@wayne.com",
-    "accessToken": "tonys_access"
+    "userName":"scott_long",
+    "email":"ant@man.com",
+    "accessToken": "antmans_access_token"
 }

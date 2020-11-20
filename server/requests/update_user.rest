@@ -2,6 +2,5 @@ PATCH http://localhost:3001/api/users/tony_stark
 Content-Type: application/json
 
 {
-    "email":"iron_man@avengers.com",
-    "firstName":"Tony"
+    "lastName":"Stark"
 }
