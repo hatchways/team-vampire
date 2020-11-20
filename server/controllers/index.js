@@ -4,4 +4,13 @@ const availabilitiesRouter = require("./availability");
 const meetingTypesRouter = require("./meetingType");
 const appointmentsRouter = require("./appointment");
 
-module.exports = { authRouter, usersRouter, availabilitiesRouter, meetingTypesRouter, appointmentsRouter };
+const testRouter = require("./test");
+
+module.exports = { 
+    authRouter,
+    usersRouter,
+    availabilitiesRouter,
+    meetingTypesRouter,
+    appointmentsRouter,
+    testRouter
+};

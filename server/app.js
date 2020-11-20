@@ -56,12 +56,22 @@ app.use("/", indexRouter);
 app.use("/ping", pingRouter);
 
 // Controllers
-const { authRouter, usersRouter, availabilitiesRouter, meetingTypesRouter, appointmentsRouter } = require("./controllers/");
+const { 
+    authRouter, 
+    usersRouter,
+    availabilitiesRouter,
+    meetingTypesRouter,
+    appointmentsRouter,
+    testRouter
+} = require("./controllers/");
+
 app.use("/api/auth", authRouter);
 app.use("/api/users", usersRouter);
 app.use("/api/availabilities", availabilitiesRouter);
 app.use("/api/meeting_types", meetingTypesRouter);
 app.use("/api/appointments", appointmentsRouter);
+
+app.use("/api/test", testRouter);
 
 app.use(middleware.unknownEndpoint);
 app.use(middleware.errorHandler);
