@@ -3,7 +3,7 @@ const authRouter = require("express").Router();
 
 // @desc Auth with Google
 // @route GET / 
-authRouter.get("/google", passport.authenticate("google", { scope: ["profile"] }));
+authRouter.get("/google", passport.authenticate("google", { scope: ["profile", "email"] }));
 
 // @desc Google Auth Callback
 // @route GET /auth/google/callback

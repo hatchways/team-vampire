@@ -9,7 +9,26 @@ module.exports = function(passport) {
         callbackURL: "/api/auth/google/callback"
     },
     async (accessToken, refreshToken, profile, done) => {
-        console.log(profile);
+        const newUser = {
+            googleId: profile.id,
+            firstName: profile.name.givenName,
+            lastName: profile.name.familyName,
+            email: profile.emails[0].value,
+            profilePicture: profile.photos[0].value
+        };
+
+        // Checks if user already exists
+        let user = await User.findOne({ googleId: profile.id });
+
+        if (user) {
+            console.log("user already exists");
+            done(null, user);
+        } else {
+            console.log("creating new user");
+            user = await User.create(newUser);
+            done(null, user);
+        }
+
     }
     ));
 
