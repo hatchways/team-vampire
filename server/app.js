@@ -1,5 +1,6 @@
 const config = require("./utils/config");
 const express = require("express");
+require("express-async-errors");
 // const createError = require("http-errors"); // not using this for now since using errors middleware
 const app = express();
 const { join } = require("path");
@@ -29,6 +30,7 @@ app.use(middleware.requestLogger);
 app.use(json());
 app.use(urlencoded({ extended: false }));
 app.use(cookieParser());
+// eslint-disable-next-line no-undef
 app.use(express.static(join(__dirname, "public")));
 
 const indexRouter = require("./routes/index");
@@ -48,6 +50,8 @@ app.use(middleware.unknownEndpoint);
 app.use(middleware.errorHandler);
 
 module.exports = app;
+
+// Not using Error Handler below
 
 // catch 404 and forward to error handler
 // app.use(function(req, res, next) {
