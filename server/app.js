@@ -56,7 +56,8 @@ app.use("/", indexRouter);
 app.use("/ping", pingRouter);
 
 // Controllers
-const { usersRouter, availabilitiesRouter, meetingTypesRouter, appointmentsRouter } = require("./controllers/");
+const { authRouter, usersRouter, availabilitiesRouter, meetingTypesRouter, appointmentsRouter } = require("./controllers/");
+app.use("/api/auth", authRouter);
 app.use("/api/users", usersRouter);
 app.use("/api/availabilities", availabilitiesRouter);
 app.use("/api/meeting_types", meetingTypesRouter);
