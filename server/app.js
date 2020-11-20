@@ -5,9 +5,14 @@ require("express-async-errors");
 const app = express();
 const { join } = require("path");
 const cookieParser = require("cookie-parser");
+const passport = require("passport");
+const session = require("express-session");
 // const logger = require("morgan"); // not using this for now since using logger from ./utils/logger
 const logger = require("./utils/logger");
 const middleware = require("./utils/middleware");
+
+// Passport Config
+require("./utils/passport")(passport);
 
 // Database Setup
 
@@ -25,6 +30,17 @@ const { json, urlencoded } = express;
 
 app.use(express.json());
 app.use(middleware.requestLogger);
+
+// Sessions
+app.use(session({
+    secret: "star lord",
+    resave: false, // don't save a session unlesss something is modified
+    saveUninitialized: false,
+}));
+
+// Passport Middleware
+app.use(passport.initialize());
+app.use(passport.session());
 
 // app.use(logger("dev")); // not using this for now since using logger from ./utils/logger.js
 app.use(json());
