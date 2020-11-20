@@ -12,7 +12,7 @@ const middleware = require("./utils/middleware");
 
 const mongoose = require("mongoose");
 const mongoDB = `mongodb://${config.DB_SERVER}/${config.DB_NAME}`;
-mongoose.connect(mongoDB, { useNewUrlParser: true, useUnifiedTopology: true });
+mongoose.connect(mongoDB, { useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex:true });
 const db = mongoose.connection;
 db.once("open", function(){
     logger.info("Database connected successfully");
@@ -25,26 +25,24 @@ const { json, urlencoded } = express;
 app.use(express.json());
 app.use(middleware.requestLogger);
 
-const indexRouter = require("./routes/index");
-const pingRouter = require("./routes/ping");
-
-
-// Controllers
-const { usersRouter, availabilitiesRouter, meetingTypesRouter, appointmentsRouter } = require("./controllers/");
-app.use("/api/users", usersRouter);
-app.use("/api/availabilities", availabilitiesRouter);
-// app.use("/api/users/meetings"); // appointments will go in here
-app.use("/api/meeting_types", meetingTypesRouter);
-app.use("/api/appointments", appointmentsRouter);
-
 // app.use(logger("dev")); // not using this for now since using logger from ./utils/logger.js
 app.use(json());
 app.use(urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(join(__dirname, "public")));
 
+const indexRouter = require("./routes/index");
+const pingRouter = require("./routes/ping");
+
 app.use("/", indexRouter);
 app.use("/ping", pingRouter);
+
+// Controllers
+const { usersRouter, availabilitiesRouter, meetingTypesRouter, appointmentsRouter } = require("./controllers/");
+app.use("/api/users", usersRouter);
+app.use("/api/availabilities", availabilitiesRouter);
+app.use("/api/meeting_types", meetingTypesRouter);
+app.use("/api/appointments", appointmentsRouter);
 
 app.use(middleware.unknownEndpoint);
 app.use(middleware.errorHandler);
