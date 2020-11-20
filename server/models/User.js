@@ -1,4 +1,5 @@
 const { Schema, model } = require("mongoose");
+const uniqueValidator = require("mongoose-unique-validator");
 
 const userSchema = new Schema({
     userName:         { type: String, index: true, unique: true, sparse: true }, // not sure if this is the standard implementation to allow null to not be unique
@@ -24,6 +25,8 @@ const userSchema = new Schema({
     createdAt:        { type: Date, default: Date.now }, 
     updatedAt:        { type: Date, default: Date.now },
 });
+
+userSchema.plugin(uniqueValidator);
 
 // Format objects returned by Mongoose
 userSchema.set("toJSON", {
