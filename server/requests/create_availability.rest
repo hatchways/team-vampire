@@ -1,0 +1,10 @@
+POST http://localhost:3001/api/availabilities
+Content-Type: application/json
+
+{
+    "userId":"5fb4a1c7408ae616504533e7",
+    "day": 2,
+    "startTime": 200,
+    "endTime": 900
+}
+

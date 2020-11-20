@@ -2,7 +2,8 @@ POST http://localhost:3001/api/meeting_types
 Content-Type: application/json
 
 {
-    "name":"Thanos Project",
-    "description":"how to deal with half of the population",
-    "duration": 30
+    "userId":"5fb7510befbf4b1e8923ae10",
+    "name":"Mark 121 Project Planning",
+    "description":"Talk about how we going to build the next suit.",
+    "duration": 45
 }

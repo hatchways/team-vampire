@@ -1,28 +1,33 @@
 const appointmentsRouter = require("express").Router();
-const { Appointment } = require("../models/");
+const { Appointment, MeetingType } = require("../models/");
 
 // Create Appointments
 // How to make this an authenticated route?
-appointmentsRouter.post("/", (request, response, next) => {
+appointmentsRouter.post("/", async (request, response) => {
     const body = request.body;
-    const time = new Date(body.time);
-    console.log(typeof time);
-    console.log(time);
+    const meetingType = await MeetingType.findById(body.meetingTypeId);
+    const time = new Date(body.time * 1000); // time entered in unix time stamp
+
     const appointment = new Appointment({
+        meetingType: meetingType._id,
         name:       body.name,
         email:      body.email,
         time:       time,
         timezone:   body.timezone
     });
 
-    // Need to add logic for connecting Appointments to users meeting
+    const savedAppointment = await appointment.save();
+    meetingType.appointments = meetingType.appointments.concat(savedAppointment._id);
+    await meetingType.save();
 
-    appointment.save()
-        .then(savedAppointments => {
-            console.log(savedAppointments);
-            response.json(savedAppointments);
-        })
-        .catch(error => next(error));
+    response.json(savedAppointment);
+
+    // appointment.save()
+    //     .then(savedAppointments => {
+    //         console.log(savedAppointments);
+    //         response.json(savedAppointments);
+    //     })
+    //     .catch(error => next(error));
 });
 
 // Fetch/Read All Appointmentss

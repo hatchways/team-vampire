@@ -1,0 +1,13 @@
+POST http://localhost:3001/api/appointments
+Content-Type: application/json
+
+{
+    "meetingTypeId":"5fb7510befbf4b1e8923ae10",
+    "name": "Justin Hammer",
+    "email": "justin@hammertech.com",
+    "time": 1608854400,
+    "timezone": "UTC -5"
+
+}
+
+

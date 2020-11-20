@@ -9,17 +9,16 @@ const userSchema = new Schema({
     profilePicture:   String,
     accessToken:      { type: String, required: true },
     stripeCustomerId: String,
-    availability: { type: Schema.Types.ObjectId, ref: "Availability" },
+    availabilities: [
+        { 
+            type: Schema.Types.ObjectId, 
+            ref: "Availability" 
+        }
+    ],
     meetingTypes: [
         {
             type: Schema.Types.ObjectId,
             ref: "MeetingType"
-        }
-    ],
-    appointments: [
-        {
-            type: Schema.Types.ObjectId,
-            ref: "Appointment"
         }
     ],
     createdAt:        { type: Date, default: Date.now }, 

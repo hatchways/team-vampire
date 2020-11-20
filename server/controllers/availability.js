@@ -1,24 +1,24 @@
 const availabilitiesRouter = require("express").Router();
-const { Availability } = require("../models/");
+const { Availability, User } = require("../models/");
 
 // Create Availability
 // How to make this an authenticated route?
-availabilitiesRouter.post("/", (request, response, next) => {
+availabilitiesRouter.post("/", async (request, response, next) => {
     const body = request.body;
+    const user = await User.findById(body.userId);
     const availability = new Availability({
+        user:       user._id,
         day:        body.day,
         startTime:  body.startTime,
         endTime:    body.endTime
     });
 
-    // Need to add logic for connecting availability to user
+    const savedAvailability = await availability.save();
+    user.availabilities = user.availabilities.concat(savedAvailability._id);
+    await user.save();
 
-    availability.save()
-        .then(savedAvailability => {
-            console.log(savedAvailability);
-            response.json(savedAvailability);
-        })
-        .catch(error => next(error));
+    response.json(savedAvailability);
+  
 });
 
 // Fetch/Read All Availabilities

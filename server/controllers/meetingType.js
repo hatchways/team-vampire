@@ -3,24 +3,21 @@ const { MeetingType, User } = require("../models");
 
 // Create Meeting
 // How to make this an authenticated route?
-meetingTypesRouter.post("/", (request, response, next) => {
+meetingTypesRouter.post("/", async (request, response) => {
     const body = request.body;
-    // const userName = request.params.username;
+    const user = await User.findById(body.userId);
     const meetingType = new MeetingType({
-        // user:           body.user, // User.findById({ userName: userName }) figure out the correct method
+        user:           user._id, 
         name:           body.name,
         description:    body.description,
-        duration:       body.endTime
+        duration:       body.duration
     });
 
-    // Need to add logic for connecting meeting to users availability
+    const savedMeetingType = await meetingType.save();
+    user.meetingTypes = user.meetingTypes.concat(savedMeetingType._id);
+    await user.save();
 
-    meetingType.save()
-        .then(savedMeetingType => {
-            console.log(savedMeetingType);
-            response.json(savedMeetingType);
-        })
-        .catch(error => next(error));
+    response.json(savedMeetingType);
 });
 
 // Fetch/Read All meetings
