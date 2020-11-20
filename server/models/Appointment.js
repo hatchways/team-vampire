@@ -1,5 +1,4 @@
 const { Schema, model } = require("mongoose");
-const MeetingType = require("./MeetingType");
 
 const appointmentSchema = new Schema({
     meetingType:  { type: Schema.Types.ObjectId, ref: "MeetingType" },
@@ -9,8 +8,18 @@ const appointmentSchema = new Schema({
     timezone:     { type: String, required: true, default: "UTC 0" },
     createdAt:    { type: Date, default: Date.now }, 
     updatedAt:    { type: Date, default: Date.now },  
-  });
-  
-  const Appointment = model("Appointment", appointmentSchema);
+});
 
-  module.exports = Appointment;
+// Format objects returned by Mongoose
+appointmentSchema.set("toJSON", {
+    transform: (document, returnedObject) => {
+        returnedObject.id = returnedObject._id.toString();
+        delete returnedObject._id;
+        delete returnedObject.__v;
+    }
+});
+
+  
+const Appointment = model("Appointment", appointmentSchema);
+
+module.exports = Appointment;

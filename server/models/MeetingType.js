@@ -1,5 +1,4 @@
 const { Schema, model } = require("mongoose");
-const { User, Appointment } = require("./");
 
 const meetingTypeSchema = new Schema({
     user:         { type: Schema.Types.ObjectId, ref: "User" },
@@ -14,6 +13,15 @@ const meetingTypeSchema = new Schema({
     ], 
     createdAt:    { type: Date, default: Date.now }, 
     updatedAt:    { type: Date, default: Date.now },  
+});
+
+// Format objects returned by Mongoose
+meetingTypeSchema.set("toJSON", {
+    transform: (document, returnedObject) => {
+        returnedObject.id = returnedObject._id.toString();
+        delete returnedObject._id;
+        delete returnedObject.__v;
+    }
 });
   
 const MeetingType = model("MeetingType", meetingTypeSchema);
