@@ -2,13 +2,13 @@ const { Schema, model } = require("mongoose");
 const uniqueValidator = require("mongoose-unique-validator");
 
 const userSchema = new Schema({
+    googleId:         { type: String, required: true },
     userName:         { type: String, index: true, unique: true, sparse: true }, // not sure if this is the standard implementation to allow null to not be unique
-    firstName:        String,
-    lastName:         String,
+    firstName:        { type: String, required: true },
+    lastName:         { type: String, required: true },
     email:            { type: String, required: true, unique: true, lowercase: true }, 
     timezone:         String,
     profilePicture:   String,
-    accessToken:      { type: String, required: true },
     stripeCustomerId: String,
     availabilities: [
         { 
