@@ -1,0 +1,1 @@
+DELETE  http://localhost:3001/api/meeting_types/5fb5c30e82a0fc21886bd2d8

@@ -21,47 +21,52 @@ meetingTypesRouter.post("/", async (request, response) => {
 });
 
 // Fetch/Read All meetings
-meetingTypesRouter.get("/", (request, response, next) => {
-    MeetingType.find({})
-        .then(meetingTypes => response.json(meetingTypes))
-        .catch(error => next(error));
+meetingTypesRouter.get("/", async (request, response) => {
+    const meetingTypes = await MeetingType.find({})
+        .populate("appointments", {
+            name: 1,
+            email: 1,
+            time: 1,
+            timezone: 1
+        });
+    response.json(meetingTypes);
 });
 
 // Update Meeting Type
-meetingTypesRouter.patch("/:id", (request, response, next) => {
-    console.log(request.params);
+meetingTypesRouter.patch("/:id", async (request, response) => {
     const body = request.body;
 
-    MeetingType.findById(request.params.id)
-        .then(meetingType => {
-            console.log(meetingType);
-            if (meetingType) { // Update meetingType if the following keys exist in body
-                if (body.name) {
-                    meetingType.name = body.name;
-                }
-                if (body.description) {
-                    meetingType.description = body.description;
-                }
-                if (body.duration) {
-                    meetingType.duration = body.duration;
-                }
+    const meetingType = await MeetingType.findById(request.params.id);
 
-                meetingType.updatedAt = Date(Date.now());
+    if (meetingType) { // Update meetingType if the following keys exist in body
+        if (body.name) {
+            meetingType.name = body.name;
+        }
+        if (body.description) {
+            meetingType.description = body.description;
+        }
+        if (body.duration) {
+            meetingType.duration = body.duration;
+        }
 
-                meetingType.save();
-                response.json(meetingType);
+        meetingType.updatedAt = Date(Date.now());
+
+        await meetingType.save();
+        response.json(meetingType);
 
 
-            } else {
-                response.status(404)
-                    .json({
-                        "status":"error",
-                        "message": "meeting type does not exist"
-                    }).end();
-            }
+    } else {
+        response.status(404)
+            .json({
+                "status":"error",
+                "message": "meeting type does not exist"
+            }).end();
+    }
+});
 
-        })
-        .catch(error => next(error));
+meetingTypesRouter.delete("/:id", async (request, response) => {
+    await MeetingType.findByIdAndRemove(request.params.id);
+    response.status(204).end();
 });
 
 module.exports = meetingTypesRouter;
