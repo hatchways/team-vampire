@@ -7,6 +7,7 @@ const { join } = require("path");
 const cookieParser = require("cookie-parser");
 const passport = require("passport");
 const session = require("express-session");
+const MongoStore = require("connect-mongo")(session);
 // const logger = require("morgan"); // not using this for now since using logger from ./utils/logger
 const logger = require("./utils/logger");
 const middleware = require("./utils/middleware");
@@ -36,6 +37,7 @@ app.use(session({
     secret: "star lord",
     resave: false, // don't save a session unlesss something is modified
     saveUninitialized: false,
+    store: new MongoStore({ mongooseConnection: db }) // this doesn't force the user to logout when server restarts
 }));
 
 // Passport Middleware
