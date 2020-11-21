@@ -1,5 +1,6 @@
 const config = require("./utils/config");
 const express = require("express");
+const cors = require("cors");
 require("express-async-errors");
 // const createError = require("http-errors"); // not using this for now since using errors middleware
 const app = express();
@@ -31,11 +32,12 @@ const { json, urlencoded } = express;
 
 app.use(express.json());
 app.use(middleware.requestLogger);
+app.use(cors());
 
 // Sessions
 app.use(session({
     secret: "star lord",
-    resave: false, // don't save a session unlesss something is modified
+    resave: false, // don't save a session unless something is modified
     saveUninitialized: false,
     store: new MongoStore({ mongooseConnection: db }) // this doesn't force the user to logout when server restarts
 }));

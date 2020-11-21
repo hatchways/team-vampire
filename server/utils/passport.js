@@ -3,9 +3,12 @@ const mongoose = require("mongoose");
 const { User } = require("../models");
 
 module.exports = function(passport) {
+    // console.log(process.env.GOOGLE_CLIENT_ID);
     passport.use(new GoogleStrategy({
-        clientID: process.env.GOOGLE_CLIENT_ID,
-        clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+        // clientID: process.env.GOOGLE_CLIENT_ID,
+        clientID: "734201335677-kakgc3np91nr45ss5j9f5l89v6b29h0n.apps.googleusercontent.com",
+        // clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+        clientSecret: "cRH2vVlg-jcdto68q-Wr8Y9s",
         callbackURL: "/api/auth/google/callback"
     },
     async (accessToken, refreshToken, profile, done) => {
@@ -22,11 +25,11 @@ module.exports = function(passport) {
 
         if (user) {
             console.log("user already exists");
-            done(null, user);
+            return done(null, user);
         } else {
             console.log("creating new user");
             user = await User.create(newUser);
-            done(null, user);
+            return done(null, user);
         }
 
     }
