@@ -32,7 +32,12 @@ const { json, urlencoded } = express;
 
 app.use(express.json());
 app.use(middleware.requestLogger);
-app.use(cors());
+app.use(
+    cors({
+        origin: "http://localhost:3000",
+        methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
+        credentials: true // allow session cookie from browser to pass through
+    }));
 
 // Sessions
 app.use(session({

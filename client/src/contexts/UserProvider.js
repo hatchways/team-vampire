@@ -5,14 +5,31 @@ const UserProvider = ({ children }) => {
     const [user, setUser] = useState({});
 
     useEffect(() => {
-        fetch("/api/auth/users/me")
-            .then(res => {
-                res.json()
-            })
-            .then(res => setUser(res))
-            .catch(err => {
-                console.log(err);
+        fetch("http://localhost:3001/api/auth/users/me", {
+            method: "GET",
+            credentials: "include",
+            headers: {
+                Accept: "application/json",
+                "Content-Type": "application/json",
+                "Access-Control-Allow-Credentials": true
+            }
+        })
+        .then(response => {
+            if (response.status === 200) return response.json();
+            throw new Error("failed to authenticate user");
+          })
+          .then(responseJson => {
+            setUser({
+              authenticated: true,
+              user: responseJson.user
             });
+          })
+          .catch(error => {
+            setUser({
+              authenticated: false,
+              error: "Failed to authenticate user"
+            });
+          });
     }, []); 
 
     return (
