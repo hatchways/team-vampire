@@ -86,7 +86,7 @@ export default function SignUpGoogle(props) {
                                     // onClick={handleSignUpWithGoogle}
                                     startIcon={<VpnKeyIcon />}
                                     size="large"
-                                    href="http://localhost:3000/api/auth/google"
+                                    href="http://localhost:3001/api/auth/google"
                                 >
                                     Sign up with Google
           </Button>

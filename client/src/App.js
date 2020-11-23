@@ -33,16 +33,16 @@ function App() {
             <Route path="/profile">
               <Profile />
             </Route>
+            <Route path="/login">
+              <LogIn />
+            </Route>
+            <Route path="/googleSignUp">
+              <SignUpGoogle email={email} />
+            </Route>
+            <Route path='/' >
+              <SignUpEmail handleEmailEntry={handleEmailEntry} />
+            </Route>
           </UserProvider>
-          <Route path="/login">
-            <LogIn />
-          </Route>
-          <Route path="/googleSignUp">
-            <SignUpGoogle email={email} />
-          </Route>
-          <Route path='/' >
-            <SignUpEmail handleEmailEntry={handleEmailEntry} />
-          </Route>
         </Switch>
       </BrowserRouter>
 
