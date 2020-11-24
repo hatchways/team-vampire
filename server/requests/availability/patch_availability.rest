@@ -1,0 +1,8 @@
+PATCH http://localhost:3001/api/availabilities/5fb4a243408ae616504533e8
+Content-Type: application/json
+
+{
+    "day": 6,
+    "startTime": 359,
+    "endTime": 1030
+}

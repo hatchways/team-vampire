@@ -1,12 +1,10 @@
 import React from 'react';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
-// import TextField from '@material-ui/core/TextField';
 import Box from '@material-ui/core/Box';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import VpnKeyIcon from '@material-ui/icons/VpnKey';
-// import { Route, Link } from "react-router-dom";
 import Card from '@material-ui/core/Card';
 
 const useStyles = makeStyles((theme) => ({
@@ -56,9 +54,6 @@ const useStyles = makeStyles((theme) => ({
 
 export default function SignUpGoogle(props) {
     const classes = useStyles();
-    // const handleSignUpWithGoogle = (e) => {
-    // }
-
     return (
         <div className={classes.container}>
             <div className={classes.root}>
@@ -86,6 +81,7 @@ export default function SignUpGoogle(props) {
                                     // onClick={handleSignUpWithGoogle}
                                     startIcon={<VpnKeyIcon />}
                                     size="large"
+                                    href="http://localhost:3001/api/auth/google"
                                 >
                                     Sign up with Google
           </Button>

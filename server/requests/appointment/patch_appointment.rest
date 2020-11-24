@@ -1,0 +1,6 @@
+PATCH http://localhost:3001/api/appointments/5fb74c1cc3d5c21a43a73c84
+Content-Type: application/json
+
+{
+    "name":"Obediah Stane"
+}

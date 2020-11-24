@@ -1,0 +1,1 @@
+DELETE http://localhost:3001/api/availabilities/5fb4a243408ae616504533e8
