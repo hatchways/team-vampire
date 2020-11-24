@@ -1,8 +1,8 @@
 const meetingTypesRouter = require("express").Router();
 const { MeetingType, User } = require("../models");
 
-// Create Meeting
-// How to make this an authenticated route?
+// @desc Create Meeting
+// @route POST /
 meetingTypesRouter.post("/", async (request, response) => {
     const body = request.body;
     const user = await User.findById(body.userId);
@@ -20,7 +20,8 @@ meetingTypesRouter.post("/", async (request, response) => {
     response.json(savedMeetingType);
 });
 
-// Fetch/Read All meetings
+// @desc Fetch/Read All meetings
+// @route GET /
 meetingTypesRouter.get("/", async (request, response) => {
     const meetingTypes = await MeetingType.find({})
         .populate("appointments", {
@@ -32,7 +33,8 @@ meetingTypesRouter.get("/", async (request, response) => {
     response.json(meetingTypes);
 });
 
-// Update Meeting Type
+// @desc Update Meeting Type
+// @route PATCH /:id
 meetingTypesRouter.patch("/:id", async (request, response) => {
     const body = request.body;
 
@@ -64,7 +66,8 @@ meetingTypesRouter.patch("/:id", async (request, response) => {
     }
 });
 
-// Delete Meeting Type
+// @desc Delete Meeting Type
+// @route DELETE /:id
 meetingTypesRouter.delete("/:id", async (request, response) => {
     await MeetingType.findByIdAndRemove(request.params.id);
     response.status(204).end();

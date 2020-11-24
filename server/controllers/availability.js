@@ -1,9 +1,9 @@
 const availabilitiesRouter = require("express").Router();
 const { Availability, User } = require("../models/");
 
-// Create Availability
-// How to make this an authenticated route?
-availabilitiesRouter.post("/", async (request, response, next) => {
+// @desc Create Availability
+// @route POST /
+availabilitiesRouter.post("/", async (request, response) => {
     const body = request.body;
     const user = await User.findById(body.userId);
     const availability = new Availability({
@@ -21,7 +21,8 @@ availabilitiesRouter.post("/", async (request, response, next) => {
   
 });
 
-// Fetch/Read All Availabilities
+// @desc Fetch/Read All Availabilities
+// @route GET /
 availabilitiesRouter.get("/", async (request, response) => {
     const availabilities = await Availability.find({})
         .populate("user", {
@@ -34,7 +35,8 @@ availabilitiesRouter.get("/", async (request, response) => {
     response.json(availabilities);
 });
 
-// Update Availabity
+// @desc Update Availabity
+// @route PATCH /:id
 availabilitiesRouter.patch("/:id", async (request, response) => {
     const body = request.body;
 
@@ -66,7 +68,8 @@ availabilitiesRouter.patch("/:id", async (request, response) => {
     }
 });
 
-// Delete Availability
+// @desc Delete Availability
+// @route DELETE /:id
 availabilitiesRouter.delete("/:id", async (request, response) => {
     await Availability.findByIdAndRemove(request.params.id);
     response.status(204).end();

@@ -1,7 +1,8 @@
 const usersRouter = require("express").Router();
 const { User } = require("../models/");
 
-// Create User - WILL REPLACE WITH DATA RETRIEVED FROM GOOGLE AUTHORIZATION
+// @desc Create User - WILL REPLACE WITH DATA RETRIEVED FROM GOOGLE AUTHORIZATION
+// @route POST /
 usersRouter.post("/", async (request, response) => {
     const body = request.body;
     
@@ -15,7 +16,8 @@ usersRouter.post("/", async (request, response) => {
     response.json(savedUser.toJSON());
 });
 
-// Fetch/Read All Users
+// @desc Fetch/Read All Users
+// @route GET /
 usersRouter.get("/", async (request, response) => {
     const users = await User.find({})
         .populate("availabilities", {
@@ -40,7 +42,8 @@ usersRouter.get("/", async (request, response) => {
     response.json(users.map(user => user.toJSON()));
 });
 
-// Fetch/Read Single User
+// @desc Fetch/Read Single User
+// @route GET /:username
 usersRouter.get("/:username", async (request, response) => {
     const user = await User.findOne({ userName:request.params.username })
         .populate("availabilities", {
@@ -73,8 +76,8 @@ usersRouter.get("/:username", async (request, response) => {
     }
 });
 
-// Update User - PROBABLY NEEDS TO BE CHANGED TO PATCH ROUTE
-// How to make this an authenticated route?
+// @desc Update User
+// @route PATCH /:username
 usersRouter.patch("/:username", async (request, response) => {
     const body = request.body;
 
@@ -115,7 +118,8 @@ usersRouter.patch("/:username", async (request, response) => {
     }
 });
 
-// Delete User
+// @desc Delete User
+// @route DELETE /:id
 usersRouter.delete("/:id", async (request, response) => {
     await User.findByIdAndRemove(request.params.id);
     response.status(204).end();

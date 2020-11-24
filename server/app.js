@@ -2,14 +2,12 @@ const config = require("./utils/config");
 const express = require("express");
 const cors = require("cors");
 require("express-async-errors");
-// const createError = require("http-errors"); // not using this for now since using errors middleware
 const app = express();
 const { join } = require("path");
 const cookieParser = require("cookie-parser");
 const passport = require("passport");
 const session = require("express-session");
 const MongoStore = require("connect-mongo")(session);
-// const logger = require("morgan"); // not using this for now since using logger from ./utils/logger
 const logger = require("./utils/logger");
 const middleware = require("./utils/middleware");
 
@@ -17,7 +15,6 @@ const middleware = require("./utils/middleware");
 require("./utils/passport")(passport);
 
 // Database Setup
-
 const mongoose = require("mongoose");
 const mongoDB = `mongodb://${config.DB_SERVER}/${config.DB_NAME}`;
 mongoose.connect(mongoDB, { useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex:true });
@@ -86,22 +83,3 @@ app.use(middleware.unknownEndpoint);
 app.use(middleware.errorHandler);
 
 module.exports = app;
-
-// Not using Error Handler below
-
-// catch 404 and forward to error handler
-// app.use(function(req, res, next) {
-//   next(createError(404));
-// });
-
-// // error handler
-// app.use(function(err, req, res, next) {
-//   console.error(err.message);
-//   // set locals, only providing error in development
-//   res.locals.message = err.message;
-//   res.locals.error = req.app.get("env") === "development" ? err : {};
-
-//   // render the error page
-//   res.status(err.status || 500);
-//   res.json({ error: err });
-// });

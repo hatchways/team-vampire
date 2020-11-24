@@ -8,7 +8,6 @@ import Container from '@material-ui/core/Container';
 
 import { Link } from "react-router-dom";
 import Card from '@material-ui/core/Card';
-// import Dashboard from './dashboard';
 const useStyles = makeStyles((theme) => ({
     root: {
         width: 400,
@@ -57,10 +56,6 @@ export default function LogIn(props) {
     const classes = useStyles();
     const full = false;
 
-    // const handleLogin = () => {
-    // }
-
-
     return (
         <div className={classes.container}>
             <div className={classes.root}>
@@ -87,7 +82,6 @@ export default function LogIn(props) {
                                 name="email"
                                 autoComplete="email"
                                 autoFocus
-                            // onChange={(e) => setLogInEmail(e.target.value)}
                             />
                             <Box mt={2}>
                                 <Button mt={10}
@@ -96,12 +90,10 @@ export default function LogIn(props) {
                                     variant="contained"
                                     color="primary"
                                     className={classes.submit}
-                                    // onClick={handleLogin}
-                                    component={Link} to="/profile"
-
+                                    href="http://localhost:3001/api/auth/google"
                                 >
                                     Continue
-          </Button>
+                                </Button>
                             </Box>
                         </div>
                     </Container>
