@@ -3,7 +3,7 @@ import React from 'react'
 const newEventType = () => {
     return (
         <div>
-            New Event Type
+            Create an Event Type
         </div>
     )
 }
