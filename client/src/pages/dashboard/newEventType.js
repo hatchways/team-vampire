@@ -1,10 +1,11 @@
-import React from 'react'
+import React from 'react';
+import Container from '../../components/Layout/Container';
 
 const newEventType = () => {
     return (
-        <div>
+        <Container>
             Create an Event Type
-        </div>
+        </Container>
     )
 }
 

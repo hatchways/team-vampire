@@ -1,7 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Button } from '@material-ui/core';
-
+import Button from '../../components/Inputs/Button';
 
 const eventTypes = () => {
     return (
@@ -11,9 +10,8 @@ const eventTypes = () => {
                 to="/event_types/new"
                 variant="contained"
                 color="primary"
-            >
-                New Event Type
-            </Button>
+                text="New Event Type"
+            />
         </div>
     )
 }
