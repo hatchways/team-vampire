@@ -40,7 +40,7 @@ const NewEventType = () => {
                </Grid>
             </Grid>
             <form>
-                <Grid container >
+                <Grid container spacing={2}>
                     <Grid item xs={12}>
                         <TextField
                             autoComplete="name"
@@ -95,7 +95,7 @@ const NewEventType = () => {
                     </FormControl>
                     <Button
                         type="submit"
-                        variant="outlined"
+                        variant="contained"
                         color="primary"
                         text="Save"
                     />
