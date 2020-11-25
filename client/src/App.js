@@ -11,8 +11,8 @@ import LogIn from './pages/Login.js';
 import Profile from './pages/Profile.js';
 
 // Event Types
-import EventTypes from './pages/dashboard/eventTypes';
-import NewEventType from './pages/dashboard/newEventType';
+import EventTypes from './pages/dashboard/EventTypes';
+import NewEventType from './pages/dashboard/NewEventType';
 
 
 function App() {

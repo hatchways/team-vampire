@@ -9,13 +9,14 @@ const useStyles = makeStyles({
   },
 });
 
-export default function TypographyContent({ variant, text }) {
+export default function TypographyContent({ variant, component, text }) {
   const classes = useStyles();
 
   return (
     <div className={classes.root}>
       <Typography 
         variant={variant} 
+        component={component}
         gutterBottom
         >
         {text}

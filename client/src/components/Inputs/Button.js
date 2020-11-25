@@ -10,7 +10,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function ContainedButtons({ variant, color, text, component, to }) {
+export default function ContainedButtons({ variant, color, text, component, to, type }) {
   const classes = useStyles();
 
   return (
@@ -20,6 +20,7 @@ export default function ContainedButtons({ variant, color, text, component, to }
         color={color}
         component={component}
         to={to}
+        type={type}
         >
         {text}
     </Button>
