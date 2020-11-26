@@ -30,7 +30,7 @@ const NewEventType = () => {
                 <Grid 
                     item 
                     xs="12" 
-                    md="4"
+                    sm="4"
                 >
                     <Button
                         component={Link} 
@@ -43,7 +43,7 @@ const NewEventType = () => {
                <Grid 
                     item 
                     xs="12" 
-                    md="4"
+                    sm="4"
                 >
                     <Typography 
                         variant="subtitle1" 
@@ -55,7 +55,7 @@ const NewEventType = () => {
                <Grid 
                     item 
                     xs="12" 
-                    md="4"
+                    sm="4"
                 >
                     <Typography 
                         variant="subtitle2" 
