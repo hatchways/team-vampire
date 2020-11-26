@@ -9,7 +9,7 @@ const useStyles = makeStyles({
   },
 });
 
-export default function TypographyContent({ variant, component, text }) {
+export default function TypographyContent({ variant, component, text, align }) {
   const classes = useStyles();
 
   return (
@@ -18,6 +18,7 @@ export default function TypographyContent({ variant, component, text }) {
         variant={variant} 
         component={component}
         gutterBottom
+        align={align}
         >
         {text}
       </Typography>

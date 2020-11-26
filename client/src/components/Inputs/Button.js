@@ -10,7 +10,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function ContainedButtons({ variant, color, text, component, to, type }) {
+export default function MUIButtons({ variant, color, text, component, to, type }) {
   const classes = useStyles();
 
   return (

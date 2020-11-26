@@ -11,31 +11,57 @@ import FormControlLabel from '@material-ui/core/FormControlLabel';
 import FormControl from '@material-ui/core/FormControl';
 import FormLabel from '@material-ui/core/FormLabel';
 
+import { useTheme } from '@material-ui/core/styles';
+import useMediaQuery from '@material-ui/core/useMediaQuery';
+
+
+
 const NewEventType = () => {
+    const theme = useTheme();
+    const matches = useMediaQuery(theme.breakpoints.up("sm"));
+    console.log(matches);
     return (
         <Container>
-            <Grid container justify="space-between" alignItems="center" spacing={2} >
-                <Grid item >
+            <Grid 
+                container 
+                alignItems="center" 
+                spacing={2} 
+            >
+                <Grid 
+                    item 
+                    xs="12" 
+                    md="4"
+                >
                     <Button
                         component={Link} 
                         to="/event_types"
                         variant="outlined"
-                        color="primary"
+                        color="secondary"
                         text="Back"
                     />
                 </Grid> 
-               <Grid item>
-                <Typography 
-                    variant="subtitle1" 
-                    component="h1"
-                    text="Add One-on-One Event Type"
+               <Grid 
+                    item 
+                    xs="12" 
+                    md="4"
+                >
+                    <Typography 
+                        variant="subtitle1" 
+                        component="h1"
+                        text="Add One-on-One Event Type"
+                        align="center"
                     />
                </Grid>
-               <Grid item>
+               <Grid 
+                    item 
+                    xs="12" 
+                    md="4"
+                >
                     <Typography 
                         variant="subtitle2" 
                         component="p"
                         text="Your event type is OFF"
+                        align={matches ? "right" : "center"}
                     />
                </Grid>
             </Grid>
