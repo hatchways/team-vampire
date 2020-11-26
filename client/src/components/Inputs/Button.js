@@ -10,8 +10,9 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function MUIButtons({ variant, color, text, component, to, type }) {
+export default function MUIButtons({ variant, color, text, component, to, type, fullWidth }) {
   const classes = useStyles();
+  console.log(fullWidth);
 
   return (
     <div className={classes.root}>
@@ -21,6 +22,7 @@ export default function MUIButtons({ variant, color, text, component, to, type }
         component={component}
         to={to}
         type={type}
+        fullWidth={fullWidth === "true" ? true : false}
         >
         {text}
     </Button>
