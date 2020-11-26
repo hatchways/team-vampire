@@ -10,6 +10,10 @@ import SignUpGoogle from './pages/SignUpGoogle.js';
 import LogIn from './pages/Login.js';
 import Profile from './pages/Profile.js';
 
+// Event Types
+import EventTypes from './pages/dashboard/EventTypes';
+import NewEventType from './pages/dashboard/NewEventType';
+
 
 function App() {
   const [email, setEmail] = useState('');
@@ -22,19 +26,13 @@ function App() {
     <MuiThemeProvider theme={theme}>
       <BrowserRouter>
         <UserProvider>
-          <Route path="/profile">
-            <Profile />
-          </Route>
+          <Route path="/profile" component={Profile} />
+          <Route exact path="/event_types" component={EventTypes} />
+          <Route path="/event_types/new" component={NewEventType} />
         </UserProvider>
-        <Route path="/login">
-          <LogIn />
-        </Route>
-        <Route path="/googleSignUp">
-          <SignUpGoogle email={email} />
-        </Route>
-        <Route exact path='/' >
-          <SignUpEmail handleEmailEntry={handleEmailEntry} />
-        </Route>
+        <Route path="/login" component={LogIn} />
+        <Route path="/googleSignUp" component={SignUpGoogle} email={email} />
+        <Route exact path='/' component={SignUpEmail} handleEmailEntry={handleEmailEntry} />
       </BrowserRouter>
     </MuiThemeProvider>
   );
