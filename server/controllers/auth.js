@@ -10,7 +10,7 @@ authRouter.get("/google", passport.authenticate("google", { scope: ["profile", "
 // @route GET /auth/google/callback
 authRouter.get("/google/callback", passport.authenticate("google", { failureRedirect: "/" }), 
     (request, response) => {
-        response.redirect("http://localhost:3000/profile");
+        response.redirect("http://localhost:3000/event_types/user/me");
     }
 );
 

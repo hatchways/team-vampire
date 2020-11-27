@@ -1,4 +1,6 @@
-import React from 'react';
+import React, { useContext, useState } from 'react';
+import axios from 'axios';
+import UserProvider from "../../contexts/UserProvider";
 import { Link } from 'react-router-dom';
 import Container from '../../components/Layout/Container';
 import Grid from '@material-ui/core/Grid';
@@ -14,9 +16,44 @@ import FormLabel from '@material-ui/core/FormLabel';
 import { useTheme } from '@material-ui/core/styles';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 
+
+
 const NewEventType = () => {
   const theme = useTheme();
   const matches = useMediaQuery(theme.breakpoints.up("sm"));
+  
+    //   Submit Form Data to Back-End
+
+    const userId = useContext(UserProvider.context).user.id;
+    console.log(userId);
+
+    const [name, setName] = useState("");
+    const [description, setDescription] = useState("");
+    const [duration, setDuration] = useState("60"); // Default to 60 minutes
+
+    const handleNameChange = (event) => setName(event.target.value);
+    const handleDescriptionChange = (event) => setDescription(event.target.value);
+    const handleDurationChange = (event) => setDuration(event.target.value);
+    
+
+    const handleSubmit = (event) => {
+        event.preventDefault();
+        console.log("form button submitted");
+
+        const eventTypeData = {
+            userId: userId,
+            name: name,
+            description: description,
+            duration: Number(duration)            
+        }
+
+        // Send data to back-end
+
+        axios.post("http://localhost:3001/api/meeting_types", eventTypeData)
+            .then(response => console.log(response))
+            .catch(error => console.log(error))
+    }
+
   return (
     <Container>
         <Grid 
@@ -26,8 +63,8 @@ const NewEventType = () => {
         >
             <Grid 
                 item 
-                xs="12" 
-                sm="4"
+                xs={12} 
+                sm={4}
             >
                 <Button
                     component={Link} 
@@ -39,8 +76,8 @@ const NewEventType = () => {
             </Grid> 
             <Grid 
                 item 
-                xs="12" 
-                sm="4"
+                xs={12} 
+                sm={4}
             >
                 <Typography 
                     variant="subtitle1" 
@@ -51,8 +88,8 @@ const NewEventType = () => {
             </Grid>
             <Grid 
                 item 
-                xs="12" 
-                sm="4"
+                xs={12} 
+                sm={4}
             >
                 <Typography 
                     variant="subtitle2" 
@@ -62,7 +99,7 @@ const NewEventType = () => {
                 />
             </Grid>
         </Grid>
-        <form>
+        <form onSubmit={handleSubmit}>
             <Grid container spacing={2}>
                 <Grid item container >
                     <Grid item xs={12} md={6} >
@@ -75,6 +112,7 @@ const NewEventType = () => {
                             id="name"
                             label="Event Name"
                             autoFocus
+                            onChange={handleNameChange}
                         />
                     </Grid>
                 </Grid>
@@ -84,49 +122,57 @@ const NewEventType = () => {
                             id="description"
                             label="Description"
                             variant="outlined"
+                            required
                             fullWidth
                             multiline
                             rows={2}
+                            onChange={handleDescriptionChange}
                         />
                     </Grid>
                 </Grid>
                 <Grid item xs={12}>
-                <FormControl component="fieldset">
-                    <FormLabel component="legend">Duration</FormLabel>
-                        <RadioGroup row aria-label="position" name="position" defaultValue="top">
-                            <FormControlLabel
-                                value="15"
-                                control={<Radio color="primary" />}
-                                label="15"
-                                labelPlacement="bottom"
-                            />
-                    <FormControlLabel
-                        value="30"
-                        control={<Radio color="primary" />}
-                        label="30"
-                        labelPlacement="bottom"
+                    <FormControl component="fieldset" required>
+                        <FormLabel component="legend">Duration</FormLabel>
+                            <RadioGroup 
+                                row aria-label="position" 
+                                name="position" 
+                                defaultValue="top"
+                                value={duration}
+                                onChange={handleDurationChange}
+                            >
+                                <FormControlLabel
+                                    value="15"
+                                    control={<Radio color="primary" />}
+                                    label="15"
+                                    labelPlacement="bottom"
+                                />
+                                <FormControlLabel
+                                    value="30"
+                                    control={<Radio color="primary" />}
+                                    label="30"
+                                    labelPlacement="bottom"
+                                />
+                                <FormControlLabel
+                                    value="45"
+                                    control={<Radio color="primary" />}
+                                    label="45"
+                                    labelPlacement="bottom"
+                                />
+                                <FormControlLabel
+                                    value="60"
+                                    control={<Radio color="primary" />}
+                                    label="60"
+                                    labelPlacement="bottom"
+                                />
+                            </RadioGroup>
+                        </FormControl>
+                    <Button
+                        type="submit"
+                        variant="contained"
+                        color="primary"
+                        text="Save"
+                        fullWidth={matches ? "false" : "true"} 
                     />
-                    <FormControlLabel
-                        value="45"
-                        control={<Radio color="primary" />}
-                        label="45"
-                        labelPlacement="bottom"
-                    />
-                    <FormControlLabel
-                        value="60"
-                        control={<Radio color="primary" />}
-                        label="60"
-                        labelPlacement="bottom"
-                    />
-                    </RadioGroup>
-                </FormControl>
-                <Button
-                    type="submit"
-                    variant="contained"
-                    color="primary"
-                    text="Save"
-                    fullWidth={matches ? "false" : "true"} 
-                />
                 </Grid>
             </Grid>
         </form>
