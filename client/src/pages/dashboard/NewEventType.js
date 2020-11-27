@@ -24,8 +24,7 @@ const NewEventType = () => {
   
     //   Submit Form Data to Back-End
 
-    const userId = useContext(UserProvider.context).user.id;
-    console.log(userId);
+    const userContext = useContext(UserProvider.context);
 
     const [name, setName] = useState("");
     const [description, setDescription] = useState("");
@@ -41,7 +40,7 @@ const NewEventType = () => {
         console.log("form button submitted");
 
         const eventTypeData = {
-            userId: userId,
+            userId: userContext.user.id,
             name: name,
             description: description,
             duration: Number(duration)            
