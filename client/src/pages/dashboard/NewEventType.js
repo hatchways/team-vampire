@@ -67,7 +67,7 @@ const NewEventType = () => {
             >
                 <Button
                     component={Link} 
-                    to="/event_types"
+                    to="/event_types/user/me"
                     variant="outlined"
                     color="secondary"
                     text="Back"
