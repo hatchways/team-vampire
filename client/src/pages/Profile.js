@@ -1,6 +1,7 @@
 // import React, { Component } from 'react';
 import React, { useContext, useState } from 'react';
 import UserProvider from "../contexts/UserProvider";
+import Container from "../components/Layout/Container";
 // import Button from '@material-ui/core/Button';
 // import CssBaseline from '@material-ui/core/CssBaseline';
 // import TextField from '@material-ui/core/TextField';
@@ -69,9 +70,9 @@ const useStyles = theme => ({
 const Profile = () => {
     console.log(useContext(UserProvider.context));
     return (
-        <div>
+        <Container>
             <h1>Profile Page</h1>
-        </div>
+        </Container>
     )
 }
 
