@@ -7,6 +7,7 @@ import IconButton from '@material-ui/core/IconButton';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import MenuItem from '@material-ui/core/MenuItem';
 import Menu from '@material-ui/core/Menu';
+import { withRouter } from 'react-router-dom';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -20,7 +21,8 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Header = () => {
+const Header = (props) => {
+  const { history } = props;
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
@@ -29,7 +31,8 @@ const Header = () => {
     setAnchorEl(event.currentTarget);
   };
 
-  const handleClose = () => {
+  const handleMenuClick = (pageURL) => {
+    history.push(pageURL);
     setAnchorEl(null);
   };
 
@@ -63,12 +66,12 @@ const Header = () => {
                   horizontal: 'right',
                 }}
                 open={open}
-                onClose={handleClose}
+                onClose={() => setAnchorEl(null)}
               >
-                <MenuItem onClick={handleClose}>Account Settings</MenuItem>
-                <MenuItem onClick={handleClose}>Availablity</MenuItem>
-                <MenuItem onClick={handleClose}>Integration</MenuItem>
-                <MenuItem onClick={handleClose}>Logout</MenuItem>
+                <MenuItem onClick={() => handleMenuClick("/profile")}>Account Settings</MenuItem>
+                <MenuItem onClick={() => handleMenuClick(null)}>Availablity</MenuItem>
+                <MenuItem onClick={() => handleMenuClick(null)}>Integration</MenuItem>
+                <MenuItem onClick={() => handleMenuClick("/")}>Logout</MenuItem>
               </Menu>
             </div>
         </Toolbar>
@@ -77,4 +80,4 @@ const Header = () => {
   );
 }
 
-export default Header;
+export default withRouter(Header);
