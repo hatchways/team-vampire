@@ -1,12 +1,22 @@
+/* eslint-disable react/prop-types */
 import React from "react";
 import { Link, withRouter } from "react-router-dom";
-import { Box, Button } from "@material-ui/core";
+import { Button } from "@material-ui/core";
 import Container from "./Container";
+import { makeStyles } from "@material-ui/core/styles";
+
+const useStyles = makeStyles((theme) => ({
+  root: {
+    backgroundColor: theme.palette.background.paper,
+    marginTop: "-10px"
+  }
+}));
 
 const DashboardHeader = (props) => {
   const path = props.location.pathname;
+  const classes = useStyles();
   return (
-    <Box>
+    <div className={classes.root}>
       <Container>
         <div>
           <h1>My CalendApp</h1>
@@ -29,7 +39,7 @@ const DashboardHeader = (props) => {
         </div>
       </Container>
       {props.children}
-    </Box>
+    </div>
   );
 };
 

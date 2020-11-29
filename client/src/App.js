@@ -17,7 +17,7 @@ import EventTypes from "./pages/dashboard/EventTypes";
 import NewEventType from "./pages/dashboard/NewEventType";
 import ScheduledEvents from "./pages/dashboard/ScheduledEvents";
 
-function App() {
+function App () {
   const [email, setEmail] = useState("");
 
   const handleEmailEntry = (e) => {
