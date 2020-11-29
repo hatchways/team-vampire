@@ -69,13 +69,13 @@ const EventTypes = () => {
           <Divider className={classes.divider} />
           <Grid className={classes.eventTypes} container spacing={4} justify="flex-start">
             <Grid item xs={12} md={4}>
-              <EventTypeCard />
+              <EventTypeCard name="Sprint Planning" duration="60" />
             </Grid>
             <Grid item xs={12} md={4}>
-              <EventTypeCard />
+              <EventTypeCard name="Standups" duration="15"/>
             </Grid>
             <Grid item xs={12} md={4}>
-              <EventTypeCard />
+              <EventTypeCard name="Office Hours" duration="45"/>
             </Grid>
           </Grid>
         </div>

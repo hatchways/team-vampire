@@ -1,3 +1,4 @@
+/* eslint react/prop-types: 0 */
 import React from "react";
 import { Card, CardActions, CardContent, Typography, Divider, Button, Grid, IconButton, Box } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
@@ -20,7 +21,7 @@ const useStyles = makeStyles({
   }
 });
 
-export default function EventTypeCard () {
+export default function EventTypeCard ({ name, duration }) {
   const classes = useStyles();
 
   return (
@@ -35,7 +36,7 @@ export default function EventTypeCard () {
             </IconButton>
           </Grid>
           <Typography variant="h6" component="h2">
-          15 minute meeting
+            {name}
           </Typography>
           <Typography className={classes.pos} color="textSecondary">
             One-on-One
@@ -49,7 +50,7 @@ export default function EventTypeCard () {
                 <Timer />
               </Grid>
               <Grid item>
-                <Typography variant="subtitle2">15 min</Typography>
+                <Typography variant="subtitle2">{duration} min</Typography>
               </Grid>
             </Grid>
             <Grid container justify="flex-end" item xs={6}>
