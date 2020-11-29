@@ -13,6 +13,9 @@ const useStyles = makeStyles((theme) => ({
   selected: {
     borderBottom: "5px solid",
     borderBottomColor: theme.primary
+  },
+  notSelected: {
+    borderBottom: "5px solid transparent"
   }
 }));
 
@@ -29,14 +32,14 @@ const DashboardHeader = (props) => {
           <Button
             component={Link}
             to="/event_types/user/me"
-            className={path === "/event_types/user/me" ? classes.selected : ""}
+            className={path === "/event_types/user/me" ? classes.selected : classes.notSelected}
           >
             Event Types
           </Button>
           <Button
             component={Link}
             to="/app/scheduled_events/user/me"
-            className={path === "/app/scheduled_events/user/me" ? classes.selected : ""}
+            className={path === "/app/scheduled_events/user/me" ? classes.selected : classes.notSelected}
           >
             Scheduled Events
           </Button>
