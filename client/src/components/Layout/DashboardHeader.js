@@ -9,6 +9,10 @@ const useStyles = makeStyles((theme) => ({
   root: {
     backgroundColor: theme.palette.background.paper,
     marginTop: "-10px"
+  },
+  selected: {
+    borderBottom: "5px solid",
+    borderBottomColor: theme.primary
   }
 }));
 
@@ -25,14 +29,14 @@ const DashboardHeader = (props) => {
           <Button
             component={Link}
             to="/event_types/user/me"
-            color={path === "/event_types/user/me" ? "secondary" : "default"}
+            className={path === "/event_types/user/me" ? classes.selected : ""}
           >
             Event Types
           </Button>
           <Button
             component={Link}
             to="/app/scheduled_events/user/me"
-            color={path === "/app/scheduled_events/user/me" ? "secondary" : "default"}
+            className={path === "/app/scheduled_events/user/me" ? classes.selected : ""}
           >
             Scheduled Events
           </Button>
