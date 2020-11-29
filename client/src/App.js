@@ -15,14 +15,7 @@ import Profile from './pages/Profile.js';
 // Event Types
 import EventTypes from './pages/dashboard/EventTypes';
 import NewEventType from './pages/dashboard/NewEventType';
-
-// Exclude the Header on the SignUp/Login routes
-const exclusionArray = [
-  "/",
-  "/login",
-  "/googleSignUp"
-];
-
+import ScheduledEvents from './pages/dashboard/ScheduledEvents';
 
 function App() {
   const [email, setEmail] = useState('');
@@ -42,8 +35,9 @@ function App() {
               <UserProvider>
                 <Header />
                 <Route path="/profile" component={Profile} />
-                <Route path="/event_types/user/me" component={EventTypes} />
                 <Route path="/event_types/new" component={NewEventType} />
+                <Route path="/event_types/user/me" component={EventTypes} />
+                <Route path="/app/scheduled_events/user/me" component={ScheduledEvents} />
               </UserProvider>
             </Fragment>
         </Switch>
