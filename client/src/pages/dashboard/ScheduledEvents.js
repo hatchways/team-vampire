@@ -4,10 +4,12 @@ import DashboardHeader from "../../components/Layout/DashboardHeader";
 
 const ScheduledEvents = () => {
   return (
-    <Container>
+    <>
       <DashboardHeader />
-      <h1>Scheduled Events</h1>
-    </Container>
+      <Container>
+        <h1>Scheduled Events</h1>
+      </Container>
+    </>
   );
 };
 
