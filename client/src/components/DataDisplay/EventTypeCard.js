@@ -1,6 +1,7 @@
 import React from "react";
-import { Card, CardActions, CardContent, Typography, Button } from "@material-ui/core";
+import { Card, CardActions, CardContent, Typography, Divider, Button, Grid, IconButton, Box } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
+import { Settings, Timer } from "@material-ui/icons";
 
 const useStyles = makeStyles({
   root: {
@@ -21,29 +22,42 @@ const useStyles = makeStyles({
 
 export default function EventTypeCard () {
   const classes = useStyles();
-  const bull = <span className={classes.bullet}>•</span>;
 
   return (
-    <Card className={classes.root}>
-      <CardContent>
-        <Typography className={classes.title} color="textSecondary" gutterBottom>
-          Word of the Day
-        </Typography>
-        <Typography variant="h5" component="h2">
-          be{bull}nev{bull}o{bull}lent
-        </Typography>
-        <Typography className={classes.pos} color="textSecondary">
-          adjective
-        </Typography>
-        <Typography variant="body2" component="p">
-          well meaning and kindly.
-          <br />
-          {"\"a benevolent smile\""}
-        </Typography>
-      </CardContent>
-      <CardActions>
-        <Button size="small">Learn More</Button>
-      </CardActions>
-    </Card>
+    <Box borderTop={5} borderColor="primary.main" borderRadius="borderRadius">
+      <Card className={classes.root}>
+        <CardContent>
+          <Grid container item justify="flex-end">
+            <IconButton
+              edge="end"
+            >
+              <Settings/>
+            </IconButton>
+          </Grid>
+          <Typography variant="h6" component="h2">
+          15 minute meeting
+          </Typography>
+          <Typography className={classes.pos} color="textSecondary">
+            One-on-One
+          </Typography>
+        </CardContent>
+        <Divider/>
+        <CardActions>
+          <Grid container justify="space-between">
+            <Grid container justify="flex-start" alignItems="center" item xs={6} spacing={1}>
+              <Grid item>
+                <Timer />
+              </Grid>
+              <Grid item>
+                <Typography variant="subtitle2">15 min</Typography>
+              </Grid>
+            </Grid>
+            <Grid container justify="flex-end" item xs={6}>
+              <Button variant="outlined" color="secondary" size="small">Copy Link</Button>
+            </Grid>
+          </Grid>
+        </CardActions>
+      </Card>
+    </Box>
   );
 }
