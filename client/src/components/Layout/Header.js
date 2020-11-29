@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import React, { useState } from "react";
 import { makeStyles, useTheme } from "@material-ui/core/styles";
 import AppBar from "@material-ui/core/AppBar";
@@ -20,6 +21,10 @@ const useStyles = makeStyles((theme) => ({
   },
   title: {
     flexGrow: 1
+  },
+  upgrade: {
+    color: "#FF7E00",
+    fontWeight: "bold"
   }
 }));
 
@@ -90,6 +95,7 @@ const Header = (props) => {
                     <MenuItem onClick={() => handleMenuClick("/profile")}>Account Settings</MenuItem>
                     <MenuItem onClick={() => handleMenuClick("/profile")}>Availablity</MenuItem>
                     <MenuItem onClick={() => handleMenuClick("/profile")}>Integration</MenuItem>
+                    <MenuItem onClick={() => handleMenuClick("/profile")}>Upgrade Account</MenuItem>
                     <MenuItem onClick={() => handleMenuClick("/")}>Logout</MenuItem>
                   </Menu>
                 </>
@@ -122,6 +128,15 @@ const Header = (props) => {
                     color="inherit"
                   >
                     <Typography> Integrations </Typography>
+                  </IconButton>
+                  <IconButton
+                    aria-label="integrations of current user"
+                    aria-controls="menu-appbar"
+                    aria-haspopup="true"
+                    onClick={() => handleMenuClick("/profile")}
+                    color="inherit"
+                  >
+                    <Typography className={classes.upgrade}>Upgrade Account</Typography>
                   </IconButton>
                   <IconButton
                     aria-label="account of current user"
