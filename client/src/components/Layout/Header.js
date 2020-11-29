@@ -13,14 +13,14 @@ import useMediaQuery from "@material-ui/core/useMediaQuery";
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    flexGrow: 1,
+    flexGrow: 1
   },
   menuButton: {
-    marginRight: theme.spacing(2),
+    marginRight: theme.spacing(2)
   },
   title: {
-    flexGrow: 1,
-  },
+    flexGrow: 1
+  }
 }));
 
 const Header = (props) => {
@@ -52,104 +52,106 @@ const Header = (props) => {
             calendapp
           </Typography>
           <div>
-            {isMobile ? (
-              <>
-                <IconButton 
-                  edge="start" 
-                  className={classes.menuButton} 
-                  color="inherit" 
-                  aria-label="dashboard-mobile"
-                  onClick={() => handleButtonClick("/event_types/user/me")}>
-                  <Typography>Home</Typography>
-                </IconButton>
-                <IconButton
-                  aria-label="account of current user"
-                  aria-controls="menu-appbar-mobile"
-                  aria-haspopup="true"
-                  onClick={handleMenu}
-                  color="inherit"
-                >
-                  <AccountCircle />
-                </IconButton>
-                <Menu
-                  id="menu-appbar-mobile"
-                  anchorEl={anchorEl}
-                  anchorOrigin={{
-                    vertical: "top",
-                    horizontal: "right",
-                  }}
-                  keepMounted
-                  transformOrigin={{
-                    vertical: "top",
-                    horizontal: "right",
-                  }}
-                  open={open}
-                  onClose={() => setAnchorEl(null)}
-                >
-                  <MenuItem onClick={() => handleMenuClick("/profile")}>Account Settings</MenuItem>
-                  <MenuItem onClick={() => handleMenuClick("/profile")}>Availablity</MenuItem>
-                  <MenuItem onClick={() => handleMenuClick("/profile")}>Integration</MenuItem>
-                  <MenuItem onClick={() => handleMenuClick("/")}>Logout</MenuItem>
-                </Menu>
-              </>
-            ) : (
-              <>
-                <IconButton
-                  aria-label="dashboard of current user"
-                  aria-controls="menu-appbar"
-                  aria-haspopup="true"
-                  onClick={() => handleButtonClick("/event_types/user/me")}
-                  color="inherit"
-                >
-                  <Typography> Home </Typography>
-                </IconButton>
-                <IconButton
-                  aria-label="availability of current user"
-                  aria-controls="menu-appbar"
-                  aria-haspopup="true"
-                  onClick={() => handleMenuClick("/profile")}
-                  color="inherit"
-                >
-                  <Typography> Availablity </Typography>
-                </IconButton>
-                <IconButton
-                  aria-label="integrations of current user"
-                  aria-controls="menu-appbar"
-                  aria-haspopup="true"
-                  onClick={() => handleMenuClick("/profile")}
-                  color="inherit"
-                >
-                  <Typography> Integrations </Typography>
-                </IconButton>
-                <IconButton
-                  aria-label="account of current user"
-                  aria-controls="menu-appbar"
-                  aria-haspopup="true"
-                  onClick={handleMenu}
-                  color="inherit"
-                >
-                  <AccountCircle />
-                </IconButton>
-                <Menu
-                  id="menu-appbar"
-                  anchorEl={anchorEl}
-                  anchorOrigin={{
-                    vertical: "top",
-                    horizontal: "right",
-                  }}
-                  keepMounted
-                  transformOrigin={{
-                    vertical: "top",
-                    horizontal: "right",
-                  }}
-                  open={open}
-                  onClose={() => setAnchorEl(null)}
-                >
-                  <MenuItem onClick={() => handleMenuClick("/profile")}>Account Settings</MenuItem>
-                  <MenuItem onClick={() => handleMenuClick("/")}>Logout</MenuItem>
-                </Menu>
-              </>
-            )
+            {isMobile
+              ? (
+                <>
+                  <IconButton
+                    edge="start"
+                    className={classes.menuButton}
+                    color="inherit"
+                    aria-label="dashboard-mobile"
+                    onClick={() => handleButtonClick("/event_types/user/me")}>
+                    <Typography>Home</Typography>
+                  </IconButton>
+                  <IconButton
+                    aria-label="account of current user"
+                    aria-controls="menu-appbar-mobile"
+                    aria-haspopup="true"
+                    onClick={handleMenu}
+                    color="inherit"
+                  >
+                    <AccountCircle />
+                  </IconButton>
+                  <Menu
+                    id="menu-appbar-mobile"
+                    anchorEl={anchorEl}
+                    anchorOrigin={{
+                      vertical: "top",
+                      horizontal: "right"
+                    }}
+                    keepMounted
+                    transformOrigin={{
+                      vertical: "top",
+                      horizontal: "right"
+                    }}
+                    open={open}
+                    onClose={() => setAnchorEl(null)}
+                  >
+                    <MenuItem onClick={() => handleMenuClick("/profile")}>Account Settings</MenuItem>
+                    <MenuItem onClick={() => handleMenuClick("/profile")}>Availablity</MenuItem>
+                    <MenuItem onClick={() => handleMenuClick("/profile")}>Integration</MenuItem>
+                    <MenuItem onClick={() => handleMenuClick("/")}>Logout</MenuItem>
+                  </Menu>
+                </>
+              )
+              : (
+                <>
+                  <IconButton
+                    aria-label="dashboard of current user"
+                    aria-controls="menu-appbar"
+                    aria-haspopup="true"
+                    onClick={() => handleButtonClick("/event_types/user/me")}
+                    color="inherit"
+                  >
+                    <Typography> Home </Typography>
+                  </IconButton>
+                  <IconButton
+                    aria-label="availability of current user"
+                    aria-controls="menu-appbar"
+                    aria-haspopup="true"
+                    onClick={() => handleMenuClick("/profile")}
+                    color="inherit"
+                  >
+                    <Typography> Availablity </Typography>
+                  </IconButton>
+                  <IconButton
+                    aria-label="integrations of current user"
+                    aria-controls="menu-appbar"
+                    aria-haspopup="true"
+                    onClick={() => handleMenuClick("/profile")}
+                    color="inherit"
+                  >
+                    <Typography> Integrations </Typography>
+                  </IconButton>
+                  <IconButton
+                    aria-label="account of current user"
+                    aria-controls="menu-appbar"
+                    aria-haspopup="true"
+                    onClick={handleMenu}
+                    color="inherit"
+                  >
+                    <AccountCircle />
+                  </IconButton>
+                  <Menu
+                    id="menu-appbar"
+                    anchorEl={anchorEl}
+                    anchorOrigin={{
+                      vertical: "top",
+                      horizontal: "right"
+                    }}
+                    keepMounted
+                    transformOrigin={{
+                      vertical: "top",
+                      horizontal: "right"
+                    }}
+                    open={open}
+                    onClose={() => setAnchorEl(null)}
+                  >
+                    <MenuItem onClick={() => handleMenuClick("/profile")}>Account Settings</MenuItem>
+                    <MenuItem onClick={() => handleMenuClick("/")}>Logout</MenuItem>
+                  </Menu>
+                </>
+              )
             }
           </div>
         </Toolbar>
