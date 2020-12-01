@@ -1,7 +1,7 @@
 import React, { useContext, useState } from "react";
 import axios from "axios";
 import UserProvider from "../../contexts/UserProvider";
-import { Link } from "react-router-dom";
+import { Link, withRouter } from "react-router-dom";
 import Container from "../../components/Layout/Container";
 import Grid from "@material-ui/core/Grid";
 import Typography from "../../components/DataDisplay/Typography";
@@ -16,7 +16,7 @@ import FormLabel from "@material-ui/core/FormLabel";
 import { useTheme } from "@material-ui/core/styles";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 
-const NewEventType = () => {
+const NewEventType = (props) => {
   const theme = useTheme();
   const matches = useMediaQuery(theme.breakpoints.up("sm"));
 
@@ -31,6 +31,7 @@ const NewEventType = () => {
   const handleNameChange = (event) => setName(event.target.value);
   const handleDescriptionChange = (event) => setDescription(event.target.value);
   const handleDurationChange = (event) => setDuration(event.target.value);
+
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -48,6 +49,10 @@ const NewEventType = () => {
     axios.post("http://localhost:3001/api/meeting_types", eventTypeData)
       .then(response => console.log(response))
       .catch(error => console.log(error));
+    
+    // Redirect back to dashboard
+    const { history } = props;
+    history.push("/event_types/user/me");
   };
 
   return (
@@ -176,4 +181,4 @@ const NewEventType = () => {
   );
 };
 
-export default NewEventType;
+export default withRouter(NewEventType);

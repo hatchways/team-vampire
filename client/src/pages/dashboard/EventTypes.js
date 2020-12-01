@@ -1,4 +1,6 @@
-import React from "react";
+import React, { useState, useContext, useEffect } from "react";
+import axios from "axios";
+import UserProvider from "../../contexts/UserProvider";
 import { Link } from "react-router-dom";
 import Container from "../../components/Layout/Container";
 import DashboardHeader from "../../components/Layout/DashboardHeader";
@@ -32,6 +34,19 @@ const EventTypes = () => {
   const classes = useStyles();
   const theme = useTheme();
   const matches = useMediaQuery(theme.breakpoints.up("md"));
+
+  const userData = useContext(UserProvider.context);
+
+  const [eventTypes, setEventTypes] = useState([]);
+  
+  useEffect(() => {
+    if (userData.user) {
+      axios.get(`http://localhost:3001/api/meeting_types/${userData.user.id}`)
+        .then(response => setEventTypes(response.data));
+    }
+  }, [userData.user])
+
+  
   return (
     <>
       <DashboardHeader />
@@ -45,10 +60,14 @@ const EventTypes = () => {
               </Grid>
               <Grid container direction="column" item xs={11}>
                 <Grid item>
-                  <Typography>John Doe</Typography>
+                  {userData.user &&
+                    <Typography>{userData.user.firstName} {userData.user.lastName}</Typography>
+                  }
                 </Grid>
                 <Grid item>
-                  <Typography color="primary"><a>calendly.com/john-doe</a></Typography>
+                  {userData.user &&
+                    <Typography color="primary">calendly.com/{userData.user.firstName.toLowerCase()}-{userData.user.lastName.toLowerCase()}</Typography>
+                  }
                 </Grid>
               </Grid>
             </Grid>
@@ -68,15 +87,13 @@ const EventTypes = () => {
           </Grid>
           <Divider className={classes.divider} />
           <Grid className={classes.eventTypes} container spacing={4} justify="flex-start">
-            <Grid item xs={12} md={4}>
-              <EventTypeCard name="Sprint Planning" duration="60" />
-            </Grid>
-            <Grid item xs={12} md={4}>
-              <EventTypeCard name="Standups" duration="15"/>
-            </Grid>
-            <Grid item xs={12} md={4}>
-              <EventTypeCard name="Office Hours" duration="45"/>
-            </Grid>
+            {
+              eventTypes.map(({ id, name, duration }) => (
+                <Grid key={id} item xs={12} md={4}>
+                  <EventTypeCard name={name} duration={duration} />
+                </Grid>
+              ))
+            }
           </Grid>
         </div>
       </Container>
