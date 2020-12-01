@@ -1,6 +1,7 @@
 // import React, { Component } from 'react';
-import React, { useContext, useState } from 'react';
+import React, { useContext, useState } from "react";
 import UserProvider from "../contexts/UserProvider";
+import Container from "../components/Layout/Container";
 // import Button from '@material-ui/core/Button';
 // import CssBaseline from '@material-ui/core/CssBaseline';
 // import TextField from '@material-ui/core/TextField';
@@ -14,69 +15,68 @@ import UserProvider from "../contexts/UserProvider";
 // import ProgressBar from '../components/LinearProgress';
 
 const useStyles = theme => ({
-    root: {
-        width: 700,
-        height: 500,
-        margin: "auto",
-        marginTop: 120,
-        borderRadius: "2%",
-        alignItems: 'center',
+  root: {
+    width: 700,
+    height: 500,
+    margin: "auto",
+    marginTop: 120,
+    borderRadius: "2%",
+    alignItems: "center"
 
-    },
-    button: {
-        margin: theme.spacing(1),
-    },
-    box_Shadow: {
-        boxShadow: "0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)"
-    },
-    paper: {
-        marginTop: theme.spacing(6),
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-    },
-    submit: {
-        margin: theme.spacing(3, 0, 2),
-        backgroundColor: "#FF7E00",
-        padding: 15,
-        paddingRight: 40,
-        paddingLeft: 40,
-        textTransform: "none",
-    },
-    center_Text: {
-        textAlign: "center",
-    },
-    bold_Font: {
-        fontWeight: "bold",
-    },
-    decor: {
-        textDecoration: "none"
-    },
-    gridRoot: {
-        flexGrow: 1,
-    },
-    gridPaper: {
-        padding: theme.spacing(2),
-        textAlign: 'center',
-        color: theme.palette.text.secondary,
-    },
-    small_Font: {
-        fontSize: 10
-    }
+  },
+  button: {
+    margin: theme.spacing(1)
+  },
+  box_Shadow: {
+    boxShadow: "0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)"
+  },
+  paper: {
+    marginTop: theme.spacing(6),
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center"
+  },
+  submit: {
+    margin: theme.spacing(3, 0, 2),
+    backgroundColor: "#FF7E00",
+    padding: 15,
+    paddingRight: 40,
+    paddingLeft: 40,
+    textTransform: "none"
+  },
+  center_Text: {
+    textAlign: "center"
+  },
+  bold_Font: {
+    fontWeight: "bold"
+  },
+  decor: {
+    textDecoration: "none"
+  },
+  gridRoot: {
+    flexGrow: 1
+  },
+  gridPaper: {
+    padding: theme.spacing(2),
+    textAlign: "center",
+    color: theme.palette.text.secondary
+  },
+  small_Font: {
+    fontSize: 10
+  }
 
 });
 
 const Profile = () => {
-    console.log(useContext(UserProvider.context));
-    return (
-        <div>
-            <h1>Profile Page</h1>
-        </div>
-    )
-}
+  console.log(useContext(UserProvider.context));
+  return (
+    <Container>
+      <h1>Profile Page</h1>
+    </Container>
+  );
+};
 
-export default Profile
-
+export default Profile;
 
 // class Profile extends Component {
 
