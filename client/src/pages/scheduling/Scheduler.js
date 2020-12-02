@@ -61,7 +61,7 @@ const Scheduler = () => {
               <Grid item md={6} xs={12}>
                 {selectedDay && 
                 <>
-                  <Typography className={classes.chosenDay} align="center">{selectedDay.month}/{selectedDay.day}/{selectedDay.year}</Typography>
+                  <Typography className={classes.chosenDay} align="center">{new Date(selectedDay.year, selectedDay.month - 1, selectedDay.day).toLocaleString("default", { month: "long" })} {selectedDay.day}, {selectedDay.year}</Typography>
                   <div className={classes.timePicker}>
                     <Button variant="outlined" size="large" color="primary" fullWidth >16:30</Button>
                     <Button variant="outlined" size="large" color="primary" fullWidth >17:00</Button>
