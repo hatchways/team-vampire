@@ -36,15 +36,15 @@ const EventTypes = () => {
   const matches = useMediaQuery(theme.breakpoints.up("md"));
 
   const userData = useContext(UserProvider.context);
-
-  const [eventTypes, setEventTypes] = useState([]);
+  console.log(userData);
+  // const [eventTypes, setEventTypes] = useState([]);
   
-  useEffect(() => {
-    if (userData.user) {
-      axios.get(`http://localhost:3001/api/meeting_types/${userData.user.id}`)
-        .then(response => setEventTypes(response.data));
-    }
-  }, [userData.user])
+  // useEffect(() => {
+  //   if (userData.user) {
+  //     axios.get(`http://localhost:3001/api/meeting_types/${userData.user.id}`)
+  //       .then(response => setEventTypes(response.data));
+  //   }
+  // }, [userData.user])
 
   
   return (
@@ -60,14 +60,14 @@ const EventTypes = () => {
               </Grid>
               <Grid container direction="column" item xs={11}>
                 <Grid item>
-                  {userData.user &&
+                  {/* {userData.user &&
                     <Typography>{userData.user.firstName} {userData.user.lastName}</Typography>
-                  }
+                  } */}
                 </Grid>
                 <Grid item>
-                  {userData.user &&
+                  {/* {userData.user &&
                     <Typography color="primary">calendly.com/{userData.user.firstName.toLowerCase()}-{userData.user.lastName.toLowerCase()}</Typography>
-                  }
+                  } */}
                 </Grid>
               </Grid>
             </Grid>
@@ -87,13 +87,13 @@ const EventTypes = () => {
           </Grid>
           <Divider className={classes.divider} />
           <Grid className={classes.eventTypes} container spacing={4} justify="flex-start">
-            {
+            {/* {
               eventTypes.map(({ id, name, duration }) => (
                 <Grid key={id} item xs={12} md={4}>
                   <EventTypeCard name={name} duration={duration} />
                 </Grid>
               ))
-            }
+            } */}
           </Grid>
         </div>
       </Container>
