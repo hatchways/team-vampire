@@ -1,7 +1,7 @@
 import React, { useContext, useState } from "react";
 import axios from "axios";
 import UserProvider from "../../contexts/UserProvider";
-import { Link, withRouter } from "react-router-dom";
+import { Link, withRouter, Redirect } from "react-router-dom";
 import Container from "../../components/Layout/Container";
 import Grid from "@material-ui/core/Grid";
 import Typography from "../../components/DataDisplay/Typography";
@@ -29,6 +29,8 @@ const NewEventType = (props) => {
   const [description, setDescription] = useState("");
   const [duration, setDuration] = useState("60"); // Default to 60 minutes
 
+  const [redirect, setRedirect] = useState(null);
+
   const handleNameChange = (event) => setName(event.target.value);
   const handleDescriptionChange = (event) => setDescription(event.target.value);
   const handleDurationChange = (event) => setDuration(event.target.value);
@@ -46,15 +48,19 @@ const NewEventType = (props) => {
     };
 
     // Send data to back-end
-
     axios.post("http://localhost:3001/api/meeting_types", eventTypeData)
       .then(response => console.log(response))
       .catch(error => console.log(error));
     
     // Redirect back to dashboard
-    const { history } = props;
-    history.push("/event_types/user/me");
+    // const { history } = props;
+    // history.push("/event_types/user/me");
+    setRedirect("/event_types/user/me");
   };
+
+  if (redirect) {
+    return <Redirect to={redirect} />
+  }
 
   return (
     <Container>
@@ -182,4 +188,4 @@ const NewEventType = (props) => {
   );
 };
 
-export default withRouter(NewEventType);
+export default NewEventType;
