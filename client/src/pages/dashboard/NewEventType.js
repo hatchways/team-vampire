@@ -23,6 +23,7 @@ const NewEventType = (props) => {
   //   Submit Form Data to Back-End
 
   const userContext = useContext(UserProvider.context);
+  console.log(userContext);
 
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");

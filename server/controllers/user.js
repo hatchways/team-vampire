@@ -45,26 +45,7 @@ usersRouter.get("/", async (request, response) => {
 // @desc Fetch/Read Single User
 // @route GET /:username
 usersRouter.get("/:username", async (request, response) => {
-    const user = await User.findOne({ userName:request.params.username })
-        .populate("availabilities", {
-            day: 1,
-            startTime: 1,
-            endTime: 1
-        })
-        .populate({
-            path: "meetingTypes",
-            model: "MeetingType",
-            populate: {
-                path: "appointments",
-                model: "Appointment",
-                select: {
-                    "name": 1,
-                    "email": 1,
-                    "time": 1,
-                    "timezone": 1
-                }
-            }
-        });
+    const user = await User.findOne({ userName:request.params.username });
     if (user) {
         response.json(user.toJSON());
     } else {

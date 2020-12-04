@@ -56,6 +56,25 @@ module.exports = function(passport) {
     });
       
     passport.deserializeUser((id, done) => {
-        User.findById(id, (err, user) => done(err, user));
+        User.findById(id, (err, user) => done(err, user))
+            .populate("availabilities", {
+                day: 1,
+                startTime: 1,
+                endTime: 1
+            })
+            .populate({
+                path: "meetingTypes",
+                model: "MeetingType",
+                populate: {
+                    path: "appointments",
+                    model: "Appointment",
+                    select: {
+                        "name": 1,
+                        "email": 1,
+                        "time": 1,
+                        "timezone": 1
+                    }
+                }
+            });
     });
 };
