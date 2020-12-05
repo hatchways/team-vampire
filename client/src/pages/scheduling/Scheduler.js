@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
+import UserProvider from "../../contexts/UserProvider";
 import Container from "../../components/Layout/Container";
 import { Box, Grid, Button, Divider, Typography, Paper, useMediaQuery } from "@material-ui/core";
 import { makeStyles, useTheme } from "@material-ui/core/styles";
@@ -26,16 +27,21 @@ const Scheduler = () => {
   const theme = useTheme();
   const matches = useMediaQuery(theme.breakpoints.down("sm"));
 
+  const userContext = useContext(UserProvider.context);
+  console.log(userContext);
+
   const classes = useStyles();
   const [selectedDay, setSelectedDay] = useState(null);
   console.log(selectedDay);
   return (
     <Container>
-      <Paper className={classes.root}>
+      {
+        userContext.user.user &&
+        <Paper className={classes.root}>
         <Box p={4}>
           <Grid container spacing={2}>
             <Grid item md={3} xs={12}>
-              <Typography variant="subtitle1" align={matches ? "center" : "inherit"} gutterBottom>John Doe</Typography>
+              <Typography variant="subtitle1" align={matches ? "center" : "inherit"} gutterBottom>{userContext.user.user.firstName} {userContext.user.user.lastName}</Typography>
               <Typography variant="h5" align={matches ? "center" : "inherit"} gutterBottom>Event Name</Typography>
               <Grid container spacing={1} alignItems="center" justify={matches ? "center" : "flex-start"}>
                 <Grid item>
@@ -75,6 +81,8 @@ const Scheduler = () => {
           </Grid>
         </Box>
       </Paper>
+      }
+      
     </Container>
   )
 }
