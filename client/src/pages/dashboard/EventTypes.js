@@ -1,5 +1,4 @@
 import React, { useState, useContext, useEffect } from "react";
-import axios from "axios";
 import UserProvider from "../../contexts/UserProvider";
 import { Link } from "react-router-dom";
 import Container from "../../components/Layout/Container";
@@ -36,67 +35,55 @@ const EventTypes = () => {
   const matches = useMediaQuery(theme.breakpoints.up("md"));
 
   const userData = useContext(UserProvider.context);
-
-  const [eventTypes, setEventTypes] = useState([]);
-  
-  useEffect(() => {
-    if (userData.user) {
-      axios.get(`http://localhost:3001/api/meeting_types/${userData.user.id}`)
-        .then(response => setEventTypes(response.data));
-    }
-  }, [userData.user])
-
   
   return (
     <>
       <DashboardHeader />
-      <Container >
-        <div className={classes.root}>
-          <Grid container alignContent="center" justify="space-between" spacing={1}>
-            <Grid className={classes.userInfo}
-              container justify="flex-start" spacing={1} item xs={12} md={8}>
-              <Grid item xs={1} >
-                <AccountCircle />
+      {
+        userData.user.user && (
+          <Container >
+          <div className={classes.root}>
+            <Grid container alignContent="center" justify="space-between" spacing={1}>
+              <Grid className={classes.userInfo}
+                container justify="flex-start" spacing={1} item xs={12} md={8}>
+                <Grid item xs={1} >
+                  <AccountCircle />
+                </Grid>
+                <Grid container direction="column" item xs={11}>
+                  <Grid item>
+                    <Typography>{userData.user.user.firstName} {userData.user.user.lastName}</Typography>
+                  </Grid>
+                  <Grid item>
+                    <Typography color="primary">calendly.com/{userData.user.user.firstName.toLowerCase()}-{userData.user.user.lastName.toLowerCase()}</Typography>
+                  </Grid>
+                </Grid>
               </Grid>
-              <Grid container direction="column" item xs={11}>
-                <Grid item>
-                  {userData.user &&
-                    <Typography>{userData.user.firstName} {userData.user.lastName}</Typography>
-                  }
-                </Grid>
-                <Grid item>
-                  {userData.user &&
-                    <Typography color="primary">calendly.com/{userData.user.firstName.toLowerCase()}-{userData.user.lastName.toLowerCase()}</Typography>
-                  }
-                </Grid>
+              <Grid className={classes.newEvent}
+                item xs={12} md={4}
+                container alignContent="center" justify="flex-end">
+                <Button
+                  component={Link}
+                  to="/event_types/new"
+                  variant="outlined"
+                  color="primary"
+                  fullWidth={!matches}
+                >
+                + New Event Type
+                </Button>
               </Grid>
             </Grid>
-            <Grid className={classes.newEvent}
-              item xs={12} md={4}
-              container alignContent="center" justify="flex-end">
-              <Button
-                component={Link}
-                to="/event_types/new"
-                variant="outlined"
-                color="primary"
-                fullWidth={!matches}
-              >
-              + New Event Type
-              </Button>
-            </Grid>
-          </Grid>
-          <Divider className={classes.divider} />
-          <Grid className={classes.eventTypes} container spacing={4} justify="flex-start">
-            {
-              eventTypes.map(({ id, name, duration }) => (
+            <Divider className={classes.divider} />
+            <Grid className={classes.eventTypes} container spacing={4} justify="flex-start">
+              {userData.user.user.meetingTypes.map(({ id, name, duration }) => (
                 <Grid key={id} item xs={12} md={4}>
                   <EventTypeCard name={name} duration={duration} />
                 </Grid>
-              ))
-            }
-          </Grid>
-        </div>
-      </Container>
+              ))}
+            </Grid>
+          </div>
+        </Container>
+        )
+      }
     </>
   );
 };
