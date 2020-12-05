@@ -37,11 +37,12 @@ const UserProvider = ({ children }) => {
 
     // Function to be called when creating a new meeting type
     const addMeetingTypes = (newMeetingType) => {
-      setUser(prevUser => { return {
-        user: {
-        ...prevUser.user, // copies the previous user object
-        meetingTypes: [...prevUser.user.meetingTypes, newMeetingType] // appends the newMeetingType created to the meetingTypes object
-       } 
+      setUser(prevUser => { 
+        return {
+          user: {
+          ...prevUser.user, // copies the previous user object
+          meetingTypes: [...prevUser.user.meetingTypes, newMeetingType] // appends the newMeetingType created to the meetingTypes object
+        } 
       }});
     }
 

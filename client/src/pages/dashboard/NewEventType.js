@@ -1,7 +1,7 @@
 import React, { useContext, useState } from "react";
 import axios from "axios";
 import UserProvider from "../../contexts/UserProvider";
-import { Link, withRouter, Redirect } from "react-router-dom";
+import { Link,  Redirect } from "react-router-dom";
 import Container from "../../components/Layout/Container";
 import Grid from "@material-ui/core/Grid";
 import Typography from "../../components/DataDisplay/Typography";
@@ -38,7 +38,6 @@ const NewEventType = (props) => {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    console.log("form button submitted");
 
     const eventTypeData = {
       userId: userContext.user.user.id,
@@ -50,7 +49,7 @@ const NewEventType = (props) => {
     // Send data to back-end
     axios.post("http://localhost:3001/api/meeting_types", eventTypeData)
       .then(response => {
-        userContext.addMeetingTypes(response.data); // returns the userObject
+        userContext.addMeetingTypes(response.data); // returns the userObject and appends the new 
       })
       .catch(error => console.log(error));
     

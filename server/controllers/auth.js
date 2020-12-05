@@ -17,7 +17,6 @@ authRouter.get("/google/callback", passport.authenticate("google", { failureRedi
 // @desc Get user data
 // @route GET /users/me
 authRouter.get("/users/me", ensureAuth, (request, response) => {
-    console.log(request.user);
     response.status(200).json({
         authenticated: true,
         message: "user successfully authenticated",
