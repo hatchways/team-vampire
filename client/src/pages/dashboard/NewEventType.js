@@ -41,7 +41,7 @@ const NewEventType = (props) => {
     console.log("form button submitted");
 
     const eventTypeData = {
-      userId: userContext.user.id,
+      userId: userContext.user.user.id,
       name: name,
       description: description,
       duration: Number(duration)
@@ -49,12 +49,12 @@ const NewEventType = (props) => {
 
     // Send data to back-end
     axios.post("http://localhost:3001/api/meeting_types", eventTypeData)
-      .then(response => console.log(response))
+      .then(response => {
+        userContext.addMeetingTypes(response.data); // returns the userObject
+      })
       .catch(error => console.log(error));
     
     // Redirect back to dashboard
-    // const { history } = props;
-    // history.push("/event_types/user/me");
     setRedirect("/event_types/user/me");
   };
 

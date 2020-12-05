@@ -35,7 +35,6 @@ const EventTypes = () => {
   const matches = useMediaQuery(theme.breakpoints.up("md"));
 
   const userData = useContext(UserProvider.context);
-  console.log(userData);
   
   return (
     <>
@@ -50,13 +49,13 @@ const EventTypes = () => {
               </Grid>
               <Grid container direction="column" item xs={11}>
                 <Grid item>
-                  {userData.user &&
-                    <Typography>{userData.user.firstName} {userData.user.lastName}</Typography>
+                  {userData.user.user &&
+                    <Typography>{userData.user.user.firstName} {userData.user.user.lastName}</Typography>
                   }
                 </Grid>
                 <Grid item>
-                  {userData.user &&
-                    <Typography color="primary">calendly.com/{userData.user.firstName.toLowerCase()}-{userData.user.lastName.toLowerCase()}</Typography>
+                  {userData.user.user &&
+                    <Typography color="primary">calendly.com/{userData.user.user.firstName.toLowerCase()}-{userData.user.user.lastName.toLowerCase()}</Typography>
                   }
                 </Grid>
               </Grid>
@@ -77,8 +76,8 @@ const EventTypes = () => {
           </Grid>
           <Divider className={classes.divider} />
           <Grid className={classes.eventTypes} container spacing={4} justify="flex-start">
-            {userData.user &&
-              userData.user.meetingTypes.map(({ id, name, duration }) => (
+            {userData.user.user &&
+              userData.user.user.meetingTypes.map(({ id, name, duration }) => (
                 <Grid key={id} item xs={12} md={4}>
                   <EventTypeCard name={name} duration={duration} />
                 </Grid>
