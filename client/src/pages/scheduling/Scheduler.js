@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Link } from "react-router-dom";
 import Container from "../../components/Layout/Container";
 import { Box, Grid, Button, Divider, Typography, Paper, useMediaQuery } from "@material-ui/core";
 import { makeStyles, useTheme } from "@material-ui/core/styles";
@@ -10,7 +11,10 @@ import { Calendar } from "react-modern-calendar-datepicker";
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    marginTop: theme.spacing(10)
+    marginTop: theme.spacing(5)
+  },
+  nav: {
+    marginTop: theme.spacing(2)
   },
   chosenDay: {
     marginTop: theme.spacing(4)
@@ -37,6 +41,12 @@ const Scheduler = (props) => {
   const [selectedDay, setSelectedDay] = useState(null);
   return (
     <Container>
+      <Grid container justify="flex-end">
+        <Grid container justify="flex-end" item xs={4}>
+          <Button 
+            className={classes.nav} variant="outlined" component={Link} to="/event_types/user/me">Home</Button>
+        </Grid>
+      </Grid>
       {props.location.schedulerProps && 
       <Paper className={classes.root}>
         <Box p={4}>
