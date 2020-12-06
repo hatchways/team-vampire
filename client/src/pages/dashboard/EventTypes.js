@@ -76,7 +76,13 @@ const EventTypes = () => {
             <Grid className={classes.eventTypes} container spacing={4} justify="flex-start">
               {userData.user.user.meetingTypes.map(({ id, name, duration }) => (
                 <Grid key={id} item xs={12} md={4}>
-                  <EventTypeCard name={name} duration={duration} />
+                  <EventTypeCard 
+                    id={id} 
+                    firstName={userData.user.user.firstName} 
+                    lastName={userData.user.user.lastName} 
+                    name={name} 
+                    duration={duration} 
+                    />
                 </Grid>
               ))}
             </Grid>

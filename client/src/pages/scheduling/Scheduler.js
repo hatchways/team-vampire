@@ -1,5 +1,4 @@
-import React, { useContext, useState } from "react";
-import UserProvider from "../../contexts/UserProvider";
+import React, { useState } from "react";
 import Container from "../../components/Layout/Container";
 import { Box, Grid, Button, Divider, Typography, Paper, useMediaQuery } from "@material-ui/core";
 import { makeStyles, useTheme } from "@material-ui/core/styles";
@@ -23,32 +22,34 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-const Scheduler = () => {
+const Scheduler = (props) => {
   const theme = useTheme();
   const matches = useMediaQuery(theme.breakpoints.down("sm"));
 
-  const userContext = useContext(UserProvider.context);
-  console.log(userContext);
+  const {
+    firstName,
+    lastName,
+    name,
+    duration
+  } = props.location.schedulerProps
 
   const classes = useStyles();
   const [selectedDay, setSelectedDay] = useState(null);
-  console.log(selectedDay);
   return (
     <Container>
-      {
-        userContext.user.user &&
-        <Paper className={classes.root}>
+      {props.location.schedulerProps && 
+      <Paper className={classes.root}>
         <Box p={4}>
           <Grid container spacing={2}>
             <Grid item md={3} xs={12}>
-              <Typography variant="subtitle1" align={matches ? "center" : "inherit"} gutterBottom>{userContext.user.user.firstName} {userContext.user.user.lastName}</Typography>
-              <Typography variant="h5" align={matches ? "center" : "inherit"} gutterBottom>Event Name</Typography>
+              <Typography variant="subtitle1" align={matches ? "center" : "inherit"} gutterBottom>{firstName} {lastName}</Typography>
+              <Typography variant="h5" align={matches ? "center" : "inherit"} gutterBottom>{name}</Typography>
               <Grid container spacing={1} alignItems="center" justify={matches ? "center" : "flex-start"}>
                 <Grid item>
                   <Timer />
                 </Grid>
                 <Grid item>
-                  <Typography variant="subtitle2">60 min</Typography>
+                  <Typography variant="subtitle2">{duration} min</Typography>
                 </Grid>
               </Grid>
             </Grid>
@@ -80,9 +81,8 @@ const Scheduler = () => {
             </Grid>
           </Grid>
         </Box>
-      </Paper>
+      </Paper>      
       }
-      
     </Container>
   )
 }
