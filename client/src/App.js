@@ -35,7 +35,7 @@ function App ({ location }) {
           <Route path="/login" component={LogIn} />
           <Route path="/googleSignUp" component={SignUpGoogle} email={email} />
           <Route exact path="/" component={SignUpEmail} handleEmailEntry={handleEmailEntry} />
-          <Route path="/calendar" component={Scheduler} />  
+          <Route path="/scheduler/:user/:event_type" component={Scheduler} />  
           <Fragment>
             <Header/>
             <UserProvider>
