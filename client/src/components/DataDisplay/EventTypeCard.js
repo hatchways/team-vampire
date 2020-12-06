@@ -74,14 +74,7 @@ export default function EventTypeCard (props) {
                 <Link 
                   to={
                     {
-                      pathname: `/scheduler/${firstName.toLowerCase()}-${lastName.toLowerCase()}/${id}`,
-                      schedulerProps: {
-                        firstName,
-                        lastName,
-                        id, 
-                        name, 
-                        duration
-                      }                     
+                      pathname: `/scheduler/${firstName.toLowerCase()}-${lastName.toLowerCase()}/${id}`,              
                     }
                   }
                 >
