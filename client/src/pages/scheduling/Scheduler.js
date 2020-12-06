@@ -1,5 +1,6 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
+import axios from "axios";
 import Container from "../../components/Layout/Container";
 import { Box, Grid, Button, Divider, Typography, Paper, useMediaQuery } from "@material-ui/core";
 import { makeStyles, useTheme } from "@material-ui/core/styles";
@@ -30,15 +31,21 @@ const Scheduler = (props) => {
   const theme = useTheme();
   const matches = useMediaQuery(theme.breakpoints.down("sm"));
 
-  const {
-    firstName,
-    lastName,
-    name,
-    duration
-  } = props.location.schedulerProps
+  // console.log(props.match.params.event_type);
+  const eventTypeID = props.match.params.event_type;
+
+  const [eventType, setEventType] = useState(null);
+
+  // Retrieve Event Type Information from params
+  useEffect(() => {
+    axios.get(`http://localhost:3001/api/meeting_types/single/${eventTypeID}`)
+      .then(response => setEventType(response.data));
+  }, []);
+
 
   const classes = useStyles();
   const [selectedDay, setSelectedDay] = useState(null);
+
   return (
     <Container>
       <Grid container justify="flex-end">
@@ -47,19 +54,19 @@ const Scheduler = (props) => {
             className={classes.nav} variant="outlined" component={Link} to="/event_types/user/me">Home</Button>
         </Grid>
       </Grid>
-      {props.location.schedulerProps && 
+      {eventType && 
       <Paper className={classes.root}>
         <Box p={4}>
           <Grid container spacing={2}>
             <Grid item md={3} xs={12}>
-              <Typography variant="subtitle1" align={matches ? "center" : "inherit"} gutterBottom>{firstName} {lastName}</Typography>
-              <Typography variant="h5" align={matches ? "center" : "inherit"} gutterBottom>{name}</Typography>
+              <Typography variant="subtitle1" align={matches ? "center" : "inherit"} gutterBottom>{eventType.user.firstName} {eventType.user.lastName}</Typography>
+              <Typography variant="h5" align={matches ? "center" : "inherit"} gutterBottom>{eventType.name}</Typography>
               <Grid container spacing={1} alignItems="center" justify={matches ? "center" : "flex-start"}>
                 <Grid item>
                   <Timer />
                 </Grid>
                 <Grid item>
-                  <Typography variant="subtitle2">{duration} min</Typography>
+                  <Typography variant="subtitle2">{eventType.duration} min</Typography>
                 </Grid>
               </Grid>
             </Grid>
@@ -93,7 +100,7 @@ const Scheduler = (props) => {
         </Box>
       </Paper>      
       }
-    </Container>
+    </Container> 
   )
 }
 
