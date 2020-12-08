@@ -23,7 +23,7 @@ const NewEventType = (props) => {
   //   Submit Form Data to Back-End
 
   const userContext = useContext(UserProvider.context);
-  console.log(userContext);
+  const currentUser = userContext.user.user;
 
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
@@ -40,7 +40,7 @@ const NewEventType = (props) => {
     event.preventDefault();
 
     const eventTypeData = {
-      userId: userContext.user.user.id,
+      userId: currentUser.id,
       name: name,
       description: description,
       duration: Number(duration)

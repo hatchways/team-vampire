@@ -51,7 +51,9 @@ const Scheduler = (props) => {
       <Grid container justify="flex-end">
         <Grid container justify="flex-end" item xs={4}>
           <Button 
-            className={classes.nav} variant="outlined" component={Link} to="/event_types/user/me">Home</Button>
+            className={classes.nav} variant="outlined" 
+            // component={Link} 
+            href="http://localhost:3000/event_types/user/me">Home</Button>
         </Grid>
       </Grid>
       {eventType && 
