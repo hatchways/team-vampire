@@ -17,7 +17,11 @@ import EventTypes from "./pages/dashboard/EventTypes";
 import NewEventType from "./pages/dashboard/NewEventType";
 import ScheduledEvents from "./pages/dashboard/ScheduledEvents";
 
-function App () {
+// Scheduler
+import Scheduler from "./pages/scheduling/Scheduler";
+
+
+function App ({ location }) {
   const [email, setEmail] = useState("");
 
   const handleEmailEntry = (e) => {
@@ -31,9 +35,10 @@ function App () {
           <Route path="/login" component={LogIn} />
           <Route path="/googleSignUp" component={SignUpGoogle} email={email} />
           <Route exact path="/" component={SignUpEmail} handleEmailEntry={handleEmailEntry} />
+          <Route path="/scheduler/:user/:event_type" component={Scheduler} />  
           <Fragment>
+            <Header/>
             <UserProvider>
-              <Header />
               <Route path="/profile" component={Profile} />
               <Route path="/event_types/new" component={NewEventType} />
               <Route path="/event_types/user/me" component={EventTypes} />

@@ -34,13 +34,14 @@ const EventTypes = () => {
   const theme = useTheme();
   const matches = useMediaQuery(theme.breakpoints.up("md"));
 
-  const userData = useContext(UserProvider.context);
+  const userContext = useContext(UserProvider.context);
+  const currentUser = userContext.user.user;
   
   return (
     <>
       <DashboardHeader />
       {
-        userData.user.user && (
+        currentUser && (
           <Container >
           <div className={classes.root}>
             <Grid container alignContent="center" justify="space-between" spacing={1}>
@@ -51,10 +52,10 @@ const EventTypes = () => {
                 </Grid>
                 <Grid container direction="column" item xs={11}>
                   <Grid item>
-                    <Typography>{userData.user.user.firstName} {userData.user.user.lastName}</Typography>
+                    <Typography>{currentUser.firstName} {currentUser.lastName}</Typography>
                   </Grid>
                   <Grid item>
-                    <Typography color="primary">calendly.com/{userData.user.user.firstName.toLowerCase()}-{userData.user.user.lastName.toLowerCase()}</Typography>
+                    <Typography color="primary">calendly.com/{currentUser.firstName.toLowerCase()}-{currentUser.lastName.toLowerCase()}</Typography>
                   </Grid>
                 </Grid>
               </Grid>
@@ -74,9 +75,15 @@ const EventTypes = () => {
             </Grid>
             <Divider className={classes.divider} />
             <Grid className={classes.eventTypes} container spacing={4} justify="flex-start">
-              {userData.user.user.meetingTypes.map(({ id, name, duration }) => (
+              {currentUser.meetingTypes.map(({ id, name, duration }) => (
                 <Grid key={id} item xs={12} md={4}>
-                  <EventTypeCard name={name} duration={duration} />
+                  <EventTypeCard 
+                    id={id} 
+                    firstName={currentUser.firstName} 
+                    lastName={currentUser.lastName} 
+                    name={name} 
+                    duration={duration} 
+                    />
                 </Grid>
               ))}
             </Grid>

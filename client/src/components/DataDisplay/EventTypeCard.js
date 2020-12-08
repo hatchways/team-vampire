@@ -1,6 +1,17 @@
 /* eslint react/prop-types: 0 */
 import React from "react";
-import { Card, CardActions, CardContent, Typography, Divider, Button, Grid, IconButton, Box } from "@material-ui/core";
+import { Link } from "react-router-dom";
+import { 
+  Card,
+  CardActions,
+  CardContent, 
+  Typography, 
+  Divider, 
+  Button, 
+  Grid, 
+  IconButton, 
+  Box 
+} from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import { Settings, Timer } from "@material-ui/icons";
 
@@ -21,9 +32,14 @@ const useStyles = makeStyles({
   }
 });
 
-export default function EventTypeCard ({ name, duration }) {
+export default function EventTypeCard (props) {
   const classes = useStyles();
-
+  const { 
+    firstName,
+    lastName,
+    id, 
+    name, 
+    duration } = props;
   return (
     <Box borderTop={5} borderColor="primary.main" borderRadius="borderRadius">
       <Card className={classes.root}>
@@ -41,16 +57,31 @@ export default function EventTypeCard ({ name, duration }) {
           <Typography className={classes.pos} color="textSecondary">
             One-on-One
           </Typography>
+          <Grid container justify="flex-start" alignItems="center" item xs={6} spacing={1}>
+              <Grid item>
+                <Timer />
+              </Grid>
+              <Grid item>
+                <Typography variant="subtitle2">{duration} min</Typography>
+              </Grid>
+            </Grid>
         </CardContent>
         <Divider/>
         <CardActions>
           <Grid container justify="space-between">
             <Grid container justify="flex-start" alignItems="center" item xs={6} spacing={1}>
               <Grid item>
-                <Timer />
-              </Grid>
-              <Grid item>
-                <Typography variant="subtitle2">{duration} min</Typography>
+                <Link 
+                  to={
+                    {
+                      pathname: `/scheduler/${firstName.toLowerCase()}-${lastName.toLowerCase()}/${id}`,              
+                    }
+                  }
+                >
+                  <Typography variant="subtitle2">
+                    /{id.substring(0,8)}...
+                  </Typography>
+                </Link>
               </Grid>
             </Grid>
             <Grid container justify="flex-end" item xs={6}>
