@@ -5,7 +5,7 @@ const { google } = require("googleapis");
 
 // @desc Auth with Google
 // @route GET / 
-authRouter.get("/google", passport.authenticate("google", { scope: ["profile", "email", "https://www.googleapis.com/auth/calendar"] }));
+authRouter.get("/google", passport.authenticate("google", { scope: ["profile", "email", "https://www.googleapis.com/auth/calendar"], accessType: "offline", prompt: "consent" }));
 
 // @desc Google Auth Callback
 // @route GET /auth/google/callback
@@ -28,9 +28,20 @@ authRouter.get("/users/me", ensureAuth, (request, response) => {
 
 // @desc Get calendar list
 // @route GET /calendarList
-authRouter.get("/calendarList", ensureAuth, (request, response) => {
-    
-    const calendar = google.calendar("v3");
+authRouter.get("/calendar", ensureAuth, (request, response) => {
+
+    const oauth2Client = new google.auth.OAuth2({
+        clientID: process.env.GOOGLE_CLIENT_ID,
+        clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+        callbackURL: "/api/auth/google/callback"
+    });
+
+    oauth2Client.credentials = {
+        access_token: request.user.accessToken,
+        refresh_token: request.user.refreshToken
+    }; 
+      
+    const calendar = google.calendar({ version: "v3", auth: oauth2Client });
     calendar.events.list({
         calendarId: "primary",
         timeMin: (new Date()).toISOString(),

@@ -3,6 +3,8 @@ const uniqueValidator = require("mongoose-unique-validator");
 
 const userSchema = new Schema({
     googleId:         { type: String, required: true },
+    accessToken:      { type: String, required: true },
+    refreshToken:     { type: String, required: true },
     userName:         { type: String, index: true, unique: true, sparse: true }, // not sure if this is the standard implementation to allow null to not be unique
     firstName:        { type: String, required: true },
     lastName:         { type: String, required: true },
