@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useState, useContext, useEffect } from "react";
+import UserProvider from "../../contexts/UserProvider";
 import { Link } from "react-router-dom";
 import Container from "../../components/Layout/Container";
 import DashboardHeader from "../../components/Layout/DashboardHeader";
@@ -32,54 +33,64 @@ const EventTypes = () => {
   const classes = useStyles();
   const theme = useTheme();
   const matches = useMediaQuery(theme.breakpoints.up("md"));
+
+  const userContext = useContext(UserProvider.context);
+  const currentUser = userContext.user.user;
+  
   return (
     <>
       <DashboardHeader />
-      <Container >
-        <div className={classes.root}>
-          <Grid container alignContent="center" justify="space-between" spacing={1}>
-            <Grid className={classes.userInfo}
-              container justify="flex-start" spacing={1} item xs={12} md={8}>
-              <Grid item xs={1} >
-                <AccountCircle />
-              </Grid>
-              <Grid container direction="column" item xs={11}>
-                <Grid item>
-                  <Typography>John Doe</Typography>
+      {
+        currentUser && (
+          <Container >
+          <div className={classes.root}>
+            <Grid container alignContent="center" justify="space-between" spacing={1}>
+              <Grid className={classes.userInfo}
+                container justify="flex-start" spacing={1} item xs={12} md={8}>
+                <Grid item xs={1} >
+                  <AccountCircle />
                 </Grid>
-                <Grid item>
-                  <Typography color="primary"><a>calendly.com/john-doe</a></Typography>
+                <Grid container direction="column" item xs={11}>
+                  <Grid item>
+                    <Typography>{currentUser.firstName} {currentUser.lastName}</Typography>
+                  </Grid>
+                  <Grid item>
+                    <Typography color="primary">calendly.com/{currentUser.firstName.toLowerCase()}-{currentUser.lastName.toLowerCase()}</Typography>
+                  </Grid>
                 </Grid>
               </Grid>
+              <Grid className={classes.newEvent}
+                item xs={12} md={4}
+                container alignContent="center" justify="flex-end">
+                <Button
+                  component={Link}
+                  to="/event_types/new"
+                  variant="outlined"
+                  color="primary"
+                  fullWidth={!matches}
+                >
+                + New Event Type
+                </Button>
+              </Grid>
             </Grid>
-            <Grid className={classes.newEvent}
-              item xs={12} md={4}
-              container alignContent="center" justify="flex-end">
-              <Button
-                component={Link}
-                to="/event_types/new"
-                variant="outlined"
-                color="primary"
-                fullWidth={!matches}
-              >
-              + New Event Type
-              </Button>
+            <Divider className={classes.divider} />
+            <Grid className={classes.eventTypes} container spacing={4} justify="flex-start">
+              {currentUser.meetingTypes.map(({ id, name, duration }) => (
+                <Grid key={id} item xs={12} md={4}>
+                  <EventTypeCard 
+                    id={id} 
+                    firstName={currentUser.firstName} 
+                    lastName={currentUser.lastName} 
+                    name={name} 
+                    duration={duration} 
+                    />
+                </Grid>
+              ))}
             </Grid>
-          </Grid>
-          <Divider className={classes.divider} />
-          <Grid className={classes.eventTypes} container spacing={4} justify="flex-start">
-            <Grid item xs={12} md={4}>
-              <EventTypeCard name="Sprint Planning" duration="60" />
-            </Grid>
-            <Grid item xs={12} md={4}>
-              <EventTypeCard name="Standups" duration="15"/>
-            </Grid>
-            <Grid item xs={12} md={4}>
-              <EventTypeCard name="Office Hours" duration="45"/>
-            </Grid>
-          </Grid>
-        </div>
-      </Container>
+          </div>
+        </Container>
+        )
+      }
     </>
   );
 };

@@ -33,6 +33,25 @@ meetingTypesRouter.get("/", async (request, response) => {
     response.json(meetingTypes);
 });
 
+// @desc Fetch/Read All meetings by User ID
+// @route GET /
+meetingTypesRouter.get("/user/:userID", async (request, response) => { 
+    const meetingTypes = await MeetingType.find({ user:request.params.userID });
+    response.json(meetingTypes);
+});
+
+
+// @desc Fetch/Read Single meeting
+// @route GET /
+meetingTypesRouter.get("/single/:id", async (request, response) => {
+    const meetingTypes = await MeetingType.findById(request.params.id)
+        .populate("user", {
+            firstName: 1,
+            lastName: 1
+        });
+    response.json(meetingTypes);
+});
+
 // @desc Update Meeting Type
 // @route PATCH /:id
 meetingTypesRouter.patch("/:id", async (request, response) => {

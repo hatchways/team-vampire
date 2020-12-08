@@ -4,7 +4,7 @@ const authRouter = require("express").Router();
 
 // @desc Auth with Google
 // @route GET / 
-authRouter.get("/google", passport.authenticate("google", { scope: ["profile", "email"] }));
+authRouter.get("/google", passport.authenticate("google", { scope: ["profile", "email", "https://www.googleapis.com/auth/calendar.readonly"] }));
 
 // @desc Google Auth Callback
 // @route GET /auth/google/callback

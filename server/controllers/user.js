@@ -42,10 +42,8 @@ usersRouter.get("/", async (request, response) => {
     response.json(users.map(user => user.toJSON()));
 });
 
-// @desc Fetch/Read Single User
-// @route GET /:username
-usersRouter.get("/:username", async (request, response) => {
-    const user = await User.findOne({ userName:request.params.username })
+usersRouter.get("/:id", async (request, response) => {
+    const user = await User.findById(request.params.id)
         .populate("availabilities", {
             day: 1,
             startTime: 1,
@@ -65,6 +63,13 @@ usersRouter.get("/:username", async (request, response) => {
                 }
             }
         });
+    response.json(user.toJSON());
+});
+
+// @desc Fetch/Read Single User
+// @route GET /:username
+usersRouter.get("/:username", async (request, response) => {
+    const user = await User.findOne({ userName:request.params.username });
     if (user) {
         response.json(user.toJSON());
     } else {

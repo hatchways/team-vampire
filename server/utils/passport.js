@@ -1,5 +1,4 @@
 const GoogleStrategy = require("passport-google-oauth20").Strategy;
-const mongoose = require("mongoose");
 const { User } = require("../models");
 
 module.exports = function(passport) {
@@ -21,7 +20,26 @@ module.exports = function(passport) {
         };
 
         // Checks if user already exists
-        let user = await User.findOne({ googleId: profile.id });
+        let user = await User.findOne({ googleId: profile.id })
+            .populate("availabilities", {
+                day: 1,
+                startTime: 1,
+                endTime: 1
+            })
+            .populate({
+                path: "meetingTypes",
+                model: "MeetingType",
+                populate: {
+                    path: "appointments",
+                    model: "Appointment",
+                    select: {
+                        "name": 1,
+                        "email": 1,
+                        "time": 1,
+                        "timezone": 1
+                    }
+                }
+            });
 
         if (user) {
             console.log("user already exists");
@@ -31,15 +49,32 @@ module.exports = function(passport) {
             user = await User.create(newUser);
             return done(null, user);
         }
-
-    }
-    ));
+    }));
 
     passport.serializeUser((user, done) => {
         done(null, user.id);
     });
       
     passport.deserializeUser((id, done) => {
-        User.findById(id, (err, user) => done(err, user));
+        User.findById(id, (err, user) => done(err, user))
+            .populate("availabilities", {
+                day: 1,
+                startTime: 1,
+                endTime: 1
+            })
+            .populate({
+                path: "meetingTypes",
+                model: "MeetingType",
+                populate: {
+                    path: "appointments",
+                    model: "Appointment",
+                    select: {
+                        "name": 1,
+                        "email": 1,
+                        "time": 1,
+                        "timezone": 1
+                    }
+                }
+            });
     });
 };

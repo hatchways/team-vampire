@@ -4,23 +4,13 @@ const ensureAuth = (request, response, next) => {
     if (request.isAuthenticated()) {
         return next();
     } else {
-        // response.json({
-        //     "status": "error",
-        //     "message": "user is not authenticated"
-        // });
-        // change to a res.redirect to login page
-        response.redirect("/api/test/");
+        response.redirect("http://localhost:3000/");
     }
 };
 
 const ensureGuest = (request, response, next) => {
     if (request.isAuthenticated()) {
-        // response.json({
-        //     "status": "success",
-        //     "message": "user is authenticated"
-        // });
-        // change to a res.redirect to dashboard page 
-        response.redirect("/api/test/dashboard");
+        response.redirect("http://localhost:3000/event_types/user/me");
     } else {
         return next();
     }
