@@ -21,29 +21,16 @@ module.exports = function(passport) {
         };
 
         // Checks if user already exists
-        let user = await User.findOne({ googleId: profile.id })
-            .populate("availabilities", {
-                day: 1,
-                startTime: 1,
-                endTime: 1
-            })
-            .populate({
-                path: "meetingTypes",
-                model: "MeetingType",
-                populate: {
-                    path: "appointments",
-                    model: "Appointment",
-                    select: {
-                        "name": 1,
-                        "email": 1,
-                        "time": 1,
-                        "timezone": 1
-                    }
-                }
-            });
+        let user = await User.findOne({ googleId: profile.id });
 
         if (user) {
             console.log("user already exists");
+            console.log("old access token", user.accessToken);
+            console.log("old refresh token", user.refreshToken);
+            const newAccessToken = accessToken;
+            const newRefreshToken = refreshToken;
+            user = await User.findOneAndUpdate({ googleId: profile.id }, { accessToken: newAccessToken, refreshToken: newRefreshToken }, { new: true });
+            console.log(user);
             return done(null, user);
         } else {
             console.log("creating new user");

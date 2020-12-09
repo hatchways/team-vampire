@@ -5,7 +5,18 @@ const { google } = require("googleapis");
 
 // @desc Auth with Google
 // @route GET / 
-authRouter.get("/google", passport.authenticate("google", { scope: ["profile", "email", "https://www.googleapis.com/auth/calendar"], accessType: "offline", prompt: "consent" }));
+authRouter.get("/google", passport.authenticate("google", 
+    { 
+        scope: 
+        [
+            "profile",
+            "email", 
+            "https://www.googleapis.com/auth/calendar"
+        ], 
+        accessType: "offline", 
+        prompt: "consent" 
+    }
+));
 
 // @desc Google Auth Callback
 // @route GET /auth/google/callback
@@ -30,6 +41,8 @@ authRouter.get("/users/me", ensureAuth, (request, response) => {
 // @route GET /calendarList
 authRouter.get("/calendar", ensureAuth, (request, response) => {
 
+    console.log(request.user);
+
     const oauth2Client = new google.auth.OAuth2({
         clientID: process.env.GOOGLE_CLIENT_ID,
         clientSecret: process.env.GOOGLE_CLIENT_SECRET,
@@ -40,6 +53,7 @@ authRouter.get("/calendar", ensureAuth, (request, response) => {
         access_token: request.user.accessToken,
         refresh_token: request.user.refreshToken
     }; 
+    console.log(oauth2Client.credentials);
       
     const calendar = google.calendar({ version: "v3", auth: oauth2Client });
     calendar.events.list({
@@ -62,6 +76,11 @@ authRouter.get("/calendar", ensureAuth, (request, response) => {
         }
     });
   
+});
+
+authRouter.get("/logout", function(req, res){
+    req.logout();
+    res.redirect("http://localhost:3000");
 });
 
 module.exports = authRouter;
