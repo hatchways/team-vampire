@@ -1,5 +1,53 @@
 const availabilitiesRouter = require("express").Router();
 const { Availability, User } = require("../models/");
+const { google } = require("googleapis");
+
+// @desc FreeBusy
+// @route GET /
+availabilitiesRouter.get("/freebusy", (request, response) => {
+    const oauth2Client = new google.auth.OAuth2({
+        clientID: process.env.GOOGLE_CLIENT_ID,
+        clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+        callbackURL: "/api/auth/google/callback"
+    });
+
+    oauth2Client.credentials = {
+        access_token: request.user.accessToken,
+        refresh_token: request.user.refreshToken
+    }; 
+
+    // Create a new event start date instance for temp uses in our calendar.
+    const eventStartTime = new Date();
+    eventStartTime.setDate(eventStartTime.getDay());
+
+    // Create a new event end date instance for temp uses in our calendar.
+    const eventEndTime = new Date();
+    eventEndTime.setDate(eventEndTime.getDay());
+    eventEndTime.setHours(eventEndTime.getHours() + 23);
+
+    const calendar = google.calendar({ version: "v3", auth: oauth2Client });
+    calendar.freebusy.query({
+        headers: { "content-type" : "application/json" },
+        resource: {
+            timeMin: eventStartTime,
+            timeMax: eventEndTime,
+            timezone: "America/Toronto",
+            items: [{ id: "primary" }],            
+        }
+    }, 
+    (err, response) => {
+        if (err) return console.error("Free Busy Query Error: ", err);
+        
+        const eventsList = response.data.calendars.primary.busy;
+
+        if (eventsList.length === 0) {
+            console.log("No upcoming events found");
+        } else {
+            console.log("Upcoming Event Times \n", eventsList);
+        }
+
+    });
+});    
 
 // @desc Create Availability
 // @route POST /
