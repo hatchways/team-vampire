@@ -73,7 +73,7 @@ const {
 
 app.use("/api/auth", authRouter);
 app.use("/api/users", usersRouter);
-app.use("/api/availabilities", availabilitiesRouter);
+app.use("/api/avail", availabilitiesRouter);
 app.use("/api/meeting_types", meetingTypesRouter);
 app.use("/api/appointments", appointmentsRouter);
 
