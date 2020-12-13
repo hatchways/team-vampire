@@ -18,73 +18,71 @@ availabilitiesRouter.get("/freebusy", (request, response) => {
         refresh_token: request.user.refreshToken
     }; 
 
-    const availStartTime = new Date(2020, 11, 11, 9, 0, 0, 0);
-    // console.log(availStartTime.toLocaleString());
-
-    const availEndTime = new Date(2020, 11, 11, 17, 0, 0, 0);
-    // console.log(availEndTime.toLocaleString());
+    const availStartTime = new Date(2020, 11, 13, 9, 0, 0, 0);
+    const availEndTime = new Date(2020, 11, 13, 17, 0, 0, 0);
 
     // Duration in minutes
     const duration = 60;
 
-    // Empty Availability Time Slot Array
-    const potentialTimeSlotList = [];
-
-    let potentialAvailStartTime = new Date(availStartTime);
-    let potentialAvailEndTime = new Date(availStartTime.setMinutes( availStartTime.getMinutes() + duration));
-    while (potentialAvailEndTime <= availEndTime) {
-        potentialTimeSlotList.push(new Date(potentialAvailStartTime));
-        potentialAvailStartTime.setMinutes(potentialAvailStartTime.getMinutes() + duration);
-        potentialAvailEndTime.setMinutes(potentialAvailEndTime.getMinutes() + duration);
-    }
-
-    // console.log(potentialTimeSlotList);
-
-    const actualTimeSlotList = [];
 
     const calendar = google.calendar({ version: "v3", auth: oauth2Client });
-    potentialTimeSlotList.forEach((timeSlot) => {
-        // console.log("timeSlot", timeSlot.toLocaleString());
-        const currentTimeSlot = new Date(timeSlot);
-        const timeMin = new Date(timeSlot);
-        // console.log("time min", timeMin.toLocaleString());
-        const timeMax = new Date(timeSlot.setMinutes(timeSlot.getMinutes() + duration - 1)); // subtracted 1 minute to allow booking for available time slots that are 1 hour exactly
-        // console.log("time max", timeMax.toLocaleString());
-        // console.log("current timeslot", currentTimeSlot.toLocaleString());
-        calendar.freebusy.query({
-            headers: { "content-type" : "application/json" },
-            resource: {
-                timeMin,
-                timeMax,
-                timezone: "America/Toronto",
-                items: [{ id: "primary" }],            
-            }
-        }, 
-        (err, response) => {
-            if (err) return console.error("Free Busy Query Error: ", err);
-            
-            const eventsList = response.data.calendars.primary.busy;
 
-            if (eventsList.length === 0) {
-                // console.log("Time Slot Available");
-                // console.log(currentTimeSlot.toLocaleString());
-                actualTimeSlotList.push(new Date(currentTimeSlot));
-                // console.log(actualTimeSlotList);
+    calendar.freebusy.query({
+        headers: { "content-type" : "application/json" },
+        resource: {
+            timeMin: availStartTime, // 9 AM
+            timeMax: availEndTime, // 5 pm
+            timezone: "America/Toronto",
+            items: [{ id: "primary" }],            
+        }
+    }, 
+    (err, res) => {
+        if (err) return console.error("Free Busy Query Error: ", err);
+        const actualTimeSlotList = [];
+        let potentialSlotStartTime = new Date(availStartTime);
+        let potentialSlotEndTime = new Date(potentialSlotStartTime);
+        potentialSlotEndTime.setMinutes( potentialSlotEndTime.getMinutes() + duration );
+        const eventsList = res.data.calendars.primary.busy;
+        eventsList.forEach((event, index) => {
+            const eventStartTime = new Date(event.start);
+            const eventEndTime = new Date(event.end);
+            if (potentialSlotEndTime > eventStartTime) {
+                potentialSlotStartTime = new Date(eventEndTime);
+                potentialSlotEndTime = new Date(eventEndTime);
+                potentialSlotEndTime.setMinutes( potentialSlotEndTime.getMinutes() + duration );
             } else {
-                // console.log("Time Slot Not Available \n", eventsList);
+                while (potentialSlotEndTime  <= eventStartTime) {
+                    actualTimeSlotList.push({
+                        start: new Date (potentialSlotStartTime),
+                        end: new Date (potentialSlotEndTime)
+                    });
+                    potentialSlotStartTime.setMinutes( potentialSlotStartTime.getMinutes() + duration );
+                    potentialSlotEndTime.setMinutes( potentialSlotEndTime.getMinutes() + duration );
+                }
+                potentialSlotStartTime = new Date(eventEndTime);
+                potentialSlotEndTime = eventEndTime;
+                potentialSlotEndTime.setMinutes( potentialSlotEndTime.getMinutes() + duration );
             }
 
-            console.log("time slots available: ", actualTimeSlotList); // how to return this 
-            // return actualTimeSlotList;
+            if (eventsList.length - 1 === index) {
+                while (potentialSlotEndTime  <= availEndTime) {
+                    actualTimeSlotList.push({
+                        start: new Date (potentialSlotStartTime),
+                        end: new Date (potentialSlotEndTime)
+                    });
+                    potentialSlotStartTime.setMinutes( potentialSlotStartTime.getMinutes() + duration );
+                    potentialSlotEndTime.setMinutes( potentialSlotEndTime.getMinutes() + duration );
+                }
+            } 
         });
-        console.log("time slots available: ", actualTimeSlotList);
 
+        actualTimeSlotList.forEach(timeSlot => {
+            console.log("time slot start", (new Date(timeSlot.start)).toLocaleString());
+            console.log("time slot end", (new Date(timeSlot.end)).toLocaleString());
+        });
 
+        response.json(actualTimeSlotList);
     });
-    // console.log("time slots available: ", actualTimeSlotList);
-    // response.json(actualTimeSlotList);
-
-    
 });    
 
 // @desc Create Availability
