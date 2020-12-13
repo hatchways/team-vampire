@@ -20,6 +20,8 @@ const useStyles = makeStyles((theme) => ({
     marginTop: theme.spacing(4)
   },
   timePicker: {
+    height: "300px",
+    overflowY: "auto",
     '& > *': {
       marginTop: theme.spacing(3),
     }
