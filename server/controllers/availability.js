@@ -4,9 +4,11 @@ const { google } = require("googleapis");
 
 // @desc FreeBusy
 // @route GET /freebusy?date=143213434&meetingTypeID=df34234fgdg235
-availabilitiesRouter.get("/freebusy", (request, response) => {
-    // request.query.meetingTypeID
-    // request.query.date // must be in datetime format
+availabilitiesRouter.get("/freebusy", async (request, response) => {
+    const { day, month, year } = request.query;
+    const duration = Number(request.query.duration);
+    const user = await User.findById(request.query.user);
+
     const oauth2Client = new google.auth.OAuth2({
         clientID: process.env.GOOGLE_CLIENT_ID,
         clientSecret: process.env.GOOGLE_CLIENT_SECRET,
@@ -14,15 +16,12 @@ availabilitiesRouter.get("/freebusy", (request, response) => {
     });
 
     oauth2Client.credentials = {
-        access_token: request.user.accessToken,
-        refresh_token: request.user.refreshToken
+        access_token: user.accessToken,
+        refresh_token: user.refreshToken
     }; 
 
-    const availStartTime = new Date(2020, 11, 12, 9, 0, 0, 0);
-    const availEndTime = new Date(2020, 11, 12, 17, 0, 0, 0);
-
-    // Duration in minutes
-    const duration = 60;
+    const availStartTime = new Date(year, month, day, 9, 0, 0, 0);
+    const availEndTime = new Date(year, month, day, 17, 0, 0, 0);
 
 
     const calendar = google.calendar({ version: "v3", auth: oauth2Client });

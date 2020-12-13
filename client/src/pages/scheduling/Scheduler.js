@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
 import axios from "axios";
 import Container from "../../components/Layout/Container";
 import { Box, Grid, Button, Divider, Typography, Paper, useMediaQuery } from "@material-ui/core";
@@ -24,6 +23,9 @@ const useStyles = makeStyles((theme) => ({
     '& > *': {
       marginTop: theme.spacing(3),
     }
+  },
+  noAvail: {
+    marginTop: theme.spacing(3)
   }
 }));
 
@@ -31,9 +33,7 @@ const Scheduler = (props) => {
   const theme = useTheme();
   const matches = useMediaQuery(theme.breakpoints.down("sm"));
 
-  // console.log(props.match.params.event_type);
   const eventTypeID = props.match.params.event_type;
-
   const [eventType, setEventType] = useState(null);
 
   // Retrieve Event Type Information from params
@@ -45,6 +45,16 @@ const Scheduler = (props) => {
 
   const classes = useStyles();
   const [selectedDay, setSelectedDay] = useState(null);
+  const [avail, setAvail] = useState([]);
+
+  const handleDaySelection = async (props) => {
+    console.log(props);
+    setSelectedDay(props);
+    const { day, month, year } = props;
+    await axios.get(`http://localhost:3001/api/avail/freebusy?user=${eventType.user.id}&day=${day}&month=${month - 1}&year=${year}&duration=${eventType.duration}`)
+      .then(response => setAvail(response.data));
+    console.log(avail);
+  };
 
   return (
     <Container>
@@ -52,7 +62,6 @@ const Scheduler = (props) => {
         <Grid container justify="flex-end" item xs={4}>
           <Button 
             className={classes.nav} variant="outlined" 
-            // component={Link} 
             href="http://localhost:3000/event_types/user/me">Home</Button>
         </Grid>
       </Grid>
@@ -80,7 +89,7 @@ const Scheduler = (props) => {
               <Grid container justify="center" item md={6} xs={12}>
                 <Calendar
                   value={selectedDay}
-                  onChange={setSelectedDay}
+                  onChange={handleDaySelection}
                   shouldHighlightWeekends
                 />
               </Grid>
@@ -88,12 +97,19 @@ const Scheduler = (props) => {
                 {selectedDay && 
                 <>
                   <Typography className={classes.chosenDay} align="center">{new Date(selectedDay.year, selectedDay.month - 1, selectedDay.day).toLocaleString("default", { month: "long" })} {selectedDay.day}, {selectedDay.year}</Typography>
-                  <div className={classes.timePicker}>
-                    <Button variant="outlined" size="large" color="primary" fullWidth >16:30</Button>
-                    <Button variant="outlined" size="large" color="primary" fullWidth >17:00</Button>
-                    <Button variant="outlined" size="large" color="primary" fullWidth >17:30</Button>
-                    <Button variant="outlined" size="large" color="primary" fullWidth >18:00</Button>
-                  </div>
+                  { avail.length ? 
+                    <div className={classes.timePicker}>
+                      {avail.map((timeSlot, index) => {
+                        return(
+                          <Button key={index} variant="outlined" size="large" color="primary" fullWidth >{ (new Date(timeSlot.start)).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}) }</Button>
+                        )})}
+                    </div>
+                    : 
+                    <div className={classes.noAvail}>
+                        <Typography align={matches ?  "left" : "center"} gutterBottom>Sorry, all spots are booked today.</Typography>
+                        <Typography align={matches ?  "left" : "center"} gutterBottom>Please try another day.</Typography>
+                    </div>
+                  }
                 </>
                 }
               </Grid>
