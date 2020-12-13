@@ -44,18 +44,23 @@ const Scheduler = (props) => {
       .then(response => setEventType(response.data));
   }, []);
 
+  const todaysDate = new Date();
+  const tomorrowsDate = new Date(todaysDate);
+  tomorrowsDate.setDate(tomorrowsDate.getDate() + 1);
 
   const classes = useStyles();
-  const [selectedDay, setSelectedDay] = useState(null);
+  const [selectedDay, setSelectedDay] = useState({
+    day: tomorrowsDate.getDate(),
+    month: tomorrowsDate.getMonth() + 1,
+    year: tomorrowsDate.getFullYear()
+  });
   const [avail, setAvail] = useState([]);
 
   const handleDaySelection = async (props) => {
-    console.log(props);
     setSelectedDay(props);
     const { day, month, year } = props;
     await axios.get(`http://localhost:3001/api/avail/freebusy?user=${eventType.user.id}&day=${day}&month=${month - 1}&year=${year}&duration=${eventType.duration}`)
       .then(response => setAvail(response.data));
-    console.log(avail);
   };
 
   return (
