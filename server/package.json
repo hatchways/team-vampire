@@ -23,7 +23,8 @@
     "morgan": "^1.10.0",
     "nodemon": "^2.0.6",
     "passport": "^0.4.1",
-    "passport-google-oauth20": "^2.0.0"
+    "passport-google-oauth20": "^2.0.0",
+    "passport-oauth2-refresh": "^2.0.1"
   },
   "devDependencies": {
     "chai": "^4.2.0",

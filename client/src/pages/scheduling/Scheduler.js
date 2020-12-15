@@ -42,7 +42,7 @@ const Scheduler = (props) => {
   useEffect(() => {
     axios.get(`http://localhost:3001/api/meeting_types/single/${eventTypeID}`)
       .then(response => setEventType(response.data));
-  }, []);
+  }, [eventTypeID]);
 
   const todaysDate = new Date();
   const tomorrowsDate = new Date(todaysDate);
@@ -51,7 +51,7 @@ const Scheduler = (props) => {
   const classes = useStyles();
   const [selectedDay, setSelectedDay] = useState({
     day: tomorrowsDate.getDate(),
-    month: tomorrowsDate.getMonth() + 1,
+    month: tomorrowsDate.getMonth() + 1, // have to increment by 1 to display correct month
     year: tomorrowsDate.getFullYear()
   });
   const [avail, setAvail] = useState([]);
@@ -59,7 +59,7 @@ const Scheduler = (props) => {
   const handleDaySelection = async (props) => {
     setSelectedDay(props);
     const { day, month, year } = props;
-    await axios.get(`http://localhost:3001/api/avail/freebusy?user=${eventType.user.id}&day=${day}&month=${month - 1}&year=${year}&duration=${eventType.duration}`)
+    await axios.get(`http://localhost:3001/api/avail/timeslots?user=${eventType.user.id}&day=${day}&month=${month - 1}&year=${year}&duration=${eventType.duration}`)
       .then(response => setAvail(response.data));
   };
 
