@@ -2,22 +2,15 @@ const availabilitiesRouter = require("express").Router();
 const { Availability, User } = require("../models/");
 const { google } = require("googleapis");
 const refresh = require("passport-oauth2-refresh");
-const { get } = require("mongoose");
 
 // @desc FreeBusy
 // @route GET /freebusy?date=143213434&meetingTypeID=df34234fgdg235
-availabilitiesRouter.get("/freebusy", (request, response) => {
-    // const { day, month, year } = request.query; // code for front-end
-    const day = 19;
-    const month = 11;
-    const year = 2020;
-    // const duration = Number(request.query.duration); // code for front-end
-    const duration = 60;
-    // const user = await User.findById(request.query.user); // code for front-end
-    const user = request.user;
-    // console.log(user);
+availabilitiesRouter.get("/timeslots", async (request, response) => {
+    let { day, month, year, duration, user } = request.query;
+    duration = Number(duration); 
+    user = await User.findById(user);
 
-    let retries = 3;
+    let retries = 2;
     // Initial Request to API:
     getAvailableTimeSlots(user.accessToken, user.refreshToken);
 
@@ -57,11 +50,9 @@ availabilitiesRouter.get("/freebusy", (request, response) => {
                     console.log("refresh token", user.refreshToken);
                     refresh.requestNewAccessToken("google", user.refreshToken, function(err, accessToken) {
                         if (err || !accessToken ) { return response.status(401).end(); }
-                        console.log(accessToken);
                         // Save the new Access Token
-                        console.log(user.accessToken);
+                        user.accessToken = accessToken;
                         user.save(() => {
-                            console.log(user);
                             // Retry the Request
                             getAvailableTimeSlots(user.accessToken, user.refreshToken);
                         });
@@ -82,8 +73,6 @@ availabilitiesRouter.get("/freebusy", (request, response) => {
                             });
                             potentialSlotStartTime.setMinutes( potentialSlotStartTime.getMinutes() + duration );
                             potentialSlotEndTime.setMinutes( potentialSlotEndTime.getMinutes() + duration );
-                            response.json(actualTimeSlotList);
-
                         }
                     } else {
                         eventsList.forEach((event, index) => {

@@ -12,10 +12,6 @@ const MongoStore = require("connect-mongo")(session);
 const logger = require("./utils/logger");
 const middleware = require("./utils/middleware");
 
-// Passport Config
-// require("./utils/passport")(passport);
-// require("./utils/passport")(refresh);
-
 // Database Setup
 const mongoose = require("mongoose");
 const mongoDB = `mongodb://${config.DB_SERVER}/${config.DB_NAME}`;
@@ -82,9 +78,6 @@ const strategy =
 
         if (user) {
             console.log("user already exists");
-            const newAccessToken = accessToken;
-            const newRefreshToken = refreshToken;
-            user = await User.findOneAndUpdate({ googleId: profile.id }, { accessToken: newAccessToken, refreshToken: newRefreshToken }, { new: true });
             return done(null, user);
         } else {
             console.log("creating new user");
