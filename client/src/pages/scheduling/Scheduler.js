@@ -34,33 +34,56 @@ const useStyles = makeStyles((theme) => ({
 const Scheduler = (props) => {
   const theme = useTheme();
   const matches = useMediaQuery(theme.breakpoints.down("sm"));
+  const classes = useStyles();
+
 
   const eventTypeID = props.match.params.event_type;
   const [eventType, setEventType] = useState(null);
+  const [selectedDay, setSelectedDay] = useState(null)
+
+
+  function initialFetch(eventTypeID) {
+    axios.get(`http://localhost:3001/api/meeting_types/single/${eventTypeID}`)
+      .then(response => {
+        setEventType(response.data);
+        const todaysDate = new Date();
+        const tomorrowsDate = new Date(todaysDate);
+        tomorrowsDate.setDate(tomorrowsDate.getDate() + 1);
+
+        const day =  tomorrowsDate.getDate();
+        const month = tomorrowsDate.getMonth() + 1; // have to increment by 1 to display correct month for calendar component
+        const year = tomorrowsDate.getFullYear();
+
+        console.log("day: ", day)
+        console.log("month: ", month)
+        console.log("year: ", year)
+
+        setSelectedDay({
+          day,
+          month,
+          year
+        });
+        
+        fetchTimeSlots(response.data, day, month, year);
+      });    
+  }
+
+  async function fetchTimeSlots(eventType, day, month, year) {
+    await axios.get(`http://localhost:3001/api/avail/timeslots?user=${eventType.user.id}&day=${day}&month=${month - 1}&year=${year}&duration=${eventType.duration}`)
+    .then(response => setAvail(response.data));
+  };
 
   // Retrieve Event Type Information from params
   useEffect(() => {
-    axios.get(`http://localhost:3001/api/meeting_types/single/${eventTypeID}`)
-      .then(response => setEventType(response.data));
-  }, [eventTypeID]);
+    initialFetch(eventTypeID);
+  }, []);
 
-  const todaysDate = new Date();
-  const tomorrowsDate = new Date(todaysDate);
-  tomorrowsDate.setDate(tomorrowsDate.getDate() + 1);
-
-  const classes = useStyles();
-  const [selectedDay, setSelectedDay] = useState({
-    day: tomorrowsDate.getDate(),
-    month: tomorrowsDate.getMonth() + 1, // have to increment by 1 to display correct month
-    year: tomorrowsDate.getFullYear()
-  });
   const [avail, setAvail] = useState([]);
 
   const handleDaySelection = async (props) => {
     setSelectedDay(props);
     const { day, month, year } = props;
-    await axios.get(`http://localhost:3001/api/avail/timeslots?user=${eventType.user.id}&day=${day}&month=${month - 1}&year=${year}&duration=${eventType.duration}`)
-      .then(response => setAvail(response.data));
+    fetchTimeSlots(eventType, day, month, year);
   };
 
   return (
