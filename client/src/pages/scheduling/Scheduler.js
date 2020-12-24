@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 import axios from "axios";
 import Container from "../../components/Layout/Container";
 import { Box, Grid, Button, Divider, Typography, Paper, useMediaQuery } from "@material-ui/core";
@@ -131,7 +132,16 @@ const Scheduler = (props) => {
                     <div className={classes.timePicker}>
                       {avail.map((timeSlot, index) => {
                         return(
-                          <Button key={index} variant="outlined" size="large" color="primary" fullWidth >{ (new Date(timeSlot.start)).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}) }</Button>
+                          <Button 
+                            key={index} 
+                            variant="outlined" 
+                            size="large" 
+                            color="primary" 
+                            fullWidth 
+                            href={`http://localhost:3000/scheduler/${eventType.user.firstName.toLowerCase()}-${eventType.user.lastName.toLowerCase()}/${eventTypeID}/${timeSlot.start}`}
+                          >
+                            { (new Date(timeSlot.start)).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}) }
+                            </Button>
                         )})}
                     </div>
                     : 

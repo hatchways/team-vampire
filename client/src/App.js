@@ -19,6 +19,7 @@ import ScheduledEvents from "./pages/dashboard/ScheduledEvents";
 
 // Scheduler
 import Scheduler from "./pages/scheduling/Scheduler";
+import Confirm from "./pages/scheduling/Confirm";
 
 
 function App ({ location }) {
@@ -35,7 +36,8 @@ function App ({ location }) {
           <Route path="/login" component={LogIn} />
           <Route path="/googleSignUp" component={SignUpGoogle} email={email} />
           <Route exact path="/" component={SignUpEmail} handleEmailEntry={handleEmailEntry} />
-          <Route path="/scheduler/:user/:event_type" component={Scheduler} />  
+          <Route exact path="/scheduler/:user/:event_type" component={Scheduler} />  
+          <Route exact path="/scheduler/:user/:event_type/:timeslot" component={Confirm} />  
           <Fragment>
             <Header/>
             <UserProvider>
