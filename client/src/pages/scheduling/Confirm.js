@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { Redirect } from 'react-router-dom'
 import axios from "axios";
 import Container from "../../components/Layout/Container";
 import { 
@@ -32,6 +33,8 @@ const Confirm = (props) => {
   const [eventType, setEventType] = useState(null);
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
+  const [redirect, setRedirect] = useState(null);
+
 
   const timeslot = props.match.params.timeslot;
   const timeStart = new Date(timeslot);
@@ -39,6 +42,7 @@ const Confirm = (props) => {
   if (eventType) {
     timeEnd.setMinutes(timeEnd.getMinutes() + Number(eventType.duration));
   }
+  const timezone = `${timeStart.toLocaleString('en', {timeZoneName:'short'}).split(' ').pop()} - ${Intl.DateTimeFormat().resolvedOptions().timeZone}` 
   
   function initialFetch(eventTypeID) {
     axios.get(`http://localhost:3001/api/meeting_types/single/${eventTypeID}`)
@@ -55,15 +59,26 @@ const Confirm = (props) => {
   const handleSubmit = (event) => { 
     event.preventDefault();
     
-    // const appointmentData = {
-    //   meetingType : eventTypeID,
-    //   name,
-    //   email,
-    //   time: 
-    // }
+    const appointmentData = {
+      meetingTypeId : eventType.id,
+      name,
+      email,
+      timeStart,
+      timeEnd,
+      timezone 
+    }
+
+    axios.post("http://localhost:3001/api/appointments", appointmentData)
+      .then(response => console.log(response.data))
+      .catch(error => console.log(error))
+    
+    setRedirect("/success");
   
   };
 
+  if (redirect) {
+    return <Redirect to={redirect} />
+  }
 
   return (
     <Container>
@@ -78,8 +93,10 @@ const Confirm = (props) => {
       <Paper className={classes.root}>
         <Box p={4}>
           <Grid container spacing={2}>
-            <Grid container spacing={1} item md={4} xs={12}>
-              <Typography variant="subtitle1" align={matches ? "center" : "inherit"} gutterBottom>{eventType.user.firstName} {eventType.user.lastName}</Typography>
+            <Grid item md={4} xs={12}>
+              <Typography variant="subtitle1" align={matches ? "center" : "inherit"} gutterBottom>
+                {eventType.user.firstName} {eventType.user.lastName}
+              </Typography>
               <Typography variant="h5" align={matches ? "center" : "inherit"} gutterBottom>{eventType.name}</Typography>
               <Grid container spacing={1} alignItems="center" justify={matches ? "center" : "flex-start"}>
                 <Grid item>
@@ -104,7 +121,7 @@ const Confirm = (props) => {
                   <Public />
                 </Grid>
                 <Grid item>
-                  <Typography variant="subtitle2">{timeStart.toLocaleString('en', {timeZoneName:'short'}).split(' ').pop()} - {Intl.DateTimeFormat().resolvedOptions().timeZone}</Typography>
+                  <Typography variant="subtitle2">{timezone}</Typography>
                 </Grid>
               </Grid>
             </Grid>

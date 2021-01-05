@@ -5,8 +5,9 @@ const { Appointment, MeetingType } = require("../models/");
 // @route POST /
 appointmentsRouter.post("/", async (request, response) => {
     const body = request.body;
+    console.log(body)
     const meetingType = await MeetingType.findById(body.meetingTypeId);
-    const time = new Date(body.time * 1000); // time entered in unix time stamp
+    console.log(meetingType)
 
     const appointment = new Appointment({
         meetingType:    meetingType._id,
