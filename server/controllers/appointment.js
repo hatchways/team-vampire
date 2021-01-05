@@ -9,11 +9,12 @@ appointmentsRouter.post("/", async (request, response) => {
     const time = new Date(body.time * 1000); // time entered in unix time stamp
 
     const appointment = new Appointment({
-        meetingType: meetingType._id,
-        name:       body.name,
-        email:      body.email,
-        time:       time,
-        timezone:   body.timezone
+        meetingType:    meetingType._id,
+        name:           body.name,
+        email:          body.email,
+        timeStart:      body.timeStart,
+        timeEnd:        body.timeEnd,
+        timezone:       body.timezone
     });
 
     const savedAppointment = await appointment.save();

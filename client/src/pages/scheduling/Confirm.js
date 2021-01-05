@@ -34,7 +34,12 @@ const Confirm = (props) => {
   const [email, setEmail] = useState("");
 
   const timeslot = props.match.params.timeslot;
-
+  const timeStart = new Date(timeslot);
+  const timeEnd = new Date(timeslot);
+  if (eventType) {
+    timeEnd.setMinutes(timeEnd.getMinutes() + Number(eventType.duration));
+  }
+  
   function initialFetch(eventTypeID) {
     axios.get(`http://localhost:3001/api/meeting_types/single/${eventTypeID}`)
       .then(response => setEventType(response.data));
@@ -47,7 +52,17 @@ const Confirm = (props) => {
   const handleNameChange = (event) => setName(event.target.value);
   const handleEmailChange = (event) => setEmail(event.target.value);
 
-  const handleSubmit = (event) => event.preventDefault();
+  const handleSubmit = (event) => { 
+    event.preventDefault();
+    
+    // const appointmentData = {
+    //   meetingType : eventTypeID,
+    //   name,
+    //   email,
+    //   time: 
+    // }
+  
+  };
 
 
   return (
@@ -63,7 +78,7 @@ const Confirm = (props) => {
       <Paper className={classes.root}>
         <Box p={4}>
           <Grid container spacing={2}>
-            <Grid item md={3} xs={12}>
+            <Grid container spacing={1} item md={4} xs={12}>
               <Typography variant="subtitle1" align={matches ? "center" : "inherit"} gutterBottom>{eventType.user.firstName} {eventType.user.lastName}</Typography>
               <Typography variant="h5" align={matches ? "center" : "inherit"} gutterBottom>{eventType.name}</Typography>
               <Grid container spacing={1} alignItems="center" justify={matches ? "center" : "flex-start"}>
@@ -76,10 +91,12 @@ const Confirm = (props) => {
               </Grid>
               <Grid container spacing={1} alignItems="center" justify={matches ? "center" : "flex-start"}>
                 <Grid item>
-                  <EventAvailable />
+                  <EventAvailable color="secondary" />
                 </Grid>
                 <Grid item>
-                  <Typography variant="subtitle2">{(new Date(timeslot)).toLocaleString()}</Typography>
+                  <Typography variant="subtitle2" color="secondary">
+                    {timeStart.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})} - {timeEnd.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}, {timeStart.toLocaleDateString(undefined, { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}
+                  </Typography>
                 </Grid>
               </Grid>
               <Grid container spacing={1} alignItems="center" justify={matches ? "center" : "flex-start"}>
@@ -87,12 +104,12 @@ const Confirm = (props) => {
                   <Public />
                 </Grid>
                 <Grid item>
-                  <Typography variant="subtitle2">{Intl.DateTimeFormat().resolvedOptions().timeZone}</Typography>
+                  <Typography variant="subtitle2">{timeStart.toLocaleString('en', {timeZoneName:'short'}).split(' ').pop()} - {Intl.DateTimeFormat().resolvedOptions().timeZone}</Typography>
                 </Grid>
               </Grid>
             </Grid>
             <Divider orientation={matches ? "horizontal" : "vertical"} flexItem={matches ? false : true} fullWidth />
-            <Grid container item md={9} xs={12} spacing={1} >
+            <Grid container item md={8} xs={12} spacing={1} >
               <Grid item md={12} xs={12}>
                 <Typography variant="h6" align={matches ? "center" : "inherit"} gutterBottom>Enter Details</Typography>
               </Grid>
