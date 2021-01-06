@@ -44,12 +44,14 @@ meetingTypesRouter.get("/user/:userID", async (request, response) => {
 // @desc Fetch/Read Single meeting
 // @route GET /
 meetingTypesRouter.get("/single/:id", async (request, response) => {
-    const meetingTypes = await MeetingType.findById(request.params.id)
+    const meetingType = await MeetingType.findById(request.params.id)
         .populate("user", {
+            id: 1,
             firstName: 1,
             lastName: 1
         });
-    response.json(meetingTypes);
+    console.log(meetingType);
+    response.json(meetingType);
 });
 
 // @desc Update Meeting Type

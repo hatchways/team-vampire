@@ -61,6 +61,8 @@ const Confirm = (props) => {
     
     const appointmentData = {
       meetingTypeId : eventType.id,
+      eventTypeName: eventType.name,
+      userId : eventType.user.id,
       name,
       email,
       timeStart,
@@ -69,7 +71,7 @@ const Confirm = (props) => {
     }
 
     axios.post("http://localhost:3001/api/appointments", appointmentData)
-      .then(response => console.log(response.data))
+      .then(response => axios.post("http://localhost:3001/api/appointments/addevent", appointmentData))
       .catch(error => console.log(error))
     
     setRedirect("/success");
